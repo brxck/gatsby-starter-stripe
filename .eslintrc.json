@@ -1,0 +1,6 @@
+{
+  "extends": "gatsby-standard",
+  "rules": {
+    "react/prop-types": 1
+  }
+}
