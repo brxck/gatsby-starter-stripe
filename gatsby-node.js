@@ -1,46 +1,35 @@
 const path = require('path')
-const { createFilePath } = require('gatsby-source-filesystem')
+const slug = require('slug')
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
   // Add slug for page generation.
   if (node.internal.type === 'StripeProduct') {
-    const slug = createFilePath({ node, getNode, basePath: 'pages' })
+    const value = slug(node.name, slug.defaults.modes['rfc3986'])
     createNodeField({
-      name: 'slug',
       node,
-      value: slug
+      name: 'slug',
+      value
     })
   }
 }
 
-exports.createPages = ({ graphql, actions }) => {
+exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
   return graphql(`
     {
-      allStripeSku {
-        group(field: product___id, limit: 1) {
-          edges {
-            node {
-              product {
-                metadata {
-                  category
-                }
-              }
-              fields {
-                slug
-                path
-              }
-            }
-          }
-        }
-      }
-      allMarkdownRemark {
+      allStripeProduct {
         edges {
           node {
-            fileAbsolutePath
+            name
+            metadata {
+              category
+            }
+            fields {
+              slug
+            }
           }
         }
       }
@@ -53,9 +42,7 @@ exports.createPages = ({ graphql, actions }) => {
     // Create item pages
     const categories = new Set()
     const ItemTemplate = path.resolve('src/templates/ItemTemplate.js')
-    const items = result.data.allStripeSku.group
-    items.forEach(({ edges }) => {
-      let { node } = edges[0]
+    result.data.allStripeProduct.edges.forEach(({ node }) => {
       createPage({
         path: 'buy/' + node.fields.slug,
         component: ItemTemplate,
@@ -65,7 +52,7 @@ exports.createPages = ({ graphql, actions }) => {
       })
 
       // Add to category list
-      const { category } = node.product.metadata
+      const { category } = node.metadata
       category && categories.add(category)
     })
 
