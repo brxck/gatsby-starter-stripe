@@ -18,7 +18,8 @@
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-helmet": "^5.2.0",
-    "slug": "^1.0.0"
+    "slug": "^1.0.0",
+    "stripe": "^6.25.1"
   },
   "keywords": [
     "gatsby"
@@ -28,10 +29,10 @@
     "develop": "gatsby develop",
     "start": "run-p start:**",
     "start:app": "npm run develop",
-    "start:lambda": "netlify-lambda serve src/lambda",
+    "start:lambda": "netlify-lambda serve src/functions",
     "build": "run-p build:**",
     "build:app": "gatsby build",
-    "build:lambda": "netlify-lambda build src/lambda"
+    "build:lambda": "netlify-lambda build src/functions"
   },
   "repository": {
     "type": "git",

@@ -9,11 +9,11 @@ class Items extends Component {
     const { products } = this.context
     return (
       <>
-        {products.map(group => {
-          const sku = group.edges[0].node
+        {Object.keys(products).map(id => {
+          const sku = products[id][0]
           const product = sku.product
           return (
-            <div key={group.fieldValue}>
+            <div key={id}>
               <p>{product.name}</p>
               <img src={product.images[0]} alt={product.name} />
               <p>{(sku.price / 100).toFixed(2)}</p>
