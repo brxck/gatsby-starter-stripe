@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import { StaticQuery, graphql } from 'gatsby'
-
-/*  Shares product information and availability through context.
-    Products are first loaded from Gatsby's GraphQL store and then updated with current information from Stripe.    
+/*  
+  Shares product information and availability through context.
+  Products are first loaded from Gatsby's GraphQL store and then updated with current information from Stripe.
 */
+
+import React, { useState, useEffect } from 'react'
+import { StaticQuery, graphql } from 'gatsby'
 
 export const ProductsContext = React.createContext()
 
@@ -14,28 +15,23 @@ const ProductsProvider = ({ children }) => (
   />
 )
 
-class Provider extends Component {
-  constructor(props) {
-    super(props)
-    const products = {}
-    const data = props.data.allStripeSku.group.sort(
-      (a, b) =>
-        b.edges[0].node.product.created - a.edges[0].node.product.created
-    )
+const Provider = ({ data, children }) => {
+  // Load product data from Gatsby store
+  const initialProducts = {}
+  const initialSkus = {}
+  data.allStripeSku.group.forEach(group => {
+    const product = { ...group.edges[0].node.product }
+    product.skus = group.edges.map(({ node }) => {
+      initialSkus[node.id] = node
+      return node
+    })
+    initialProducts[product.id] = product
+  })
+  const [products, setProducts] = useState(initialProducts)
+  const [skus, setSkus] = useState(initialSkus)
 
-    data.forEach(
-      group =>
-        (products[group.fieldValue] = group.edges.map(({ node }) => node))
-    )
-
-    this.state = {
-      products
-    }
-  }
-
-  // Update product information from Stripe
-  componentDidMount = async () => {
-    console.log(this.state.products)
+  // Update products with live Stripe data
+  const updateProducts = async () => {
     const { data, error } = await fetch('/.netlify/functions/skuList')
       .then(response => response.json())
       .catch(error => console.error(error))
@@ -44,29 +40,40 @@ class Provider extends Component {
       console.error(error)
     }
 
-    const updated = {}
-    data.forEach(sku => {
-      const target = this.state.products[sku.product.id].find(
-        item => item.id === sku.id
-      )
-      const updatedSku = Object.assign(target, sku)
-      if (!updated[sku.product.id]) {
-        updated[sku.product.id] = []
+    const liveProducts = {}
+    data.forEach(source => {
+      const { id } = source.product
+      const target = products[id].skus.find(x => x.id === source.id)
+      const updatedSku = Object.assign(target, source)
+      if (!liveProducts[id]) {
+        liveProducts[id] = { ...source.product, skus: [] }
       }
-      updated[sku.product.id].push(updatedSku)
+      liveProducts[id].skus.push(updatedSku)
     })
-
-    console.log(updated)
-    this.setState({ products: updated })
+    setProducts(liveProducts)
   }
 
-  render() {
-    return (
-      <ProductsContext.Provider value={{ ...this.state }}>
-        {this.props.children}
-      </ProductsContext.Provider>
-    )
-  }
+  useEffect(() => {
+    updateProducts()
+  }, [])
+
+  return (
+    <ProductsContext.Provider
+      value={{
+        products: sort => {
+          const fn = sort || ((a, b) => b.created - a.created)
+          return Object.values(products).sort(fn)
+        },
+        skus: sort => {
+          const fn = sort || ((a, b) => b.created - a.created)
+          return Object.values(skus).sort(fn)
+        },
+        product: id => products[id]
+      }}
+    >
+      {children}
+    </ProductsContext.Provider>
+  )
 }
 
 export const skuFragment = graphql`
