@@ -1,36 +1,37 @@
 /*  
   Shares product information and availability through context.
-  Products are first loaded from Gatsby's GraphQL store and then updated with current information from Stripe.
+  Products are first loaded from Gatsby's GraphQL store and then updated with
+  current information from Stripe.
 */
 
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 
 export const ProductsContext = React.createContext()
 
 const ProductsProvider = ({ children }) => (
   <StaticQuery
-    query={productSkuQuery}
+    query={skusQuery}
     render={data => <Provider data={data}>{children}</Provider>}
   />
 )
 
+ProductsProvider.propTypes = {
+  children: PropTypes.any.isRequired
+}
+
 const Provider = ({ data, children }) => {
   // Load product data from Gatsby store
-  const initialProducts = {}
-  const initialSkus = {}
-  data.allStripeSku.group.forEach(group => {
-    const product = { ...group.edges[0].node.product }
-    product.skus = group.edges.map(({ node }) => {
-      initialSkus[node.id] = node
-      return node
-    })
-    initialProducts[product.id] = product
-  })
+  const [initialProducts, initialSkus] = processGatsbyData(data)
   const [products, setProducts] = useState(initialProducts)
   const [skus, setSkus] = useState(initialSkus)
 
   // Update products with live Stripe data
+  useEffect(() => {
+    updateProducts()
+  }, [])
+
   const updateProducts = async () => {
     const { data, error } = await fetch('/.netlify/functions/skuList')
       .then(response => response.json())
@@ -40,35 +41,23 @@ const Provider = ({ data, children }) => {
       console.error(error)
     }
 
-    const liveProducts = {}
-    data.forEach(source => {
-      const { id } = source.product
-      const target = products[id].skus.find(x => x.id === source.id)
-      const updatedSku = Object.assign(target, source)
-      if (!liveProducts[id]) {
-        liveProducts[id] = { ...source.product, skus: [] }
-      }
-      liveProducts[id].skus.push(updatedSku)
-    })
+    const [liveProducts, liveSkus] = processStripeData(data, products)
     setProducts(liveProducts)
+    setSkus(liveSkus)
   }
-
-  useEffect(() => {
-    updateProducts()
-  }, [])
 
   return (
     <ProductsContext.Provider
       value={{
-        products: sort => {
+        getProducts: sort => {
           const fn = sort || ((a, b) => b.created - a.created)
           return Object.values(products).sort(fn)
         },
-        skus: sort => {
+        getSkus: sort => {
           const fn = sort || ((a, b) => b.created - a.created)
           return Object.values(skus).sort(fn)
         },
-        product: id => products[id]
+        getProduct: id => products[id]
       }}
     >
       {children}
@@ -76,10 +65,50 @@ const Provider = ({ data, children }) => {
   )
 }
 
+Provider.propTypes = {
+  data: PropTypes.object.isRequired,
+  children: PropTypes.any.isRequired
+}
+
+const processGatsbyData = data => {
+  const initialProducts = {}
+  const initialSkus = {}
+  data.allStripeSku.group.forEach(group => {
+    const sku = group.edges[0].node
+    const product = { slug: sku.fields.slug, ...sku.product }
+    product.skus = group.edges.map(({ node }) => {
+      initialSkus[node.id] = node
+      return node
+    })
+    initialProducts[product.id] = product
+  })
+  return [initialProducts, initialSkus]
+}
+
+const processStripeData = (data, products) => {
+  const liveProducts = {}
+  const liveSkus = {}
+  data.forEach(source => {
+    const { id } = source.product
+    const target = products[id].skus.find(x => x.id === source.id)
+    const updatedSku = { ...target, ...source }
+    if (!liveProducts[id]) {
+      source.product.slug = products[id].slug
+      liveProducts[id] = { ...source.product, skus: [] }
+    }
+    liveProducts[id].skus.push(updatedSku)
+    liveSkus[id] = updatedSku
+  })
+  return [liveProducts, liveSkus]
+}
+
 export const skuFragment = graphql`
   fragment Sku on StripeSku {
     id
     price
+    fields {
+      slug
+    }
     inventory {
       type
     }
@@ -106,8 +135,8 @@ export const skuFragment = graphql`
   }
 `
 
-const productSkuQuery = graphql`
-  query productSkuQuery($maxWidth: Int = 300, $quality: Int = 92) {
+const skusQuery = graphql`
+  query skusQuery($maxWidth: Int = 300, $quality: Int = 92) {
     allStripeSku {
       group(field: product___id) {
         fieldValue
