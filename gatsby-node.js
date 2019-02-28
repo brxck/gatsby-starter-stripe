@@ -5,8 +5,8 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
   // Add slug for page generation.
-  if (node.internal.type === 'StripeProduct') {
-    const value = slug(node.name, slug.defaults.modes['rfc3986'])
+  if (node.internal.type === 'StripeSku') {
+    const value = slug(node.product.name, slug.defaults.modes['rfc3986'])
     createNodeField({
       node,
       name: 'slug',
@@ -20,15 +20,18 @@ exports.createPages = async ({ graphql, actions }) => {
 
   return graphql(`
     {
-      allStripeProduct {
+      allStripeSku {
         edges {
           node {
-            name
-            metadata {
-              category
-            }
             fields {
               slug
+            }
+            product {
+              id
+              name
+              metadata {
+                category
+              }
             }
           }
         }
@@ -39,21 +42,24 @@ exports.createPages = async ({ graphql, actions }) => {
       Promise.reject(result.errors)
     }
 
-    // Create item pages
+    // Create product pages
+    const products = {}
     const categories = new Set()
-    const ItemTemplate = path.resolve('src/templates/ItemTemplate.js')
-    result.data.allStripeProduct.edges.forEach(({ node }) => {
-      createPage({
-        path: 'buy/' + node.fields.slug,
-        component: ItemTemplate,
-        context: {
-          slug: node.fields.slug
-        }
-      })
 
-      // Add to category list
-      const { category } = node.metadata
+    result.data.allStripeSku.edges.forEach(({ node }) => {
+      products[node.product.id] = node.fields.slug
+      const { category } = node.product.metadata
       category && categories.add(category)
+    })
+
+    const productTemplate = path.resolve('src/templates/productTemplate.js')
+    Object.entries(products).forEach(([id, slug]) => {
+      console.log(id, slug)
+      createPage({
+        path: 'buy/' + slug,
+        component: productTemplate,
+        context: { id }
+      })
     })
 
     // Create category pages
