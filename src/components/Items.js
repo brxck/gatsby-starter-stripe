@@ -1,28 +1,31 @@
-import React, { Component } from 'react'
+import React, { useContext } from 'react'
+import { Link } from 'gatsby'
 
 import { ProductsContext } from './ProductsProvider'
+import Cart from './Cart'
 
-class Items extends Component {
-  static contextType = ProductsContext
-
-  render() {
-    const { products } = this.context
-    return (
-      <>
-        {Object.keys(products).map(id => {
-          const sku = products[id][0]
-          const product = sku.product
-          return (
-            <div key={id}>
+const Items = () => {
+  const { getProducts } = useContext(ProductsContext)
+  const products = getProducts()
+  return (
+    <div
+      style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}
+    >
+      <Cart />
+      {products.map(product => {
+        const image = product.images[0] || product.skus[0].image
+        return (
+          <Link to={`/buy/${product.slug}`} key={product.id}>
+            <div style={{ width: 250, flex: '1 1 auto', margin: 10 }}>
               <p>{product.name}</p>
-              <img src={product.images[0]} alt={product.name} />
-              <p>{(sku.price / 100).toFixed(2)}</p>
+              <img src={image} alt={product.name} />
+              <p>{(product.skus[0].price / 100).toFixed(2)}</p>
             </div>
-          )
-        })}
-      </>
-    )
-  }
+          </Link>
+        )
+      })}
+    </div>
+  )
 }
 
 export default Items
