@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { ProductsContext } from './ProductsProvider'
 
 const ProductPage = ({ productId }) => {
-  const { getProduct } = useContext(ProductsContext)
-  const product = getProduct(productId)
+  const { products } = useContext(ProductsContext)
+  const product = products[productId]
   return (
     <div>
       <p>{product.name}</p>

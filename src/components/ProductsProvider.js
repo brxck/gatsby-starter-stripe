@@ -49,15 +49,16 @@ const Provider = ({ data, children }) => {
   return (
     <ProductsContext.Provider
       value={{
-        getProducts: sort => {
+        products,
+        skus,
+        listProducts: sort => {
           const fn = sort || ((a, b) => b.created - a.created)
           return Object.values(products).sort(fn)
         },
-        getSkus: sort => {
+        listSkus: sort => {
           const fn = sort || ((a, b) => b.created - a.created)
           return Object.values(skus).sort(fn)
-        },
-        getProduct: id => products[id]
+        }
       }}
     >
       {children}
@@ -97,7 +98,7 @@ const processStripeData = (data, products) => {
       liveProducts[id] = { ...source.product, skus: [] }
     }
     liveProducts[id].skus.push(updatedSku)
-    liveSkus[id] = updatedSku
+    liveSkus[updatedSku.id] = updatedSku
   })
   return [liveProducts, liveSkus]
 }

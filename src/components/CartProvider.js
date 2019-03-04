@@ -9,10 +9,8 @@ import { ProductsContext } from './ProductsProvider'
 export const CartContext = React.createContext()
 
 const CartProvider = ({ children }) => {
-  const context = useContext(ProductsContext)
-  const skus = context.getSkus()
-  console.log(skus)
-  const [mode, setMode] = useState('false')
+  const { skus } = useContext(ProductsContext)
+  const [mode, setMode] = useState(false)
   const [contents, setContents] = useState(() => {
     // Load cart from localStorage
     let localCart
@@ -31,16 +29,27 @@ const CartProvider = ({ children }) => {
     return [skus[skuId], quantity]
   })
 
+  const count = Object.values(contents).reduce(
+    (sum, quantity) => sum + quantity,
+    0
+  )
+
+  const total = Object.entries(contents).reduce(
+    (sum, [skuId, quantity]) => sum + skus[skuId].price * quantity,
+    0
+  )
+
   const set = (skuId, quantity) => {
     if (!available(skuId)) return
     setContents(state => {
       state[skuId] = quantity
       return state
     })
+    save()
   }
 
   const add = (skuId, quantity) => {
-    set(skuId, contents[skuId] + quantity)
+    set(skuId, (contents[skuId] || 0) + (quantity || 1))
   }
 
   const remove = (skuId, quantity) => {
@@ -48,19 +57,22 @@ const CartProvider = ({ children }) => {
       delete state[skuId]
       return state
     })
+    save()
   }
 
   const available = (skuId, quantity) => {
     const sku = skus[skuId]
-    if (!sku.active) {
+    if (!sku) {
+      console.error(`Sku with id ${skuId} not found`)
+      return false
+    } else if (!sku.active) {
       return false
     } else if (sku.inventory.type === 'infinite') {
       return true
     } else if (sku.inventory.type === 'bucket') {
       return ['in_stock', 'limited'].includes(sku.inventory.type)
     } else if (sku.inventory.type === 'finite') {
-      const cartQuantity = contents[skuId] || 0
-      return sku.inventory.quantity - cartQuantity > 0
+      return sku.inventory.quantity >= quantity
     } else {
       return false
     }
@@ -78,11 +90,8 @@ const CartProvider = ({ children }) => {
     }
   }
 
-  const count = () => {
-    Object.values(contents).reduce((a, b) => a + b)
-  }
-
   const ctx = {
+    contents,
     cart,
     add,
     set,
@@ -90,7 +99,9 @@ const CartProvider = ({ children }) => {
     available,
     toggle,
     save,
-    count
+    count,
+    total,
+    mode
   }
 
   return (
