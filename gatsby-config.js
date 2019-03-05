@@ -6,9 +6,9 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Stripe Starter`,
+    title: `gatsby-starter-stripe`,
     description: `Stripe storefront starter for Gatsby`,
-    author: `Brock McElroy`
+    author: `Brock McElroy <brockmcelroy.com>`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

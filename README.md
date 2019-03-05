@@ -1,4 +1,4 @@
-# Gatsby Stripe Starter
+# gatsby-starter-stripe
 
 A minimal starter to create a storefront with Stripe & Gatsby.
 
@@ -10,6 +10,7 @@ A minimal starter to create a storefront with Stripe & Gatsby.
 - Shopping cart
 - Product pages with multiple skus
 - Categories
+- Responsive images with gatsby-image
 
 ## Prerequisites
 
