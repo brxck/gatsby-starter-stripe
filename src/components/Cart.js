@@ -1,12 +1,23 @@
 import React, { useContext } from 'react'
 import { CartContext } from './CartProvider'
 import Checkout from './Checkout'
+import CartItem from './CartItem'
 
 const Cart = () => {
-  const { cart, count, mode, toggle, remove } = useContext(CartContext)
+  const { cart, count, mode, toggle } = useContext(CartContext)
   return (
     <>
-      <button onClick={() => toggle()}>Cart</button>
+      <button
+        onClick={() => toggle()}
+        style={{
+          position: 'fixed',
+          right: '2rem',
+          top: '2rem',
+          zIndex: '2'
+        }}
+      >
+        {mode ? '→' : 'cart'}
+      </button>
       <div
         style={{
           display: mode ? 'initial' : 'none',
@@ -20,25 +31,10 @@ const Cart = () => {
           width: '100%'
         }}
       >
-        <h1>Cart</h1>
-        <div>{count === 0 ? 'No' : count} items in cart.</div>
+        <h1>cart</h1>
+        {count === 0 && <span>No items in cart.</span>}
         {cart.map(([sku, quantity]) => (
-          <div key={sku.id}>
-            <span>{sku.product.name}</span>
-            <span
-              onClick={() => {
-                remove(sku.id)
-              }}
-            >
-              &times;
-            </span>
-            <div>
-              {sku.price / 100} &times; {quantity}
-            </div>
-            <div>
-              <strong>{(sku.price / 100) * quantity}</strong>
-            </div>
-          </div>
+          <CartItem key={sku.id} sku={sku} quantity={quantity} />
         ))}
         <Checkout />
       </div>

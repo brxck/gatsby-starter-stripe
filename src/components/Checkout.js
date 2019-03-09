@@ -67,4 +67,10 @@ const Checkout = () => {
   )
 }
 
+Checkout.propTypes = {
+  cart: PropTypes.object.isRequired,
+  amount: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+}
+
 export default Checkout
