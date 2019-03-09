@@ -52,23 +52,13 @@ exports.createPages = async ({ graphql, actions }) => {
       category && categories.add(category)
     })
 
-    const productTemplate = path.resolve('src/templates/productTemplate.js')
+    const productTemplate = path.resolve('src/templates/ProductTemplate.js')
     Object.entries(products).forEach(([id, slug]) => {
       console.log(id, slug)
       createPage({
         path: 'buy/' + slug,
         component: productTemplate,
         context: { id }
-      })
-    })
-
-    // Create category pages
-    const CategoryTemplate = path.resolve('src/templates/CategoryTemplate.js')
-    categories.forEach(category => {
-      createPage({
-        path: `/find/${category}/`,
-        component: CategoryTemplate,
-        context: { category }
       })
     })
   })
