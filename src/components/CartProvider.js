@@ -1,69 +1,84 @@
-/*
-  Manages the shopping cart, which is persisted in local storage.
-*/
-
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { ProductsContext } from './ProductsProvider'
 
 export const CartContext = React.createContext()
 
+/**
+ * Manages the shopping cart, which is persisted in local storage.
+ * The cart and related methods are shared through context.
+ */
 const CartProvider = ({ children }) => {
   const { skus } = useContext(ProductsContext)
   const [mode, setMode] = useState(false)
+
+  /** Load cart from local storage. Initialize if not present or incorrect. */
   const [contents, setContents] = useState(() => {
-    // Load cart from localStorage
     let localCart
     try {
       localCart = JSON.parse(localStorage.getItem('cart'))
     } catch (err) {
       console.error(err.message)
     }
-    if (!localCart) {
-      localStorage.setItem('cart', '{}')
+    if (!localCart || !Array.isArray(localCart)) return []
+    return localCart
+  })
+
+  /** Save cart to local storage after load and on update */
+  useEffect(() => {
+    try {
+      localStorage.setItem('cart', JSON.stringify(contents))
+    } catch (err) {
+      console.error(err)
     }
-    return localCart || {}
   })
 
-  const cart = Object.entries(contents).map(([skuId, quantity]) => {
-    return [skus[skuId], quantity]
+  /** Returns an array representing the cart in the form of [{sku}, quantity] */
+  const cart = contents.map(([id, quantity]) => {
+    return [skus[id], quantity]
   })
 
-  const count = Object.values(contents).reduce(
-    (sum, quantity) => sum + quantity,
+  /** Returns the number of items in the cart */
+  const count = contents.reduce((sum, [_, quantity]) => sum + quantity, 0)
+
+  /** Returns the total cost of the items in the cart */
+  const total = contents.reduce(
+    (sum, [id, quantity]) => sum + skus[id].price * quantity,
     0
   )
 
-  const total = Object.entries(contents).reduce(
-    (sum, [skuId, quantity]) => sum + skus[skuId].price * quantity,
-    0
-  )
+  /** Sets quantity of item with `id` */
+  const set = (id, quantity) => {
+    if (!available(id)) return
 
-  const set = (skuId, quantity) => {
-    if (!available(skuId)) return
+    const index = contents.findIndex(item => item.id === id)
     setContents(state => {
-      state[skuId] = quantity
+      if (index) {
+        state[index] = [id, quantity]
+      } else {
+        state.push([id, quantity])
+      }
       return state
     })
-    save()
   }
 
-  const add = (skuId, quantity) => {
-    set(skuId, (contents[skuId] || 0) + (quantity || 1))
+  /** Increments item with `id` by `quantity`, which defaults to 0 */
+  const add = (id, quantity = 1) => {
+    set(id, (contents[id] || 0) + quantity)
   }
 
-  const remove = (skuId, quantity) => {
+  /** Removes item with `id` */
+  const remove = id => {
     setContents(state => {
-      delete state[skuId]
-      return state
+      return state.filter(item => item[0] !== id)
     })
-    save()
   }
 
-  const available = (skuId, quantity) => {
-    const sku = skus[skuId]
+  /** Returns true if `quantity` of item with `id` is available for purchase */
+  const available = (id, quantity = 1) => {
+    const sku = skus[id]
     if (!sku) {
-      console.error(`Sku with id ${skuId} not found`)
+      console.error(`Sku with id ${id} not found`)
       return false
     } else if (!sku.active) {
       return false
@@ -78,16 +93,9 @@ const CartProvider = ({ children }) => {
     }
   }
 
+  /** Toggles cart display, or sets to the boolean `force` if provided */
   const toggle = force => {
     setMode(prev => force || !prev)
-  }
-
-  const save = () => {
-    try {
-      localStorage.setItem('cart', JSON.stringify(contents))
-    } catch (err) {
-      console.error(err)
-    }
   }
 
   const ctx = {
@@ -98,7 +106,6 @@ const CartProvider = ({ children }) => {
     remove,
     available,
     toggle,
-    save,
     count,
     total,
     mode

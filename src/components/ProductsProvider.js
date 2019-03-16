@@ -1,15 +1,12 @@
-/*  
-  Shares product information and availability through context.
-  Products are first loaded from Gatsby's GraphQL store and then updated with
-  current information from Stripe.
-*/
-
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 
 export const ProductsContext = React.createContext()
 
+/**
+ * Wrapper to give Provider access to Sku nodes from Gatsby's GraphQL store.
+ */
 const ProductsProvider = ({ children }) => (
   <StaticQuery
     query={skusQuery}
@@ -21,17 +18,23 @@ ProductsProvider.propTypes = {
   children: PropTypes.any.isRequired
 }
 
+/**
+  Shares product information and availability through context.
+  Products are first loaded from Gatsby's GraphQL store and then updated with
+  current information from Stripe.
+*/
 const Provider = ({ data, children }) => {
-  // Load product data from Gatsby store
+  /** Load product data from Gatsby store */
   const [initialProducts, initialSkus] = processGatsbyData(data)
   const [products, setProducts] = useState(initialProducts)
   const [skus, setSkus] = useState(initialSkus)
 
-  // Update products with live Stripe data
+  /** On render and update, update products with live data */
   useEffect(() => {
     updateProducts()
   }, [])
 
+  /** Query live data from Stripe and update products */
   const updateProducts = async () => {
     const { data, error } = await fetch('/.netlify/functions/skuList')
       .then(response => response.json())
@@ -71,6 +74,7 @@ Provider.propTypes = {
   children: PropTypes.any.isRequired
 }
 
+/** Normalize structure of data sourced from Gatsby's GraphQL store */
 const processGatsbyData = data => {
   const initialProducts = {}
   const initialSkus = {}
@@ -86,6 +90,7 @@ const processGatsbyData = data => {
   return [initialProducts, initialSkus]
 }
 
+/** Normalize structure of live data sourced from Stripe */
 const processStripeData = (data, products) => {
   const liveProducts = {}
   const liveSkus = {}
