@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
 import StripeCheckout from 'react-stripe-checkout'
 import { CartContext } from './CartProvider'
@@ -65,12 +64,6 @@ const Checkout = () => {
       <button>Checkout for ${total / 100}</button>
     </StripeCheckout>
   )
-}
-
-Checkout.propTypes = {
-  cart: PropTypes.object.isRequired,
-  amount: PropTypes.number.isRequired,
-  count: PropTypes.number.isRequired,
 }
 
 export default Checkout
