@@ -1,20 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
+import Img from 'gatsby-image'
 
 const ProductThumbnail = ({ product }) => {
-  const image = product.images[0] || product.skus[0].image
   return (
-    <div key={product.id}>
+    <div key={product.id} style={{ breakInside: 'avoid' }}>
       <Link to={`/buy/${product.slug}`} style={{ textDecoration: 'none>' }}>
         <div
           style={{
             maxWidth: 250,
             flex: '1 1 auto',
-            margin: '2rem 0.5rem'
+            margin: '0 2rem 3rem'
           }}
         >
-          <img src={image} alt={product.name} style={{ maxWidth: '100%' }} />
+          <Img
+            fluid={product.localFiles[0].childImageSharp.fluid}
+            alt={product.name}
+          />
           <div style={{ fontWeight: 'bold', textAlign: 'center' }}>
             {product.name}
           </div>
