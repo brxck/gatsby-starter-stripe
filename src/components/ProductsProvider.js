@@ -97,7 +97,7 @@ const processStripeData = (data, products) => {
   data.forEach(source => {
     const { id } = source.product
     const target = products[id].skus.find(x => x.id === source.id)
-    const updatedSku = { ...target, ...source }
+    const updatedSku = Object.assign(source, target)
     if (!liveProducts[id]) {
       source.product.slug = products[id].slug
       liveProducts[id] = { ...source.product, skus: [] }
@@ -127,9 +127,6 @@ export const skuFragment = graphql`
       created
       updated
       images
-      metadata {
-        category
-      }
       localFiles {
         childImageSharp {
           fluid(maxWidth: $maxWidth, quality: $quality) {
