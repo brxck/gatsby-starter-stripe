@@ -6,7 +6,7 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: `gatsby-starter-stripe`,
+    title: `starter-stripe`,
     description: `Stripe storefront starter for Gatsby`,
     author: `Brock McElroy <brockmcelroy.com>`
   },
@@ -38,7 +38,8 @@ module.exports = {
       options: {
         objects: ['Product', 'Sku'],
         secretKey: process.env.STRIPE_SECRET_KEY,
-        downloadFiles: true
+        downloadFiles: true,
+        auth: false
       }
     }
   ],

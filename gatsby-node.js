@@ -29,9 +29,6 @@ exports.createPages = async ({ graphql, actions }) => {
             product {
               id
               name
-              metadata {
-                category
-              }
             }
           }
         }
@@ -44,12 +41,9 @@ exports.createPages = async ({ graphql, actions }) => {
 
     // Create product pages
     const products = {}
-    const categories = new Set()
 
     result.data.allStripeSku.edges.forEach(({ node }) => {
       products[node.product.id] = node.fields.slug
-      const { category } = node.product.metadata
-      category && categories.add(category)
     })
 
     const productTemplate = path.resolve('src/templates/ProductTemplate.js')
