@@ -20,7 +20,7 @@ A minimal starter to create a storefront with [Gatsby](https://www.gatsbyjs.org/
 
 2. **Configure API keys**
 
-    Rename `.env.sample` to `.env` and fill with your Stripe API keys. **Don't commit this file to a public repo!**
+    Rename `.env.development.sample` to `.env.development` and fill with your Stripe API test keys. Do the same for `.env.production` and your live API keys. **Don't commit these files to a public repo!**
 
 3. **Start development servers**
 
