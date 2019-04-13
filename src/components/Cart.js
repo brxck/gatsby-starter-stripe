@@ -28,7 +28,8 @@ const Cart = () => {
           padding: '2rem',
           backgroundColor: 'white',
           maxWidth: 400,
-          width: '100%'
+          width: '100%',
+          zIndex: 1
         }}
       >
         <h1>cart</h1>
