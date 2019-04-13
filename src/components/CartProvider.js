@@ -33,27 +33,27 @@ const CartProvider = ({ children }) => {
     }
   })
 
-  /** Returns an array representing the cart in the form of [{sku}, quantity] */
+  /** An array representing the cart in the form of [{sku}, quantity] */
   const cart = contents.map(([id, quantity]) => {
     return [skus[id], quantity]
   })
 
-  /** Returns the number of items in the cart */
+  /** The number of items in the cart */
   const count = contents.reduce((sum, [_, quantity]) => sum + quantity, 0)
 
-  /** Returns the total cost of the items in the cart */
+  /** The total cost of the items in the cart */
   const total = contents.reduce(
     (sum, [id, quantity]) => sum + skus[id].price * quantity,
     0
   )
 
   /** Sets quantity of item with `id` */
-  const set = (id, quantity) => {
+  function set(id, quantity) {
     if (!available(id)) return
 
-    const index = contents.findIndex(item => item.id === id)
+    const index = contents.findIndex(item => item[0] === id)
     setContents(state => {
-      if (index) {
+      if (index !== -1) {
         state[index] = [id, quantity]
       } else {
         state.push([id, quantity])
@@ -63,19 +63,20 @@ const CartProvider = ({ children }) => {
   }
 
   /** Increments item with `id` by `quantity`, which defaults to 0 */
-  const add = (id, quantity = 1) => {
-    set(id, (contents[id] || 0) + quantity)
+  function add(id, quantity = 1) {
+    const current = contents.find(item => item.id === id)
+    set(id, (current || 0) + quantity)
   }
 
   /** Removes item with `id` */
-  const remove = id => {
+  function remove(id) {
     setContents(state => {
       return state.filter(item => item[0] !== id)
     })
   }
 
   /** Returns true if `quantity` of item with `id` is available for purchase */
-  const available = (id, quantity = 1) => {
+  function available(id, quantity = 1) {
     const sku = skus[id]
     if (!sku) {
       console.error(`Sku with id ${id} not found`)
@@ -94,7 +95,7 @@ const CartProvider = ({ children }) => {
   }
 
   /** Toggles cart display, or sets to the boolean `force` if provided */
-  const toggle = force => {
+  function toggle(force) {
     setMode(prev => force || !prev)
   }
 
