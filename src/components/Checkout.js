@@ -16,7 +16,7 @@ const Checkout = () => {
 
     let response
     try {
-      response = await fetch(`${process.env.LAMBDA_ENDPOINT}/orders/create`, {
+      response = await fetch('/.netlify/functions/createOrder', {
         method: 'POST',
         body: JSON.stringify({
           token,
