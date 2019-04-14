@@ -1,5 +1,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
+/**
+ * Returns list of skus with product fields expanded.
+ */
 module.exports.handler = (event, context, callback) => {
   stripe.skus.list(
     {
