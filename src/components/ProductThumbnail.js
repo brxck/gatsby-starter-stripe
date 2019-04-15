@@ -6,7 +6,7 @@ import Img from 'gatsby-image'
 const ProductThumbnail = ({ product }) => {
   return (
     <div key={product.id} style={{ breakInside: 'avoid' }}>
-      <Link to={`/buy/${product.slug}`} style={{ textDecoration: 'none>' }}>
+      <Link to={`/buy/${product.slug}`} style={{ textDecoration: 'none' }}>
         <div
           style={{
             maxWidth: 250,
@@ -18,7 +18,13 @@ const ProductThumbnail = ({ product }) => {
             fluid={product.localFiles[0].childImageSharp.fluid}
             alt={product.name}
           />
-          <div style={{ fontWeight: 'bold', textAlign: 'center' }}>
+          <div
+            style={{
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginTop: '0.5rem'
+            }}
+          >
             {product.name}
           </div>
           <div style={{ textAlign: 'center' }}>
