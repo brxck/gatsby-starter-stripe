@@ -7,7 +7,12 @@ const CartItem = ({ sku, quantity }) => {
   return (
     <div key={sku.id} style={{ display: 'flex', margin: '1rem 0' }}>
       <img
-        style={{ width: 100, maxHeight: 100, objectFit: 'contain' }}
+        style={{
+          width: 100,
+          maxHeight: 100,
+          objectFit: 'contain',
+          marginRight: '0.5rem'
+        }}
         src={sku.image || sku.product.images[0]}
         alt={sku.product.name}
       />
