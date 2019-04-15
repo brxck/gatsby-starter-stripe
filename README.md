@@ -1,14 +1,17 @@
 # gatsby-starter-stripe
 
-A minimal starter to create a storefront with [Gatsby](https://www.gatsbyjs.org/), [Stripe](https://stripe.com/), & [Netlify Functions](https://www.netlify.com/docs/functions/).
+A minimal starter to create a storefront with [Gatsby](https://www.gatsbyjs.org/), [Stripe](https://stripe.com/), & [Netlify Functions](https://www.netlify.com/docs/functions/). This starter focuses on handling Stripe integration, and letting you handle the rest however you'd like.
 
 ## Features
 
-- Live inventory & availability
-- Netlify Functions to interact with Stripe
-- Shopping cart with checkout & persistence
-- Product pages
+- Statically generate based on Stripe inventory
+- Dynamically update with live inventory & availability data
+- Checkout powered by Stripe
+- Serverless functions interact with Stripe API
+- Shopping cart persists in local storage
 - Responsive images with gatsby-image
+
+The ProductsProvider component provides normalized Product and Sku data sourced from Gatsby's GraphQL store and the live Stripe API, while the CartProvider manages the cart, its persistence in local storage, and checkout.
 
 ## Getting Started
 
@@ -39,7 +42,6 @@ A minimal starter to create a storefront with [Gatsby](https://www.gatsbyjs.org/
 
     > Note: try deleting the cache (`rm -rf .cache`) if Gatsby's dev server fails to start.
 
-
 4. **Start developing**
 
     This starter aims to handle some of the plumbing needed to integrate Gatsby & Stripe. Everything else (ex. styling) is left to you and your preferred methods.
@@ -52,3 +54,11 @@ A minimal starter to create a storefront with [Gatsby](https://www.gatsbyjs.org/
 5. **Deploy to [Netlify](https://www.netlify.com/docs)**
     
     If you want to deploy somewhere other than Netlify, you'll have to find another place to deploy the serverless functions in `/functions`, ex. AWS Lambda.
+
+## Contributing
+
+Issues and pull requests welcome!
+
+## Acknowledgments
+
+Thanks @njosefbeck for authoring and maintaining [gatsby-source-stripe](https://github.com/njosefbeck/gatsby-source-stripe), which makes this starter possible!
