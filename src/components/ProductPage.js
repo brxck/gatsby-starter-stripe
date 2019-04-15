@@ -6,7 +6,7 @@ import { CartContext } from './CartProvider'
 
 const ProductPage = ({ productId }) => {
   const { products } = useContext(ProductsContext)
-  const { add } = useContext(CartContext)
+  const { add, toggle } = useContext(CartContext)
 
   const product = products[productId]
 
@@ -23,6 +23,7 @@ const ProductPage = ({ productId }) => {
         style={{ margin: '2rem auto' }}
         onClick={() => {
           add(product.skus[0].id)
+          toggle(true)
         }}
       >
         Add To Cart
