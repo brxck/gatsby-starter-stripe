@@ -72,3 +72,4 @@ yarn-error.log
 /functions
 .vscode
 NOTES.md
+.netlify/state.json
