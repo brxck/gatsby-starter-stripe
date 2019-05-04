@@ -16,7 +16,7 @@ const Checkout = () => {
 
     let response
     try {
-      response = await fetch('/.netlify/functions/createOrder', {
+      response = await fetch('/.netlify/functions/orderCreate', {
         method: 'POST',
         body: JSON.stringify({
           token,
