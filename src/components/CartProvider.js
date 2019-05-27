@@ -31,7 +31,7 @@ const CartProvider = ({ children }) => {
     } catch (err) {
       console.error(err)
     }
-  })
+  }, [contents])
 
   /** An array representing the cart in the form of [{sku}, quantity] */
   const cart = contents.map(([id, quantity]) => {
@@ -53,12 +53,13 @@ const CartProvider = ({ children }) => {
 
     const index = contents.findIndex(item => item[0] === id)
     setContents(state => {
+      const newState = [...state]
       if (index !== -1) {
-        state[index] = [id, quantity]
+        newState[index] = [id, quantity]
       } else {
-        state.push([id, quantity])
+        newState.push([id, quantity])
       }
-      return state
+      return newState
     })
   }
 
