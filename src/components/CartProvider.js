@@ -65,8 +65,9 @@ const CartProvider = ({ children }) => {
 
   /** Increments item with `id` by `quantity`, which defaults to 0 */
   function add(id, quantity = 1) {
-    const current = contents.find(item => item.id === id)
-    set(id, (current || 0) + quantity)
+    const currentItem = contents.find(item => item[0] === id)
+    const currentQuantity = currentItem ? currentItem[1] : 0
+    set(id, quantity + currentQuantity)
   }
 
   /** Removes item with `id` */
