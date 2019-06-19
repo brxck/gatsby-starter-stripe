@@ -13,7 +13,9 @@ const ProductPage = ({ productId }) => {
   return (
     <div style={{ margin: '0 auto', maxWidth: 500 }}>
       <div style={{ margin: '3rem auto', maxWidth: 300 }}>
-        <Img fluid={product.localFiles[0].childImageSharp.fluid} />
+        {product.localFiles && (
+          <Img fluid={product.localFiles[0].childImageSharp.fluid} />
+        )}
       </div>
       <h2>{product.name}</h2>
       <div>{product.caption}</div>

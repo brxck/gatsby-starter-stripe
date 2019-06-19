@@ -14,10 +14,12 @@ const ProductThumbnail = ({ product }) => {
             margin: '0 2rem 3rem'
           }}
         >
-          <Img
-            fluid={product.localFiles[0].childImageSharp.fluid}
-            alt={product.name}
-          />
+          {product.localFiles && (
+            <Img
+              fluid={product.localFiles[0].childImageSharp.fluid}
+              alt={product.name}
+            />
+          )}
           <div
             style={{
               fontWeight: 'bold',
