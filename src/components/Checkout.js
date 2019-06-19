@@ -8,9 +8,9 @@ const Checkout = () => {
   const { cart, count, total } = useContext(CartContext)
 
   const onToken = async (token, addresses) => {
-    const items = Object.entries(cart).map(([skuId, quantity]) => ({
+    const items = cart.map(([sku, quantity]) => ({
       type: 'sku',
-      parent: skuId,
+      parent: sku.id,
       quantity
     }))
 
@@ -42,6 +42,8 @@ const Checkout = () => {
     }
 
     localStorage.setItem('cart', '{}')
+
+    // Redirect to order confirmation page
     // navigate(`/order?id=${response.data.id}`)
   }
 

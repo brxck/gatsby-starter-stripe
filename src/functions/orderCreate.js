@@ -8,29 +8,23 @@ module.exports.handler = async (event, context, callback) => {
   const { id, email } = requestBody.token
   const { currency, items, shipping } = requestBody.order
 
+  console.log(items)
+
   // Create order
-  const order = await stripe.orders.create(
-    {
+  const order = await stripe.orders
+    .create({
       currency,
       items,
       shipping,
       email
-    },
-    (err, _) => {
-      if (err) errorResponse(err)
-    }
-  )
-
-  // Charge order
-  stripe.orders.pay(
-    order.id,
-    {
-      source: id
-    },
-    (err, _) => {
-      if (err) errorResponse(err)
-    }
-  )
+    })
+    // Charge order
+    .then(order => {
+      stripe.orders.pay(order.id, {
+        source: id
+      })
+    })
+    .catch(err => errorResponse(err))
 
   const response = {
     headers: {
@@ -52,7 +46,7 @@ module.exports.handler = async (event, context, callback) => {
       },
       statusCode: 500,
       body: JSON.stringify({
-        error: err.message
+        error: err
       })
     }
     callback(null, response)
