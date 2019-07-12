@@ -5402,28 +5402,7 @@ gatsby-react-router-scroll@^2.0.7:
     scroll-behavior "^0.9.9"
     warning "^3.0.0"
 
-gatsby-source-filesystem@2.0.29:
-  version "2.0.29"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.0.29.tgz#2cc2746072d8bb60d5818cd64bcd7e7754873090"
-  integrity sha512-Eeh4C2iBIE8rCooIF/oE7l5nH6aYMw1RLpvwiQl8qNhBUM8JHqKAm+UpKrkb9uZ/Jj8OTB9wW2LcoJkCE5iKew==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    better-queue "^3.8.7"
-    bluebird "^3.5.0"
-    chokidar "2.1.2"
-    file-type "^10.2.0"
-    fs-extra "^5.0.0"
-    got "^7.1.0"
-    md5-file "^3.1.1"
-    mime "^2.2.0"
-    pretty-bytes "^4.0.2"
-    progress "^1.1.8"
-    read-chunk "^3.0.0"
-    slash "^1.0.0"
-    valid-url "^1.0.9"
-    xstate "^3.1.0"
-
-gatsby-source-filesystem@^2.0.29:
+gatsby-source-filesystem@2.0.38, gatsby-source-filesystem@^2.0.29:
   version "2.0.38"
   resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.0.38.tgz#8f9c2b8c0f17d1f8c464c3488a14e15c62c6eca2"
   integrity sha512-r7LNTSVtgFz0n4Ox0iDc8PkOSM8nja+ONkcvyFWSyV1KjnvQdcsxXbVZba0S+ngUp+R+wSFS/GGD2LqdV0mCVA==
@@ -5444,13 +5423,13 @@ gatsby-source-filesystem@^2.0.29:
     valid-url "^1.0.9"
     xstate "^3.1.0"
 
-gatsby-source-stripe@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/gatsby-source-stripe/-/gatsby-source-stripe-2.2.2.tgz#fca8a632385aa373568037eb1d77e7b506569cc9"
-  integrity sha512-dyBBwiLguzLmVr9dVuCddUJaffF847Hu8YUJi0F9gY+y6H1BhTzdO2jmDf81LbZFLdgU56XR+E1qyvrgro+Ngg==
+gatsby-source-stripe@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/gatsby-source-stripe/-/gatsby-source-stripe-3.0.1.tgz#4391bd8ff19955e4dbea494b37a12421deecee3c"
+  integrity sha512-hExG3zmHFY+nN/R/UEOeHXg6YNedIqBrrM7vcarriBqT82dcry9Ylx1X/6/G9iBM3w6YJZrfJxG6eC1f4ZyR0A==
   dependencies:
-    gatsby-source-filesystem "2.0.29"
-    stripe "6.28.0"
+    gatsby-source-filesystem "2.0.38"
+    stripe "7.1.0"
 
 gatsby-telemetry@^1.0.11:
   version "1.0.11"
@@ -7482,9 +7461,9 @@ lodash.uniq@^4.5.0:
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
 lodash@^4.11.1, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
+  version "4.17.14"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
+  integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
 
 log-update@^3.0.0:
   version "3.2.0"
@@ -11096,10 +11075,10 @@ strip-outer@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-stripe@6.28.0:
-  version "6.28.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-6.28.0.tgz#81f2bf174efe9503b50f24930a7e1d195c60f810"
-  integrity sha512-4taF37geIr9DqvWEm3G9VCz2iJSV/DFc3PcElCQdQK5GUMI/MOj6XE0oJRYMOAHz0Oq8pT+4yDQmkh3SDI3nQA==
+stripe@7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-7.1.0.tgz#8e6ba9eefd9947c7e051b7cce23d224148293d1b"
+  integrity sha512-5xZE/HrQ1WjEds5+z6JfcLtXoEbOV5LxfIE0x8YACqqvelNVyW0aErfeUIFSjSgniEDLWvQalb1l2Bx2LQqV0w==
   dependencies:
     lodash.isplainobject "^4.0.6"
     qs "^6.6.0"
