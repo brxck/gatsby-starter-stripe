@@ -17,43 +17,48 @@ The ProductsProvider component provides normalized Product and Sku data sourced 
 
 1. **Create a site with Gatsby**
 
-    ```sh
-    gatsby new <project-name> https://github.com/brxck/gatsby-starter-stripe
-    ```
+   ```sh
+   gatsby new <project-name> https://github.com/brxck/gatsby-starter-stripe
+   ```
 
-2. **Configure API keys**
+2. **Setup Stripe**
 
-    Rename `.env.development.sample` to `.env.development` and fill with your Stripe API test keys. Do the same for `.env.production` and your live API keys. **Don't commit these files to a public repo!**
+   Create your Products within Stripe. Each Product should have at least one Sku.
 
-3. **Start development servers**
+   The GraphQL [query in the ProductsProvider](https://github.com/brxck/gatsby-starter-stripe/blob/master/src/components/ProductsProvider.js#L111) lists the properties that Gatsby will expect to find on your Products & Skus. The `localFiles` field is created by `gatsby-source-stripe`, and `fields.slug` is created by the starter in `gatsby-node`.
 
-    There are two development servers for this project:
+3. **Configure API keys**
 
-    1. `gatsby serve` for our Gatsby site
-    2. `netlify-lambda serve functions` for our [Netlify Functions](https://github.com/netlify/netlify-lambda#usage)
+   Rename `.env.development.sample` to `.env.development` and fill with your Stripe API test keys. Do the same for `.env.production` and your live API keys. **Don't commit these files to a public repo!**
 
-    You will probably want to start both at once:
+4. **Start development servers**
 
-    ```sh
-    npm run start
-    ```
+   There are two development servers for this project:
 
-    Your site is accessible at `http://localhost:8000` and your Netlify Functions are accessible at `http://localhost:8000/.netlify/`.
+   1. `gatsby serve` for our Gatsby site
+   2. `netlify-lambda serve functions` for our [Netlify Functions](https://github.com/netlify/netlify-lambda#usage)
 
-    > Note: try deleting the cache (`rm -rf .cache`) if Gatsby's dev server fails to start.
+   You will probably want to start both at once:
 
-4. **Start developing**
+   ```sh
+   npm run start
+   ```
 
-    This starter aims to handle some of the plumbing needed to integrate Gatsby & Stripe. Everything else (ex. styling) is left to you and your preferred methods.
+   Your site is accessible at `http://localhost:8000` and your Netlify Functions are accessible at `http://localhost:8000/.netlify/`.
 
-    The source files for [Netlify Functions](https://www.netlify.com/docs/functions/) are located at `/src/functions`, they are then built into the files in `/functions`. Visit the documentation for more information on their structure.
-    
-    The `ProductsProvider` & `CartProvider` components centralize  data & logic, which are then passed through React's [Context API](https://reactjs.org/docs/context.html). The starter's components are written using [Hooks](https://reactjs.org/docs/hooks-intro.html).
-    
+   > Note: try deleting the cache (`rm -rf .cache`) if Gatsby's dev server fails to start.
 
-5. **Deploy to [Netlify](https://www.netlify.com/docs)**
-    
-    If you want to deploy somewhere other than Netlify, you'll have to find another place to deploy the serverless functions in `/functions`, ex. AWS Lambda.
+5. **Start developing**
+
+   This starter aims to handle some of the plumbing needed to integrate Gatsby & Stripe. Everything else (ex. styling) is left to you and your preferred methods.
+
+   The source files for [Netlify Functions](https://www.netlify.com/docs/functions/) are located at `/src/functions`, they are then built into the files in `/functions`. Visit the documentation for more information on their structure.
+
+   The `ProductsProvider` & `CartProvider` components centralize data & logic, which are then passed through React's [Context API](https://reactjs.org/docs/context.html). The starter's components are written using [Hooks](https://reactjs.org/docs/hooks-intro.html).
+
+6. **Deploy to [Netlify](https://www.netlify.com/docs)**
+
+   If you want to deploy somewhere other than Netlify, you'll have to find another place to deploy the serverless functions in `/functions`, ex. AWS Lambda.
 
 ## Contributing
 
