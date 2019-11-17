@@ -117,6 +117,7 @@ export const skuFragment = graphql`
     }
     inventory {
       type
+      quantity
     }
     product {
       id
