@@ -91,21 +91,28 @@ const processGatsbyData = data => {
 }
 
 /** Normalize structure of live data sourced from Stripe */
-const processStripeData = (data, products) => {
+const processStripeData = (stripeData, products) => {
   const liveProducts = {}
   const liveSkus = {}
-  data.forEach(source => {
-    const { id } = source.product
-    const target = products[id].skus.find(x => x.id === source.id)
-    const updatedSku = Object.assign(source, target)
+  stripeData.forEach(stripeSku => {
+    const { id } = stripeSku.product
+    const gatsbySku = products[id].skus.find(x => x.id === stripeSku.id)
+    const updatedSku = Object.assign(stripeSku, gatsbySku)
+    updatedSku.name = generateSkuName(updatedSku)
     if (!liveProducts[id]) {
-      source.product.slug = products[id].slug
-      liveProducts[id] = { ...source.product, skus: [] }
+      stripeSku.product.slug = products[id].slug
+      liveProducts[id] = { ...stripeSku.product, skus: [] }
     }
     liveProducts[id].skus.push(updatedSku)
     liveSkus[updatedSku.id] = updatedSku
   })
   return [liveProducts, liveSkus]
+}
+
+/** Generate a display name for a Sku from its first attribute */
+const generateSkuName = sku => {
+  if (!sku.attributes || !Object.keys(sku.attributes).length) return null
+  return Object.values(sku.attributes)[0]
 }
 
 export const skuFragment = graphql`

@@ -33,11 +33,12 @@ const Cart = () => {
         }}
       >
         <h1>cart</h1>
+        {count > 0 &&
+          cart.map(([sku, quantity]) => (
+            <CartItem key={sku.id} sku={sku} quantity={quantity} />
+          ))}
         {count === 0 && <span>No items in cart.</span>}
-        {cart.map(([sku, quantity]) => (
-          <CartItem key={sku.id} sku={sku} quantity={quantity} />
-        ))}
-        <Checkout />
+        {count > 0 && <Checkout />}
       </div>
     </>
   )

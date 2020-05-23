@@ -4,6 +4,11 @@ import { Link } from "gatsby"
 import Img from "gatsby-image"
 
 const ProductThumbnail = ({ product }) => {
+  const availableSkus = product.skus.filter(
+    ({ inventory }) => inventory?.quantity || inventory.type !== "finite"
+  )
+  const soldOut = availableSkus.length === 0
+
   return (
     <div key={product.id} style={{ breakInside: "avoid" }}>
       <Link to={`/buy/${product.slug}`} style={{ textDecoration: "none" }}>
@@ -18,6 +23,7 @@ const ProductThumbnail = ({ product }) => {
             <Img
               fluid={product.localFiles[0].childImageSharp.fluid}
               alt={product.name}
+              imgStyle={{ filter: soldOut && "grayscale()" }}
             />
           )}
           <div
@@ -31,6 +37,7 @@ const ProductThumbnail = ({ product }) => {
           </div>
           <div style={{ textAlign: "center" }}>
             ${product.skus[0].price / 100}
+            {soldOut && " - Sold Out"}
           </div>
         </div>
       </Link>
