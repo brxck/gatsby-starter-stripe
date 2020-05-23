@@ -1,18 +1,18 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 /** Respond with status code 500 and error message */
 function errorResponse(err, callback) {
   const response = {
     headers: {
-      'Access-Control-Allow-Origin': '*'
+      "Access-Control-Allow-Origin": "*",
     },
     statusCode: 500,
     body: JSON.stringify({
-      error: err
-    })
+      error: err,
+    }),
   }
 
-  if (typeof callback === 'function') {
+  if (typeof callback === "function") {
     callback(null, response)
   }
 }
@@ -32,7 +32,7 @@ module.exports.handler = async (event, context, callback) => {
       items,
       shipping,
       email,
-    });
+    })
 
     // Charge order
     stripe.orders.pay(order.id, {
@@ -41,17 +41,16 @@ module.exports.handler = async (event, context, callback) => {
 
     const response = {
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        "Access-Control-Allow-Origin": "*",
       },
       statusCode: 200,
       body: JSON.stringify({
         data: order,
-        message: 'Order placed successfully!',
+        message: "Order placed successfully!",
       }),
     }
 
     callback(null, response)
-
   } catch (e) {
     errorResponse(e, callback)
   }

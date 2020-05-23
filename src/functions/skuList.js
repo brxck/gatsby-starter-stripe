@@ -1,4 +1,4 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 /**
  * Returns list of skus with product fields expanded.
@@ -7,7 +7,7 @@ module.exports.handler = (event, context, callback) => {
   stripe.skus.list(
     {
       limit: 100, // max allowed
-      expand: ['data.product']
+      expand: ["data.product"],
     },
     (err, result) => {
       let statusCode, body
@@ -15,21 +15,21 @@ module.exports.handler = (event, context, callback) => {
       if (err) {
         statusCode = 500
         body = JSON.stringify({
-          error: err.message
+          error: err.message,
         })
       } else {
         statusCode = 200
         body = JSON.stringify({
-          data: result.data
+          data: result.data,
         })
       }
 
       const response = {
         headers: {
-          'Access-Control-Allow-Origin': '*'
+          "Access-Control-Allow-Origin": "*",
         },
         statusCode,
-        body
+        body,
       }
       callback(null, response)
     }

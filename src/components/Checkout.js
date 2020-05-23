@@ -1,47 +1,47 @@
-import React, { useContext } from 'react'
-import { navigate } from 'gatsby'
-import StripeCheckout from 'react-stripe-checkout'
-import { CartContext } from './CartProvider'
-import icon from '../images/gatsby-icon.png'
+import React, { useContext } from "react"
+import { navigate } from "gatsby"
+import StripeCheckout from "react-stripe-checkout"
+import { CartContext } from "./CartProvider"
+import icon from "../images/gatsby-icon.png"
 
 const Checkout = () => {
   const { cart, count, total } = useContext(CartContext)
 
   const onToken = async (token, addresses) => {
     const items = cart.map(([sku, quantity]) => ({
-      type: 'sku',
+      type: "sku",
       parent: sku.id,
-      quantity
+      quantity,
     }))
 
     let response
     try {
-      response = await fetch('/.netlify/functions/orderCreate', {
-        method: 'POST',
+      response = await fetch("/.netlify/functions/orderCreate", {
+        method: "POST",
         body: JSON.stringify({
           token,
           order: {
-            currency: 'usd',
+            currency: "usd",
             items,
             shipping: {
               name: addresses.shipping_name,
               address: {
                 line1: addresses.shipping_address_line1,
-                line2: addresses.shipping_address_line2 || '',
+                line2: addresses.shipping_address_line2 || "",
                 city: addresses.shipping_address_city,
                 state: addresses.shipping_address_state,
                 postal_code: addresses.shipping_address_zip,
-                country: addresses.shipping_address_country_code
-              }
-            }
-          }
-        })
+                country: addresses.shipping_address_country_code,
+              },
+            },
+          },
+        }),
       }).then(response => response.json())
     } catch (err) {
       alert(err.message)
     }
 
-    localStorage.setItem('cart', '{}')
+    localStorage.setItem("cart", "{}")
 
     // Redirect to order confirmation page
     // navigate(`/order?id=${response.data.id}`)

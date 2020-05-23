@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
-import { ProductsContext } from './ProductsProvider'
-import ProductThumbnail from './ProductThumbnail'
+import React, { useContext } from "react"
+import { ProductsContext } from "./ProductsProvider"
+import ProductThumbnail from "./ProductThumbnail"
 
 const Items = () => {
   const { listProducts } = useContext(ProductsContext)

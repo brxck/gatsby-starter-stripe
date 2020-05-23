@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { ProductsContext } from './ProductsProvider'
+import React, { useState, useContext, useEffect } from "react"
+import PropTypes from "prop-types"
+import { ProductsContext } from "./ProductsProvider"
 
 export const CartContext = React.createContext()
 
@@ -16,7 +16,7 @@ const CartProvider = ({ children }) => {
   const [contents, setContents] = useState(() => {
     let localCart
     try {
-      localCart = JSON.parse(localStorage.getItem('cart'))
+      localCart = JSON.parse(localStorage.getItem("cart"))
     } catch (err) {
       console.error(err.message)
     }
@@ -27,7 +27,7 @@ const CartProvider = ({ children }) => {
   /** Save cart to local storage after load and on update */
   useEffect(() => {
     try {
-      localStorage.setItem('cart', JSON.stringify(contents))
+      localStorage.setItem("cart", JSON.stringify(contents))
     } catch (err) {
       console.error(err)
     }
@@ -85,11 +85,11 @@ const CartProvider = ({ children }) => {
       return false
     } else if (!sku.active) {
       return false
-    } else if (sku.inventory.type === 'infinite') {
+    } else if (sku.inventory.type === "infinite") {
       return true
-    } else if (sku.inventory.type === 'bucket') {
-      return ['in_stock', 'limited'].includes(sku.inventory.type)
-    } else if (sku.inventory.type === 'finite') {
+    } else if (sku.inventory.type === "bucket") {
+      return ["in_stock", "limited"].includes(sku.inventory.type)
+    } else if (sku.inventory.type === "finite") {
       return sku.inventory.quantity >= quantity
     } else {
       return false
@@ -111,7 +111,7 @@ const CartProvider = ({ children }) => {
     toggle,
     count,
     total,
-    mode
+    mode,
   }
 
   return (
@@ -120,7 +120,7 @@ const CartProvider = ({ children }) => {
 }
 
 CartProvider.propTypes = {
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
 }
 
 export default CartProvider

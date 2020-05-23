@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { StaticQuery, graphql } from 'gatsby'
+import React, { useState, useEffect } from "react"
+import PropTypes from "prop-types"
+import { StaticQuery, graphql } from "gatsby"
 
 export const ProductsContext = React.createContext()
 
@@ -15,7 +15,7 @@ const ProductsProvider = ({ children }) => (
 )
 
 ProductsProvider.propTypes = {
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
 }
 
 /**
@@ -36,7 +36,7 @@ const Provider = ({ data, children }) => {
 
   /** Query live data from Stripe and update products */
   const updateProducts = async () => {
-    const { data, error } = await fetch('/.netlify/functions/skuList')
+    const { data, error } = await fetch("/.netlify/functions/skuList")
       .then(response => response.json())
       .catch(error => console.error(error))
 
@@ -61,7 +61,7 @@ const Provider = ({ data, children }) => {
         listSkus: sort => {
           const fn = sort || ((a, b) => b.created - a.created)
           return Object.values(skus).sort(fn)
-        }
+        },
       }}
     >
       {children}
@@ -71,7 +71,7 @@ const Provider = ({ data, children }) => {
 
 Provider.propTypes = {
   data: PropTypes.object.isRequired,
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
 }
 
 /** Normalize structure of data sourced from Gatsby's GraphQL store */
