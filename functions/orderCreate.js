@@ -3,9 +3,6 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 /** Respond with status code 500 and error message */
 function errorResponse(err, callback) {
   const response = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
     statusCode: 500,
     body: JSON.stringify({
       error: err,
@@ -18,36 +15,21 @@ function errorResponse(err, callback) {
 }
 
 /**
- * Captures payment token and creates order.
+ * Creates and returns a Stripe Checkout session.
  */
 module.exports.handler = async (event, context, callback) => {
-  const requestBody = JSON.parse(event.body)
-  const { id, email } = requestBody.token
-  const { currency, items, shipping } = requestBody.order
-
-  // Create order
   try {
-    const order = await stripe.orders.create({
-      currency,
-      items,
-      shipping,
-      email,
-    })
-
-    // Charge order
-    stripe.orders.pay(order.id, {
-      source: id,
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: JSON.parse(event.body),
+      mode: "payment",
+      success_url: "http://localhost:8888/?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "http://localhost:8888",
     })
 
     const response = {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
       statusCode: 200,
-      body: JSON.stringify({
-        data: order,
-        message: "Order placed successfully!",
-      }),
+      body: JSON.stringify(session),
     }
 
     callback(null, response)
