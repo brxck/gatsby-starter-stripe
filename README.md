@@ -29,22 +29,21 @@ The ProductsProvider component provides normalized Product and Sku data sourced 
 
 3. **Configure API keys**
 
-   Rename `.env.development.sample` to `.env.development` and fill with your Stripe API test keys. Do the same for `.env.production` and your live API keys. **Don't commit these files to a public repo!**
+   Rename `.env.sample` to `.env` and fill with your Stripe API test keys. **Don't commit this file to a public repo!**
 
 4. **Start development servers**
 
-   There are two development servers for this project:
+   You will need to install and configure the [Netlify CLI](https://docs.netlify.com/cli/get-started/): `npm install netlify-cli -g`
 
-   1. `gatsby serve` for our Gatsby site
-   2. `netlify-lambda serve functions` for our [Netlify Functions](https://github.com/netlify/netlify-lambda#usage)
-
-   You will probably want to start both at once:
+   To start the development servers for Gatsby & [Netlify Functions](https://github.com/netlify/netlify-lambda#usage) simply run [Netlify Dev](https://www.netlify.com/products/dev).
 
    ```sh
-   npm run start
+   netify dev
    ```
 
-   Your site is accessible at `http://localhost:8000` and your Netlify Functions are accessible at `http://localhost:8000/.netlify/`.
+   Your site is accessible at `http://localhost:8888`!
+
+   > Note: Make sure to use the proxied _Netilfy Dev_ server and not the Gatsby server directly, otherwise your Gatsby application will not be able to access your Netlify Functions.
 
    > Note: try deleting the cache (`rm -rf .cache`) if Gatsby's dev server fails to start.
 
@@ -59,6 +58,10 @@ The ProductsProvider component provides normalized Product and Sku data sourced 
 6. **Deploy to [Netlify](https://www.netlify.com/docs)**
 
    If you want to deploy somewhere other than Netlify, you'll have to find another place to deploy the serverless functions in `/functions`, ex. AWS Lambda.
+
+   ```sh
+   netlify deploy
+   ```
 
 ## Contributing
 

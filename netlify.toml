@@ -2,3 +2,6 @@
   command = "npm run build"
   functions = "functions"
   publish = "public"
+
+[dev]
+  command = "npm run start"
