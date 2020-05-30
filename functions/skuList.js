@@ -25,9 +25,6 @@ module.exports.handler = (event, context, callback) => {
       }
 
       const response = {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
         statusCode,
         body,
       }

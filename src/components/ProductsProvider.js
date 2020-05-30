@@ -42,6 +42,7 @@ const Provider = ({ data, children }) => {
 
     if (error) {
       console.error(error)
+      return
     }
 
     const [liveProducts, liveSkus] = processStripeData(data, products)
