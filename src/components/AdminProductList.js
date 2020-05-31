@@ -2,10 +2,10 @@ import React, { useContext } from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
-import { ProductsContext } from "./ProductsProvider"
+import { AdminProductsContext } from "./AdminProductsProvider"
 
 export const AdminProductForm = ({ productId }) => {
-  const { listProducts } = useContext(ProductsContext)
+  const { listProducts } = useContext(AdminProductsContext)
   const products = listProducts()
 
   return (
