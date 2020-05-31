@@ -45,7 +45,7 @@ const Provider = ({ data, children }) => {
       return
     }
 
-    const [liveProducts, liveSkus] = processStripeData(data, products)
+    const [liveProducts, liveSkus] = mergeStripeData(data, products)
     setProducts(liveProducts)
     setSkus(liveSkus)
   }
@@ -55,13 +55,9 @@ const Provider = ({ data, children }) => {
       value={{
         products,
         skus,
-        listProducts: sort => {
-          const fn = sort || ((a, b) => b.created - a.created)
+        listProducts: sortFn => {
+          const fn = sortFn || ((a, b) => b.created - a.created)
           return Object.values(products).sort(fn)
-        },
-        listSkus: sort => {
-          const fn = sort || ((a, b) => b.created - a.created)
-          return Object.values(skus).sort(fn)
         },
       }}
     >
@@ -77,37 +73,38 @@ Provider.propTypes = {
 
 /** Normalize structure of data sourced from Gatsby's GraphQL store */
 const processGatsbyData = data => {
-  const initialProducts = {}
-  const initialSkus = {}
+  const products = {}
+  const skus = {}
+  // Sku nodes are grouped by product
   data.allStripeSku.group.forEach(group => {
     const sku = group.edges[0].node
     const product = { slug: sku.fields.slug, ...sku.product }
     product.skus = group.edges.map(({ node }) => {
-      initialSkus[node.id] = node
+      skus[node.id] = node
       return node
     })
-    initialProducts[product.id] = product
+    products[product.id] = product
   })
-  return [initialProducts, initialSkus]
+  return [products, skus]
 }
 
 /** Normalize structure of live data sourced from Stripe */
-const processStripeData = (stripeData, products) => {
-  const liveProducts = {}
-  const liveSkus = {}
+const mergeStripeData = (stripeData, products) => {
+  const stripeProducts = {}
+  const stripeSkus = {}
   stripeData.forEach(stripeSku => {
     const { id } = stripeSku.product
     const gatsbySku = products[id].skus.find(x => x.id === stripeSku.id)
     const updatedSku = Object.assign(stripeSku, gatsbySku)
     updatedSku.name = generateSkuName(updatedSku)
-    if (!liveProducts[id]) {
+    if (!stripeProducts[id]) {
       stripeSku.product.slug = products[id].slug
-      liveProducts[id] = { ...stripeSku.product, skus: [] }
+      stripeProducts[id] = { ...stripeSku.product, skus: [] }
     }
-    liveProducts[id].skus.push(updatedSku)
-    liveSkus[updatedSku.id] = updatedSku
+    stripeProducts[id].skus.push(updatedSku)
+    stripeSkus[updatedSku.id] = updatedSku
   })
-  return [liveProducts, liveSkus]
+  return [stripeProducts, stripeSkus]
 }
 
 /** Generate a display name for a Sku from its first attribute */
