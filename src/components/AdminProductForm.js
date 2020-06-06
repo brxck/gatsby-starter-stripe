@@ -1,82 +1,117 @@
 import React, { useContext } from "react"
 import PropTypes from "prop-types"
-import { ProductsContext } from "./ProductsProvider"
+import { AdminProductsContext } from "./AdminProductsProvider"
+import { useForm, useFieldArray } from "react-hook-form"
 
 export const AdminProductForm = ({ productId }) => {
-  const { products } = useContext(ProductsContext)
-  const product = products[productId]
-  const handleChange = () => {}
-  const handleCurrencyChange = () => {}
+  const { products } = useContext(AdminProductsContext)
+  const product = productId ? products[productId] : {}
+  const { register, handleSubmit, control, errors, getValues } = useForm({
+    defaultValues: { product, skus: product.skus },
+  })
+  const { fields: skus, append, remove } = useFieldArray({
+    control,
+    name: "skus",
+  })
   const openWidget = () => {}
+  const onSubmit = data => console.log(data)
+
   const submit = () => {}
   return (
     <div>
-      <form method="POST">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
-          <label htmlFor="name">
+          <label>
             Name
             <input
-              id="name"
+              ref={register({ required: true, max: 5000 })}
               name="product.name"
               type="text"
-              required
-              onChange={handleChange}
-              defaultValue={product.name}
             />
           </label>
 
-          <label htmlFor="caption">
+          <label>
             Caption
             <input
-              id="caption"
+              ref={register({ max: 5000 })}
               name="product.caption"
               type="text"
-              required
-              onChange={handleChange}
-              defaultValue={product.caption}
             />
           </label>
 
-          <label htmlFor="description">
+          <label>
             Description
             <textarea
-              id="description"
+              ref={register({ max: 5000 })}
               name="product.description"
               cols="30"
               rows="5"
-              onChange={handleChange}
-              defaultValue={product.description}
             />
           </label>
 
-          {product.skus.map(sku => (
-            <>
-              <label htmlFor="quantity">
-                Quantity
-                <input
-                  id="quantity"
-                  name="sku.inventory.quantity"
+          <label>
+            Active
+            <input
+              type="checkbox"
+              ref={register({ max: 5000 })}
+              name="product.description"
+            />
+          </label>
+
+          <button onClick={append}>Add Variant</button>
+
+          {skus.map((sku, i) => (
+            <div key={sku.id}>
+              <button onClick={() => remove(i)}>Delete Variant</button>
+              <label>
+                Inventory Type
+                <select
+                  ref={register({ required: true })}
+                  name={`skus[${i}].inventory.type`}
                   type="number"
-                  required
-                  onChange={handleChange}
-                  defaultValue={sku.inventory.quantity}
-                />
+                >
+                  <option value="finite">Finite</option>
+                  <option value="bucket">Bucket</option>
+                  <option value="infinite">Infinite</option>
+                </select>
               </label>
 
-              <label htmlFor="price">
+              {getValues(`skus[${i}].inventory.type`) === "bucket" && (
+                <label>
+                  Quantity
+                  <select
+                    ref={register({ required: true })}
+                    name={`skus[${i}].inventory.value`}
+                    type="number"
+                  >
+                    <option value="in_stock">In Stock</option>
+                    <option value="limited">Limited</option>
+                    <option value="out_of_stock">Out of Stock</option>
+                  </select>
+                </label>
+              )}
+
+              {getValues(`skus[${i}].inventory.type`) === "finite" && (
+                <label>
+                  Quantity
+                  <input
+                    ref={register({ required: true })}
+                    name={`skus[${i}].inventory.quantity`}
+                    type="number"
+                  />
+                </label>
+              )}
+
+              <label>
                 Price
                 <input
-                  id="price"
-                  name="sku.price"
+                  ref={register({ required: true, min: 0.01 })}
+                  name={`skus[${i}].price`}
                   type="number"
-                  min="1.00"
                   step="0.01"
-                  required
-                  onChange={handleCurrencyChange}
-                  defaultValue={sku.price / 100}
                 />
               </label>
-            </>
+            </div>
           ))}
 
           <div>
@@ -91,7 +126,7 @@ export const AdminProductForm = ({ productId }) => {
   )
 }
 AdminProductForm.propTypes = {
-  productId: PropTypes.string.isRequired,
+  productId: PropTypes.string,
 }
 
 export default AdminProductForm
