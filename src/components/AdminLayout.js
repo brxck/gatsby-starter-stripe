@@ -1,42 +1,32 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
+import { Link } from "gatsby"
+
 import AdminProductsProvider from "./AdminProductsProvider"
-import "./layout.css"
 
 const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query AdminSiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `}
-    render={data => (
-      <>
-        <AdminProductsProvider>
-          <div
-            style={{
-              margin: `0 auto`,
-              maxWidth: 960,
-              padding: `0px 1.0875rem 1.45rem`,
-              paddingTop: 0,
-            }}
-          >
-            <main>{children}</main>
-            <footer>
-              © {new Date().getFullYear()}, Built with
-              {` `}
-              <a href="https://www.gatsbyjs.org">Gatsby</a>
-            </footer>
-          </div>
-        </AdminProductsProvider>
-      </>
-    )}
-  />
+  <AdminProductsProvider>
+    <header style={{ textAlign: "center" }}>
+      <h1>
+        <Link
+          to="/admin"
+          style={{
+            color: "#555",
+            textDecoration: `none`,
+            fontWeight: 300,
+          }}
+        >
+          admin
+        </Link>
+      </h1>
+    </header>
+    <main className="container">{children}</main>
+    <footer>
+      © {new Date().getFullYear()}, Built with
+      {` `}
+      <a href="https://www.gatsbyjs.org">Gatsby</a>
+    </footer>
+  </AdminProductsProvider>
 )
 
 Layout.propTypes = {

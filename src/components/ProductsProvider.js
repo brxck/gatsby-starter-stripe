@@ -96,7 +96,6 @@ const mergeStripeData = (stripeData, products) => {
     const { id } = stripeSku.product
     const gatsbySku = products[id].skus.find(x => x.id === stripeSku.id)
     const updatedSku = Object.assign(stripeSku, gatsbySku)
-    updatedSku.name = generateSkuName(updatedSku)
     if (!stripeProducts[id]) {
       stripeSku.product.slug = products[id].slug
       stripeProducts[id] = { ...stripeSku.product, skus: [] }
@@ -105,12 +104,6 @@ const mergeStripeData = (stripeData, products) => {
     stripeSkus[updatedSku.id] = updatedSku
   })
   return [stripeProducts, stripeSkus]
-}
-
-/** Generate a display name for a Sku from its first attribute */
-const generateSkuName = sku => {
-  if (!sku.attributes || !Object.keys(sku.attributes).length) return null
-  return Object.values(sku.attributes)[0]
 }
 
 export const skuFragment = graphql`
@@ -123,6 +116,9 @@ export const skuFragment = graphql`
     inventory {
       type
       quantity
+    }
+    attributes {
+      name
     }
     product {
       id
@@ -138,6 +134,13 @@ export const skuFragment = graphql`
           fluid(maxWidth: $maxWidth, quality: $quality) {
             ...GatsbyImageSharpFluid_withWebp_tracedSVG
           }
+        }
+      }
+    }
+    localFiles {
+      childImageSharp {
+        fluid(maxWidth: $maxWidth, quality: $quality) {
+          ...GatsbyImageSharpFluid_withWebp_tracedSVG
         }
       }
     }
