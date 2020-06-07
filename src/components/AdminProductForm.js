@@ -6,7 +6,7 @@ import { useForm, useFieldArray } from "react-hook-form"
 export const AdminProductForm = ({ productId }) => {
   const { products } = useContext(AdminProductsContext)
   const product = productId ? products[productId] : {}
-  const { register, handleSubmit, control, errors, getValues } = useForm({
+  const { register, handleSubmit, control, watch, getValues } = useForm({
     defaultValues: { product, skus: product.skus },
   })
   const { fields: skus, append, remove } = useFieldArray({
@@ -16,9 +16,14 @@ export const AdminProductForm = ({ productId }) => {
   const openWidget = () => {}
   const onSubmit = data => console.log(data)
 
+  // Watch to ensure rerender on sku field change
+  // eslint-disable-next-line no-unused-vars
+  const _skus = watch("skus")
+
   const submit = () => {}
   return (
     <div>
+      <h2>{product.id ? "Update" : "Create"} Product</h2>{" "}
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <label>
@@ -50,7 +55,7 @@ export const AdminProductForm = ({ productId }) => {
           </label>
 
           <label>
-            Active
+            Active{" "}
             <input
               type="checkbox"
               ref={register({ max: 5000 })}
@@ -58,11 +63,10 @@ export const AdminProductForm = ({ productId }) => {
             />
           </label>
 
-          <button onClick={append}>Add Variant</button>
+          <hr />
 
           {skus.map((sku, i) => (
             <div key={sku.id}>
-              <button onClick={() => remove(i)}>Delete Variant</button>
               <label>
                 Inventory Type
                 <select
@@ -75,10 +79,9 @@ export const AdminProductForm = ({ productId }) => {
                   <option value="infinite">Infinite</option>
                 </select>
               </label>
-
               {getValues(`skus[${i}].inventory.type`) === "bucket" && (
                 <label>
-                  Quantity
+                  Type
                   <select
                     ref={register({ required: true })}
                     name={`skus[${i}].inventory.value`}
@@ -90,7 +93,6 @@ export const AdminProductForm = ({ productId }) => {
                   </select>
                 </label>
               )}
-
               {getValues(`skus[${i}].inventory.type`) === "finite" && (
                 <label>
                   Quantity
@@ -101,7 +103,6 @@ export const AdminProductForm = ({ productId }) => {
                   />
                 </label>
               )}
-
               <label>
                 Price
                 <input
@@ -111,13 +112,16 @@ export const AdminProductForm = ({ productId }) => {
                   step="0.01"
                 />
               </label>
+              <button onClick={() => remove(i)}>Delete SKU</button>
+              <hr />
             </div>
           ))}
 
           <div>
-            <button onClick={openWidget}>Upload Images</button>
+            <button onClick={append}>Add SKU</button>{" "}
+            <button onClick={openWidget}>Upload Images</button>{" "}
             <button onClick={submit} type="submit">
-              Save
+              Save Product
             </button>
           </div>
         </fieldset>
