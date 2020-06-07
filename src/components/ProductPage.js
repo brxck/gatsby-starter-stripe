@@ -9,30 +9,17 @@ const ProductPage = ({ productId }) => {
   const { add, toggle } = useContext(CartContext)
 
   const product = products[productId]
-  const namedSkus = product.skus.filter(({ name }) => name)
-  const images = namedSkus.map(({ image }) => image)
+  const [activeSku, setActiveSku] = useState(product.skus[0])
+  const activeImage =
+    activeSku?.localFiles[0]?.childImageSharp.fluid ||
+    product?.localFiles[0]?.childImageSharp.fluid
 
-  const defaultSku = namedSkus.length ? namedSkus[0] : product.skus[0]
-  const [activeSku, setActiveSku] = useState(defaultSku)
-
-  const defaultImage = product?.localFiles[0].childImageSharp.fluid
-  const activeImage = activeSku?.image
-
-  const onSkuChange = e => setActiveSku(namedSkus[e.target.value])
+  const onSkuChange = e => setActiveSku(product.skus[e.target.value])
 
   return (
     <div style={{ margin: "0 auto", maxWidth: 500 }}>
       <div style={{ margin: "3rem auto", maxWidth: 300 }}>
-        {images.map(image => (
-          <img
-            key={image}
-            src={image}
-            alt={activeSku.name}
-            loading="lazy"
-            style={{ display: activeImage === image ? "initial" : "none" }}
-          />
-        ))}
-        {defaultImage && !activeImage && <Img fluid={defaultImage} />}
+        {activeImage && <Img fluid={activeImage} />}
       </div>
 
       <h2>{product.name}</h2>
@@ -43,8 +30,19 @@ const ProductPage = ({ productId }) => {
 
       <div style={{ textAlign: "justify" }}>{product.description}</div>
 
+      {product.skus.length > 0 && (
+        <select name="sku" id="sku" onChange={onSkuChange}>
+          {product.skus.map((sku, i) => {
+            return (
+              <option value={i} key={sku.id}>
+                {sku.attributes.name}
+              </option>
+            )
+          })}
+        </select>
+      )}
+
       <button
-        style={{ margin: "2rem 0" }}
         onClick={() => {
           add(activeSku.id)
           toggle(true)
@@ -52,23 +50,6 @@ const ProductPage = ({ productId }) => {
       >
         {product.skus[0].inventory.quantity === 0 ? "Sold Out" : "Add To Cart"}
       </button>
-
-      {namedSkus.length > 0 && (
-        <select
-          name="sku"
-          id="sku"
-          onChange={onSkuChange}
-          style={{ marginLeft: "1rem" }}
-        >
-          {namedSkus.map((sku, i) => {
-            return (
-              <option value={i} key={sku.id}>
-                {sku.name}
-              </option>
-            )
-          })}
-        </select>
-      )}
     </div>
   )
 }
