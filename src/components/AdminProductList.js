@@ -1,10 +1,9 @@
 import React, { useContext } from "react"
-import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
 import { AdminProductsContext } from "./AdminProductsProvider"
 
-export const AdminProductForm = ({ productId }) => {
+export const AdminProductList = () => {
   const { listProducts } = useContext(AdminProductsContext)
   const products = listProducts()
 
@@ -20,8 +19,8 @@ export const AdminProductForm = ({ productId }) => {
         </thead>
         <tbody>
           {products.map(({ id, name, skus, active }) => (
-            <>
-              <tr key={id}>
+            <React.Fragment key={id}>
+              <tr>
                 <td>
                   <input type="checkbox" checked={active} readOnly />{" "}
                   <Link to={`/admin/product/${id}`}>{name}</Link>
@@ -53,15 +52,12 @@ export const AdminProductForm = ({ productId }) => {
                     </td>
                   </tr>
                 ))}
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>
     </div>
   )
 }
-AdminProductForm.propTypes = {
-  productId: PropTypes.string.isRequired,
-}
 
-export default AdminProductForm
+export default AdminProductList

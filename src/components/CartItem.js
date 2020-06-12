@@ -7,7 +7,10 @@ import { CartContext } from "./CartProvider"
 const CartItem = ({ sku, quantity }) => {
   const { remove } = useContext(CartContext)
   return (
-    <div key={sku.id} style={{ display: "flex", margin: "1rem 0" }}>
+    <div
+      key={sku.id}
+      style={{ display: "flex", margin: "1rem 0", position: "relative" }}
+    >
       <Link
         to={`/buy/${sku.product.slug}`}
         style={{ textDecoration: "none", marginRight: "0.5rem" }}
@@ -32,13 +35,18 @@ const CartItem = ({ sku, quantity }) => {
             {sku.name && <span> &mdash; {sku.name}</span>}
           </div>
         </Link>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "0.5rem",
+          }}
+        >
           <span>
             ${sku.price / 100} &times; {quantity}
           </span>
           <strong>${(sku.price / 100) * quantity}</strong>
         </div>
-        <div></div>
       </div>
       <span
         style={{}}

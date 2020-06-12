@@ -21,22 +21,25 @@ const Layout = ({ children }) => (
       <>
         <ProductsProvider>
           <CartProvider>
-            <Header siteTitle={data.site.siteMetadata.title} />
-            <div
+            <Header title={data.site.siteMetadata.title} />
+            <main
               style={{
                 margin: `0 auto`,
                 maxWidth: 960,
-                padding: `0px 1.0875rem 1.45rem`,
-                paddingTop: 0,
+                padding: `1.5rem 0`,
               }}
             >
-              <main>{children}</main>
-              <footer>
-                © {new Date().getFullYear()}, Built with
-                {` `}
-                <a href="https://www.gatsbyjs.org">Gatsby</a>
-              </footer>
-            </div>
+              {children}
+            </main>
+            <footer style={{ textAlign: "center", margin: "3rem 0" }}>
+              Check out
+              {` `}
+              <a href="https://github.com/brxck/gatsby-starter-stripe">
+                gatsby-starter-stripe
+              </a>
+              {` `}
+              on GitHub!
+            </footer>
           </CartProvider>
         </ProductsProvider>
       </>

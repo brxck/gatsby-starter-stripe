@@ -7,19 +7,10 @@ const Cart = () => {
   const { cart, count, mode, toggle } = useContext(CartContext)
   return (
     <>
-      <button
-        onClick={() => toggle()}
-        style={{
-          position: "fixed",
-          right: "2rem",
-          top: "2rem",
-          zIndex: "2",
-        }}
-      >
-        {mode ? "→" : "cart"}
-      </button>
+      <button onClick={() => toggle()}>Cart</button>
       <div
         style={{
+          borderLeft: "1px solid #ddd",
           display: mode ? "initial" : "none",
           position: "fixed",
           right: 0,
@@ -32,7 +23,11 @@ const Cart = () => {
           zIndex: 1,
         }}
       >
-        <h1>cart</h1>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h1>Cart</h1>
+          <button onClick={() => toggle()}>→</button>
+        </div>
+
         {count > 0 &&
           cart.map(([sku, quantity]) => (
             <CartItem key={sku.id} sku={sku} quantity={quantity} />
