@@ -1,15 +1,12 @@
-import React, { useContext } from "react"
+import React from "react"
 import PropTypes from "prop-types"
-import { AdminProductsContext } from "./AdminProductsProvider"
 import { useForm, useFieldArray } from "react-hook-form"
 
-export const AdminProductForm = ({ productId }) => {
-  const { products } = useContext(AdminProductsContext)
-  const product = productId ? products[productId] : {}
+export const AdminProductForm = ({ product, create }) => {
   const { register, handleSubmit, control, watch, getValues } = useForm({
     defaultValues: { product, skus: product.skus },
   })
-  const { fields: skus, append, remove } = useFieldArray({
+  const { fields: skuFields, append, remove } = useFieldArray({
     control,
     name: "skus",
   })
@@ -17,13 +14,14 @@ export const AdminProductForm = ({ productId }) => {
   const onSubmit = data => console.log(data)
 
   // Watch to ensure rerender on sku field change
-  // eslint-disable-next-line no-unused-vars
-  const _skus = watch("skus")
+  const skus = watch("skus")
 
   const submit = () => {}
   return (
     <div>
-      <h2>{product.id ? "Update" : "Create"} Product</h2>{" "}
+      <h2 style={{ textAlign: "center" }}>
+        {product.id ? "Update" : "Create"} Product
+      </h2>{" "}
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Name
@@ -33,7 +31,6 @@ export const AdminProductForm = ({ productId }) => {
             type="text"
           />
         </label>
-
         <label>
           Caption
           <input
@@ -42,7 +39,6 @@ export const AdminProductForm = ({ productId }) => {
             type="text"
           />
         </label>
-
         <label>
           Description
           <textarea
@@ -52,7 +48,6 @@ export const AdminProductForm = ({ productId }) => {
             rows="5"
           />
         </label>
-
         <label>
           Active{" "}
           <input
@@ -61,21 +56,39 @@ export const AdminProductForm = ({ productId }) => {
             name="product.description"
           />
         </label>
-
-        {skus.map(({ id }, i) => (
-          <div key={id}>
+        <br />
+        <h3 style={{ textAlign: "center" }}>SKUs</h3>
+        {skuFields.map(({ id }, i) => (
+          <div key={id} style={{ marginBottom: "1rem", position: "relative" }}>
             {skus.length > 1 && (
-              <label>
-                Name
-                <input
-                  ref={register({ required: true, max: 5000 })}
-                  name={`skus[${i}].name`}
-                  type="text"
-                />
-              </label>
+              <>
+                <hr />
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    padding: "0.75rem",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    remove(i)
+                  }}
+                >
+                  &times;
+                </span>
+                <label>
+                  Name
+                  <input
+                    ref={register({ required: true, max: 5000 })}
+                    name={`skus[${i}].attributes.name`}
+                    type="text"
+                  />
+                </label>
+              </>
             )}
             <label>
-              Inventory Type
+              Inventory
               <select
                 ref={register({ required: true })}
                 name={`skus[${i}].inventory.type`}
@@ -119,12 +132,9 @@ export const AdminProductForm = ({ productId }) => {
                 step="0.01"
               />
             </label>
-            {skus.length > 1 && (
-              <button onClick={() => remove(i)}>Delete Variant</button>
-            )}
           </div>
         ))}
-
+        <hr />
         <div>
           <button onClick={append}>Add Variant</button>{" "}
           <button onClick={openWidget}>Upload Images</button>{" "}
@@ -137,7 +147,8 @@ export const AdminProductForm = ({ productId }) => {
   )
 }
 AdminProductForm.propTypes = {
-  productId: PropTypes.string,
+  product: PropTypes.object.isRequired,
+  create: PropTypes.bool.isRequired,
 }
 
 export default AdminProductForm

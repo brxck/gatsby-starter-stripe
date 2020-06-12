@@ -10,11 +10,15 @@ const ProductThumbnail = ({ product }) => {
   const soldOut = availableSkus.length === 0
 
   return (
-    <div key={product.id} style={{ breakInside: "avoid" }}>
+    <div
+      key={product.id}
+      style={{
+        breakInside: "avoid",
+      }}
+    >
       <Link to={`/buy/${product.slug}`} style={{ textDecoration: "none" }}>
         <div
           style={{
-            maxWidth: 250,
             flex: "1 1 auto",
             margin: "0 2rem 3rem",
           }}

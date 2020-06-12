@@ -3,41 +3,44 @@ import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import Cart from "./Cart"
 
-const Header = ({ siteTitle }) => (
+const Header = ({ title }) => (
   <header
     style={{
-      margin: `2rem`,
+      margin: "2rem auto",
+      maxWidth: "790px",
+      padding: "0 1rem",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
     }}
   >
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
+    <Link to="/admin">
+      <button>Admin</button>
+    </Link>
+
+    <div>
       <h1 style={{ margin: 0 }}>
         <Link
           to="/"
           style={{
-            color: "#555",
+            color: "#666",
             textDecoration: `none`,
             fontWeight: 300,
+            whiteSpace: "nowrap",
           }}
         >
-          {siteTitle}
+          {title}
         </Link>
       </h1>
+    </div>
+    <div>
       <Cart />
     </div>
   </header>
 )
 
 Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
+  title: PropTypes.string,
 }
 
 export default Header

@@ -3,20 +3,20 @@ import { Router } from "@reach/router"
 
 import SEO from "../../components/SEO"
 import AdminLayout from "../../components/AdminLayout"
-import AdminProductForm from "../../components/AdminProductForm"
+import AdminProductPage from "../../components/AdminProductPage"
 import AdminProductList from "../../components/AdminProductList"
 
-const AdminProductPage = () => {
+const AdminIndex = () => {
   return (
     <AdminLayout>
       <SEO title="Admin"></SEO>
       <Router basepath="/admin">
-        <AdminProductForm path="/product/create" />
-        <AdminProductForm path="/product/:productId" />
+        <AdminProductPage path="/product/create" />
+        <AdminProductPage path="/product/:productId" />
         <AdminProductList path="/" />
       </Router>
     </AdminLayout>
   )
 }
 
-export default AdminProductPage
+export default AdminIndex

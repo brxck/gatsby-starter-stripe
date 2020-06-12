@@ -6,25 +6,39 @@ import AdminProductsProvider from "./AdminProductsProvider"
 
 const Layout = ({ children }) => (
   <AdminProductsProvider>
-    <header style={{ textAlign: "center" }}>
+    <header
+      style={{
+        margin: "2rem",
+        textAlign: "center",
+      }}
+    >
       <h1>
         <Link
           to="/admin"
           style={{
             color: "#555",
-            textDecoration: `none`,
+            textDecoration: "none",
             fontWeight: 300,
           }}
         >
-          admin
+          Admin
         </Link>
       </h1>
     </header>
     <main className="container">{children}</main>
-    <footer>
-      © {new Date().getFullYear()}, Built with
+    <footer
+      style={{
+        textAlign: "center",
+        padding: "1.5rem 0",
+      }}
+    >
+      Check out
       {` `}
-      <a href="https://www.gatsbyjs.org">Gatsby</a>
+      <a href="https://github.com/brxck/gatsby-starter-stripe">
+        gatsby-starter-stripe
+      </a>
+      {` `}
+      on GitHub!
     </footer>
   </AdminProductsProvider>
 )

@@ -10,15 +10,31 @@ const ProductPage = ({ productId }) => {
 
   const product = products[productId]
   const [activeSku, setActiveSku] = useState(product.skus[0])
-  const activeImage =
-    activeSku?.localFiles[0]?.childImageSharp.fluid ||
-    product?.localFiles[0]?.childImageSharp.fluid
 
-  const onSkuChange = e => setActiveSku(product.skus[e.target.value])
+  const skuImages = product.skus.map(s => s?.localFiles[0])
+  const [imageIndex, setImageIndex] = useState(skuImages.length)
+  const images = [...skuImages, ...product?.localFiles]
+  const activeImage = images[imageIndex].childImageSharp.fluid
+
+  const onSkuChange = e => {
+    setImageIndex(0)
+    setActiveSku(product.skus[e.target.value])
+  }
+
+  const onImageClick = () => {
+    setImageIndex((imageIndex + 1) % images.length)
+  }
 
   return (
     <div style={{ margin: "0 auto", maxWidth: 500 }}>
-      <div style={{ margin: "3rem auto", maxWidth: 300 }}>
+      <div
+        style={{
+          margin: "3rem auto",
+          maxWidth: 300,
+          cursor: "pointer",
+        }}
+        onClick={onImageClick}
+      >
         {activeImage && <Img fluid={activeImage} />}
       </div>
 
@@ -26,11 +42,12 @@ const ProductPage = ({ productId }) => {
       <div>
         <em>{product.caption}</em>
       </div>
+
+      <br />
+      <div style={{ textAlign: "justify" }}>{product.description}</div>
       <br />
 
-      <div style={{ textAlign: "justify" }}>{product.description}</div>
-
-      {product.skus.length > 0 && (
+      {product.skus.length > 1 && (
         <select name="sku" id="sku" onChange={onSkuChange}>
           {product.skus.map((sku, i) => {
             return (
@@ -41,6 +58,8 @@ const ProductPage = ({ productId }) => {
           })}
         </select>
       )}
+
+      <br />
 
       <button
         onClick={() => {
