@@ -9,6 +9,11 @@ export const AdminProductList = () => {
 
   return (
     <div>
+      <div>
+        <Link to="/admin/products/create">
+          <button>Add Product</button>
+        </Link>
+      </div>
       <table>
         <thead>
           <tr>
@@ -23,7 +28,7 @@ export const AdminProductList = () => {
               <tr>
                 <td>
                   <input type="checkbox" checked={active} readOnly />{" "}
-                  <Link to={`/admin/product/${id}`}>{name}</Link>
+                  <Link to={`/admin/products/${id}`}>{name}</Link>
                 </td>
                 {skus.length === 1 && (
                   <>

@@ -1,22 +1,54 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { navigate } from "gatsby"
 import { useForm, useFieldArray } from "react-hook-form"
 
 export const AdminProductForm = ({ product, create }) => {
+  const pricesToDecimal = skus => {
+    return skus.map(sku => {
+      sku.price = (sku.price / 100).toFixed(2)
+      return sku
+    })
+  }
+
+  const pricesToInteger = skus => {
+    return skus.map(sku => {
+      sku.price = parseFloat(sku.price) * 100
+      return sku
+    })
+  }
+
+  const onSubmit = async data => {
+    const body = JSON.stringify({
+      product: data.product,
+      skus: pricesToInteger(data.skus),
+      productId: product.id,
+    })
+    const path = create ? "productCreate" : "productUpdate"
+    await fetch(`/.netlify/functions/${path}`, {
+      method: "POST",
+      body,
+    })
+    alert("saved")
+    navigate("/admin")
+  }
+
   const { register, handleSubmit, control, watch, getValues } = useForm({
-    defaultValues: { product, skus: product.skus },
+    defaultValues: {
+      product,
+      skus: pricesToDecimal(product.skus),
+    },
   })
+
   const { fields: skuFields, append, remove } = useFieldArray({
     control,
     name: "skus",
+    keyName: "fieldId",
   })
-  const openWidget = () => {}
-  const onSubmit = data => console.log(data)
 
   // Watch to ensure rerender on sku field change
   const skus = watch("skus")
 
-  const submit = () => {}
   return (
     <div>
       <h2 style={{ textAlign: "center" }}>
@@ -50,16 +82,16 @@ export const AdminProductForm = ({ product, create }) => {
         </label>
         <label>
           Active{" "}
-          <input
-            type="checkbox"
-            ref={register({ max: 5000 })}
-            name="product.description"
-          />
+          <input type="checkbox" ref={register()} name="product.active" />
         </label>
         <br />
         <h3 style={{ textAlign: "center" }}>SKUs</h3>
-        {skuFields.map(({ id }, i) => (
-          <div key={id} style={{ marginBottom: "1rem", position: "relative" }}>
+        {skuFields.map(({ fieldId }, i) => (
+          <div
+            key={fieldId}
+            style={{ marginBottom: "1rem", position: "relative" }}
+          >
+            <input type="hidden" name={`skus[${i}].id`} ref={register()} />
             {skus.length > 1 && (
               <>
                 <hr />
@@ -136,16 +168,14 @@ export const AdminProductForm = ({ product, create }) => {
         ))}
         <hr />
         <div>
-          <button onClick={append}>Add Variant</button>{" "}
-          <button onClick={openWidget}>Upload Images</button>{" "}
-          <button onClick={submit} type="submit">
-            Save Product
-          </button>
+          <button onClick={append}>Add SKU</button>{" "}
+          <button type="submit">Save Product</button>
         </div>
       </form>
     </div>
   )
 }
+
 AdminProductForm.propTypes = {
   product: PropTypes.object.isRequired,
   create: PropTypes.bool.isRequired,

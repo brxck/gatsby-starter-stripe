@@ -11,8 +11,8 @@ const AdminIndex = () => {
     <AdminLayout>
       <SEO title="Admin"></SEO>
       <Router basepath="/admin">
-        <AdminProductPage path="/product/create" />
-        <AdminProductPage path="/product/:productId" />
+        <AdminProductPage path="/products/create" create />
+        <AdminProductPage path="/products/:productId" />
         <AdminProductList path="/" />
       </Router>
     </AdminLayout>
