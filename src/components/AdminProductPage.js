@@ -7,10 +7,11 @@ import AdminProductForm from "./AdminProductForm"
 function AdminProductPage({ productId, create }) {
   const { products } = useContext(AdminProductsContext)
   if (create) {
-    const product = { skus: [] }
+    const product = { skus: [{ inventory: { type: "infinite" }, price: "" }] }
     return <AdminProductForm product={product} create></AdminProductForm>
   } else if (productId && products[productId]) {
     const product = products[productId]
+    console.log(product)
     return (
       <AdminProductForm product={product} create={false}></AdminProductForm>
     )
