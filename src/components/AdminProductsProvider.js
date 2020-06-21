@@ -37,6 +37,7 @@ const AdminProductsProvider = ({ children }) => {
   return (
     <AdminProductsContext.Provider
       value={{
+        fetchProducts,
         products,
         skus,
         listProducts: sortFn => {
