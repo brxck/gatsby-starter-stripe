@@ -1,9 +1,12 @@
-import React from "react"
+import React, { useContext } from "react"
 import PropTypes from "prop-types"
 import { navigate } from "gatsby"
 import { useForm, useFieldArray } from "react-hook-form"
+import { AdminProductsContext } from "./AdminProductsProvider"
 
 export const AdminProductForm = ({ product, create }) => {
+  const { fetchProducts } = useContext(AdminProductsContext)
+
   const pricesToDecimal = skus => {
     return skus.map(sku => {
       sku.price = (sku.price / 100).toFixed(2)
@@ -29,6 +32,7 @@ export const AdminProductForm = ({ product, create }) => {
       method: "POST",
       body,
     })
+    fetchProducts()
     alert("saved")
     navigate("/admin")
   }
