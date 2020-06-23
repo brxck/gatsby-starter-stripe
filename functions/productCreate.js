@@ -2,14 +2,13 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 module.exports.handler = async (event, context, callback) => {
   const requestBody = JSON.parse(event.body)
-  const productData = requestBody.product
-  const skusData = requestBody.skus
 
   const product = await stripe.products.create({
-    ...productData,
+    ...requestBody.product,
     type: "good",
   })
-  const skus = skusData.map(async skuData => {
+
+  const skus = requestBody.skus.map(async skuData => {
     return stripe.skus.create({
       ...skuData,
       product: product.id,
@@ -18,7 +17,7 @@ module.exports.handler = async (event, context, callback) => {
   })
 
   const response = {
-    statusCode: 200,
+    statusCode: 201,
     headers: {
       "Access-Control-Allow-Origin": "*",
     },
