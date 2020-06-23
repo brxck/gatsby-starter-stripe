@@ -21,6 +21,17 @@ export const AdminProductForm = ({ product, create }) => {
     })
   }
 
+  const onDelete = async e => {
+    e.preventDefault()
+    await fetch(`/.netlify/functions/productDelete`, {
+      method: "DELETE",
+      body: JSON.stringify({ productId: product.id }),
+    })
+    fetchProducts()
+    alert("Product deleted.")
+    navigate("/admin")
+  }
+
   const onSubmit = async data => {
     const body = JSON.stringify({
       product: data.product,
@@ -33,7 +44,7 @@ export const AdminProductForm = ({ product, create }) => {
       body,
     })
     fetchProducts()
-    alert("saved")
+    alert("Product saved.")
     navigate("/admin")
   }
 
@@ -173,7 +184,8 @@ export const AdminProductForm = ({ product, create }) => {
         <hr />
         <div>
           <button onClick={append}>Add SKU</button>{" "}
-          <button type="submit">Save Product</button>
+          <button type="submit">Save Product</button>{" "}
+          <button onClick={onDelete}>Delete Product</button>
         </div>
       </form>
     </div>
