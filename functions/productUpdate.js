@@ -36,7 +36,7 @@ module.exports.handler = async (event, context, callback) => {
   })
 
   const skusToDelete = difference(stripeIds, requestIds)
-  skusToDelete.forEach(id => stripe.skus.delete(id))
+  skusToDelete.forEach(id => stripe.skus.del(id))
 
   const response = {
     statusCode: 200,
