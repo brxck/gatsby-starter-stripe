@@ -2,7 +2,12 @@ import React, { useContext } from "react"
 import PropTypes from "prop-types"
 import { navigate } from "gatsby"
 import { useForm, useFieldArray } from "react-hook-form"
+
 import { AdminProductsContext } from "./AdminProductsProvider"
+import AdminProductFormSkus from "./AdminProductFormSkus"
+import AdminProductFormImages from "./AdminProductFormImages"
+
+import styles from "./AdminProductForm.module.css"
 
 export const AdminProductForm = ({ product, create }) => {
   const { fetchProducts } = useContext(AdminProductsContext)
@@ -55,14 +60,17 @@ export const AdminProductForm = ({ product, create }) => {
     },
   })
 
-  const { fields: skuFields, append, remove } = useFieldArray({
+  const skusFieldArray = useFieldArray({
     control,
     name: "skus",
     keyName: "fieldId",
   })
 
-  // Watch to ensure rerender on sku field change
-  const skus = watch("skus")
+  const imagesFieldArray = useFieldArray({
+    control,
+    name: "product.images",
+    keyName: "fieldId",
+  })
 
   return (
     <div>
@@ -99,91 +107,22 @@ export const AdminProductForm = ({ product, create }) => {
           Active{" "}
           <input type="checkbox" ref={register()} name="product.active" />
         </label>
+        <h3 style={{ textAlign: "center" }}>Images</h3>
+        <AdminProductFormImages
+          imagesFieldArray={imagesFieldArray}
+          register={register}
+        ></AdminProductFormImages>
+
         <br />
         <h3 style={{ textAlign: "center" }}>SKUs</h3>
-        {skuFields.map(({ fieldId }, i) => (
-          <div
-            key={fieldId}
-            style={{ marginBottom: "1rem", position: "relative" }}
-          >
-            <input type="hidden" name={`skus[${i}].id`} ref={register()} />
-            {skus.length > 1 && (
-              <>
-                <hr />
-                <span
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    padding: "0.75rem",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    remove(i)
-                  }}
-                >
-                  &times;
-                </span>
-                <label>
-                  Name
-                  <input
-                    ref={register({ required: true, max: 5000 })}
-                    name={`skus[${i}].attributes.name`}
-                    type="text"
-                  />
-                </label>
-              </>
-            )}
-            <label>
-              Inventory
-              <select
-                ref={register({ required: true })}
-                name={`skus[${i}].inventory.type`}
-                type="number"
-              >
-                <option value="finite">Finite</option>
-                <option value="bucket">Bucket</option>
-                <option value="infinite">Infinite</option>
-              </select>
-            </label>
-            {getValues(`skus[${i}].inventory.type`) === "bucket" && (
-              <label>
-                Type
-                <select
-                  ref={register({ required: true })}
-                  name={`skus[${i}].inventory.value`}
-                  type="number"
-                >
-                  <option value="in_stock">In Stock</option>
-                  <option value="limited">Limited</option>
-                  <option value="out_of_stock">Out of Stock</option>
-                </select>
-              </label>
-            )}
-            {getValues(`skus[${i}].inventory.type`) === "finite" && (
-              <label>
-                Quantity
-                <input
-                  ref={register({ required: true })}
-                  name={`skus[${i}].inventory.quantity`}
-                  type="number"
-                />
-              </label>
-            )}
-            <label>
-              Price
-              <input
-                ref={register({ required: true, min: 0.01 })}
-                name={`skus[${i}].price`}
-                type="number"
-                step="0.01"
-              />
-            </label>
-          </div>
-        ))}
+        <AdminProductFormSkus
+          skusFieldArray={skusFieldArray}
+          register={register}
+          getValues={getValues}
+          watch={watch}
+        ></AdminProductFormSkus>
         <hr />
         <div>
-          <button onClick={append}>Add SKU</button>{" "}
           <button type="submit">Save Product</button>{" "}
           <button onClick={onDelete}>Delete Product</button>
         </div>
