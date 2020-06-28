@@ -10,10 +10,12 @@ const ProductPage = ({ productId }) => {
 
   const product = products[productId]
   const [activeSku, setActiveSku] = useState(product.skus[0])
+  const [imageIndex, setImageIndex] = useState(0)
 
-  const skuImages = product.skus.map(s => s?.localFiles[0])
-  const [imageIndex, setImageIndex] = useState(skuImages.length)
-  const images = [...skuImages, ...product?.localFiles]
+  const images = [...product?.localFiles]
+  if (activeSku?.localFiles?.[0]) {
+    images.unshift(activeSku.localFiles[0])
+  }
   const activeImage = images[imageIndex].childImageSharp.fluid
 
   const onSkuChange = e => {
