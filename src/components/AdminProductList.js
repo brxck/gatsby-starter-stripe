@@ -9,11 +9,15 @@ export const AdminProductList = () => {
 
   return (
     <div>
-      <div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Link to="/admin/products/create">
           <button>Add Product</button>
         </Link>
+        <Link to="/">
+          <button>View Store</button>
+        </Link>
       </div>
+      <br />
       <table>
         <thead>
           <tr>

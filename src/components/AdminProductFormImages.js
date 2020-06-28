@@ -1,25 +1,37 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-function AdminProductFormImages({ imagesFieldArray, register }) {
-  const { fields, append, remove } = imagesFieldArray
+import css from "./AdminProductFormImages.module.css"
+
+function AdminProductFormImages(props) {
+  const { imagesFieldArray, register, getValues, watch } = props
+  const { fields, remove } = imagesFieldArray
+  // Watch to ensure rerender
+  watch("product.images")
   return (
-    <div>
+    <div className={css.container}>
       {fields.map(({ fieldId }, i) => (
-        <input
-          key={fieldId}
-          style={{ marginBottom: "1rem", position: "relative" }}
-          ref={register({ required: true, max: 5000 })}
-          name={`product.images[${i}]`}
-          type="text"
-        />
+        <div key={fieldId} className={css.image}>
+          <img
+            src={getValues(`product.images[${i}]`)}
+            alt={"Could not load image"}
+          />
+          <div className={css.input}>
+            <input
+              ref={register({ required: true, max: 5000 })}
+              name={`product.images[${i}]`}
+              type="text"
+            />
+            <button onClick={() => console.log(i) || remove(i)}>&times;</button>
+          </div>
+        </div>
       ))}
     </div>
   )
 }
 
 AdminProductFormImages.propTypes = {
-  imageFieldArray: PropTypes.object.isRequired,
+  imagesFieldArray: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   getValues: PropTypes.func.isRequired,
   watch: PropTypes.func.isRequired,
