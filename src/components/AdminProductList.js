@@ -8,7 +8,7 @@ export const AdminProductList = () => {
   const products = listProducts()
 
   return (
-    <div>
+    <div style={{ maxWidth: "700px", margin: "0 auto" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Link to="/admin/products/create">
           <button>Add Product</button>

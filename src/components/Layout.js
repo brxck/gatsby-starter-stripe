@@ -5,7 +5,6 @@ import Header from "./Header"
 import ProductsProvider from "./ProductsProvider"
 import CartProvider from "./CartProvider"
 import IdentityProvider from "./IdentityProvider"
-import "./layout.css"
 
 const Layout = ({ children }) => (
   <StaticQuery
