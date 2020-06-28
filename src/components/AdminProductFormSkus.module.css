@@ -1,0 +1,18 @@
+.sku {
+  display: flex;
+  margin: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid black;
+}
+
+.image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  width: 200px;
+}
+
+.image > img {
+  object-fit: contain;
+}

@@ -6,7 +6,6 @@ import { useForm, useFieldArray } from "react-hook-form"
 import { AdminProductsContext } from "./AdminProductsProvider"
 import AdminProductFormSkus from "./AdminProductFormSkus"
 import AdminProductFormImages from "./AdminProductFormImages"
-
 import styles from "./AdminProductForm.module.css"
 
 export const AdminProductForm = ({ product, create }) => {
@@ -73,11 +72,20 @@ export const AdminProductForm = ({ product, create }) => {
   })
 
   return (
-    <div>
-      <h2 style={{ textAlign: "center" }}>
-        {product.id ? "Update" : "Create"} Product
-      </h2>{" "}
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className={styles.gridContainer}>
+      <div className={styles.images}>
+        <h3>Images</h3>
+        <button onClick={imagesFieldArray.append}>Add Image</button>
+        <AdminProductFormImages
+          imagesFieldArray={imagesFieldArray}
+          register={register}
+          getValues={getValues}
+          watch={watch}
+        ></AdminProductFormImages>
+      </div>
+
+      <div className={styles.product}>
+        <h3>{product.id ? "Update" : "Create"} Product</h3>
         <label>
           Name
           <input
@@ -85,6 +93,10 @@ export const AdminProductForm = ({ product, create }) => {
             name="product.name"
             type="text"
           />
+        </label>
+        <label>
+          Active{" "}
+          <input type="checkbox" ref={register()} name="product.active" />
         </label>
         <label>
           Caption
@@ -103,30 +115,20 @@ export const AdminProductForm = ({ product, create }) => {
             rows="5"
           />
         </label>
-        <label>
-          Active{" "}
-          <input type="checkbox" ref={register()} name="product.active" />
-        </label>
-        <h3 style={{ textAlign: "center" }}>Images</h3>
-        <AdminProductFormImages
-          imagesFieldArray={imagesFieldArray}
-          register={register}
-        ></AdminProductFormImages>
-
-        <br />
-        <h3 style={{ textAlign: "center" }}>SKUs</h3>
+      </div>
+      <div className={styles.skus}>
+        <h3>SKUs</h3>
         <AdminProductFormSkus
           skusFieldArray={skusFieldArray}
           register={register}
           getValues={getValues}
           watch={watch}
         ></AdminProductFormSkus>
-        <hr />
-        <div>
-          <button type="submit">Save Product</button>{" "}
-          <button onClick={onDelete}>Delete Product</button>
-        </div>
-      </form>
+      </div>
+      <div className={styles.controls}>
+        <button onClick={onDelete}>Delete Product</button>
+        <button onClick={handleSubmit(onSubmit)}>Save Product</button>
+      </div>
     </div>
   )
 }

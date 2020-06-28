@@ -25,21 +25,7 @@ const Layout = ({ children }) => (
         </Link>
       </h1>
     </header>
-    <main className="container">{children}</main>
-    <footer
-      style={{
-        textAlign: "center",
-        padding: "1.5rem 0",
-      }}
-    >
-      Check out
-      {` `}
-      <a href="https://github.com/brxck/gatsby-starter-stripe">
-        gatsby-starter-stripe
-      </a>
-      {` `}
-      on GitHub!
-    </footer>
+    <main>{children}</main>
   </AdminProductsProvider>
 )
 

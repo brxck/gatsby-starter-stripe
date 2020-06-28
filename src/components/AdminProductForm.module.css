@@ -1,0 +1,37 @@
+h3 {
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 2.5fr 0.2fr;
+  gap: 1px;
+  grid-template-areas: "images product skus" "controls controls controls";
+  max-height: 85vh;
+  padding: 0 1rem;
+}
+
+.grid-container > div {
+  overflow-y: auto;
+  padding: 0 2rem;
+}
+
+.controls {
+  margin-top: 1rem;
+  grid-area: controls;
+  display: flex;
+  justify-content: space-between;
+}
+
+.images {
+  grid-area: images;
+}
+
+.product {
+  grid-area: product;
+}
+
+.skus {
+  grid-area: skus;
+}
