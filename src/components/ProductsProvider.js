@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 
 export const ProductsContext = React.createContext()
 
 /**
  * Wrapper to give Provider access to Sku nodes from Gatsby's GraphQL store.
  */
-const ProductsProvider = ({ children }) => (
-  <StaticQuery
-    query={skusQuery}
-    render={data => <Provider data={data}>{children}</Provider>}
-  />
-)
+const ProductsProvider = ({ children }) => {
+  const data = useStaticQuery(skusQuery)
+  return <Provider data={data}>{children}</Provider>
+}
 
 ProductsProvider.propTypes = {
   children: PropTypes.any.isRequired,
