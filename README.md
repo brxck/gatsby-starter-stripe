@@ -38,7 +38,7 @@ The ProductsProvider component provides normalized Product and Sku data sourced 
    To start the development servers for Gatsby & [Netlify Functions](https://github.com/netlify/netlify-lambda#usage) simply run [Netlify Dev](https://www.netlify.com/products/dev).
 
    ```sh
-   netify dev
+   netlify dev
    ```
 
    Your site is accessible at `http://localhost:8888`!
