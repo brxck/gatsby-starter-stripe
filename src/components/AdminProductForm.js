@@ -6,7 +6,7 @@ import { useForm, useFieldArray } from "react-hook-form"
 import { AdminProductsContext } from "./AdminProductsProvider"
 import AdminProductFormSkus from "./AdminProductFormSkus"
 import AdminProductFormImages from "./AdminProductFormImages"
-import styles from "./AdminProductForm.module.css"
+import css from "./AdminProductForm.module.css"
 
 export const AdminProductForm = ({ product, create }) => {
   const { fetchProducts } = useContext(AdminProductsContext)
@@ -72,64 +72,75 @@ export const AdminProductForm = ({ product, create }) => {
   })
 
   return (
-    <div className={styles.gridContainer}>
-      <div className={styles.images}>
-        <h3>Images</h3>
-        <button onClick={imagesFieldArray.append}>Add Image</button>
-        <AdminProductFormImages
-          imagesFieldArray={imagesFieldArray}
-          register={register}
-          getValues={getValues}
-          watch={watch}
-        ></AdminProductFormImages>
+    <>
+      <div className={css.controls}>
+        <div className="">
+          <button onClick={onDelete}>Delete Product</button>
+          <button onClick={handleSubmit(onSubmit)}>Save Product</button>
+        </div>
       </div>
 
-      <div className={styles.product}>
-        <h3>{product.id ? "Update" : "Create"} Product</h3>
-        <label>
-          Name
-          <input
-            ref={register({ required: true, max: 5000 })}
-            name="product.name"
-            type="text"
-          />
-        </label>
-        <label>
-          Active{" "}
-          <input type="checkbox" ref={register()} name="product.active" />
-        </label>
-        <label>
-          Caption
-          <input
-            ref={register({ max: 5000 })}
-            name="product.caption"
-            type="text"
-          />
-        </label>
-        <label>
-          Description
-          <textarea
-            ref={register({ max: 5000 })}
-            name="product.description"
-            cols="30"
-            rows="5"
-          />
-        </label>
+      <div className={css.container}>
+        <div className={css.product}>
+          <div className={css.header}>
+            <h3>{product.id ? "Update" : "Create"} Product</h3>
+            <label>
+              <input type="checkbox" ref={register()} name="product.active" />{" "}
+              Active
+            </label>
+          </div>
+          <label>
+            Name
+            <input
+              ref={register({ required: true, max: 5000 })}
+              name="product.name"
+              type="text"
+            />
+          </label>
+
+          <label>
+            Caption
+            <input
+              ref={register({ max: 5000 })}
+              name="product.caption"
+              type="text"
+            />
+          </label>
+          <label>
+            Description
+            <textarea
+              ref={register({ max: 5000 })}
+              name="product.description"
+              cols="30"
+              rows="5"
+            />
+          </label>
+          <div className={css.header}>
+            <h3>Images</h3>
+            <button onClick={imagesFieldArray.append}>Add Image</button>
+          </div>
+          <AdminProductFormImages
+            imagesFieldArray={imagesFieldArray}
+            register={register}
+            getValues={getValues}
+            watch={watch}
+          ></AdminProductFormImages>
+        </div>
+
+        <div className={css.skus}>
+          <div className={css.header}>
+            <h3>SKUs</h3>
+            <button onClick={skusFieldArray.append}>Add SKU</button>
+          </div>
+          <AdminProductFormSkus
+            skusFieldArray={skusFieldArray}
+            register={register}
+            getValues={getValues}
+            watch={watch}
+          ></AdminProductFormSkus>
+        </div>
       </div>
-      <div className={styles.skus}>
-        <h3>SKUs</h3>
-        <AdminProductFormSkus
-          skusFieldArray={skusFieldArray}
-          register={register}
-          getValues={getValues}
-          watch={watch}
-        ></AdminProductFormSkus>
-      </div>
-      <div className={styles.controls}>
-        <button onClick={onDelete}>Delete Product</button>
-        <button onClick={handleSubmit(onSubmit)}>Save Product</button>
-      </div>
-    </div>
+    </>
   )
 }
 

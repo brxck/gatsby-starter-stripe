@@ -1,0 +1,12 @@
+.header {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1000px;
+  padding: 1rem 0;
+}
