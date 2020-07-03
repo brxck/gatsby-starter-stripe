@@ -146,7 +146,7 @@ export const skuFragment = graphql`
 `
 
 const skusQuery = graphql`
-  query skusQuery($maxWidth: Int = 300, $quality: Int = 92) {
+  query skusQuery($maxWidth: Int = 500, $quality: Int = 92) {
     allStripeSku {
       group(field: product___id) {
         fieldValue

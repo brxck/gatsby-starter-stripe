@@ -3,59 +3,37 @@ import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
 import { CartContext } from "./CartProvider"
+import css from "./CartItem.module.css"
 
 const CartItem = ({ sku, quantity }) => {
   const { remove } = useContext(CartContext)
   return (
-    <div
-      key={sku.id}
-      style={{ display: "flex", margin: "1rem 0", position: "relative" }}
-    >
-      <Link
-        to={`/buy/${sku.product.slug}`}
-        style={{ textDecoration: "none", marginRight: "0.5rem" }}
-      >
-        <img
-          style={{
-            width: 100,
-            maxHeight: 100,
-            objectFit: "contain",
-          }}
-          src={sku.image || sku.product.images[0]}
-          alt={sku.product.name}
-        />
+    <div key={sku.id} className={css.container}>
+      <Link to={`/buy/${sku.product.slug}`} className={css.image}>
+        <img src={sku.image || sku.product.images[0]} alt={sku.product.name} />
       </Link>
-      <div style={{ flexBasis: "100%" }}>
-        <Link
-          to={`/buy/${sku.product.slug}`}
-          style={{ textDecoration: "none" }}
+      <div className={css.description}>
+        <button
+          className={css.remove}
+          onClick={() => {
+            remove(sku.id)
+          }}
         >
+          &times;
+        </button>
+        <Link to={`/buy/${sku.product.slug}`}>
           <div>
             <strong>{sku.product.name}</strong>
             {sku.name && <span> &mdash; {sku.name}</span>}
           </div>
         </Link>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "0.5rem",
-          }}
-        >
+        <div className={css.quantity}>
           <span>
             ${sku.price / 100} &times; {quantity}
           </span>
           <strong>${(sku.price / 100) * quantity}</strong>
         </div>
       </div>
-      <span
-        style={{}}
-        onClick={() => {
-          remove(sku.id)
-        }}
-      >
-        &times;
-      </span>
     </div>
   )
 }

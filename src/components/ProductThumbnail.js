@@ -3,26 +3,19 @@ import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import Img from "gatsby-image"
 
+import css from "./ProductThumbnail.module.css"
+
 const ProductThumbnail = ({ product }) => {
+  // TODO Use cart provider availability
   const availableSkus = product.skus.filter(
     ({ inventory }) => inventory?.quantity || inventory.type !== "finite"
   )
   const soldOut = availableSkus.length === 0
 
   return (
-    <div
-      key={product.id}
-      style={{
-        breakInside: "avoid",
-      }}
-    >
-      <Link to={`/buy/${product.slug}`} style={{ textDecoration: "none" }}>
-        <div
-          style={{
-            flex: "1 1 auto",
-            margin: "0 2rem 3rem",
-          }}
-        >
+    <div key={product.id} className={css.container}>
+      <Link to={`/buy/${product.slug}`}>
+        <div className={css.thumbnail}>
           {product.localFiles && (
             <Img
               fluid={product.localFiles[0].childImageSharp.fluid}
@@ -30,18 +23,12 @@ const ProductThumbnail = ({ product }) => {
               imgStyle={{ filter: soldOut && "grayscale()" }}
             />
           )}
-          <div
-            style={{
-              fontWeight: "bold",
-              textAlign: "center",
-              marginTop: "0.5rem",
-            }}
-          >
-            {product.name}
-          </div>
-          <div style={{ textAlign: "center" }}>
-            ${product.skus[0].price / 100}
-            {soldOut && " - Sold Out"}
+          <div className={css.description}>
+            <strong>{product.name}</strong>
+            <span>
+              ${product.skus[0].price / 100}
+              {soldOut && " - Sold Out"}
+            </span>
           </div>
         </div>
       </Link>

@@ -1,12 +1,14 @@
 import React, { useContext, useState } from "react"
 import PropTypes from "prop-types"
 import Img from "gatsby-image"
+
 import { ProductsContext } from "./ProductsProvider"
 import { CartContext } from "./CartProvider"
+import css from "./ProductPage.module.css"
 
 const ProductPage = ({ productId }) => {
   const { products } = useContext(ProductsContext)
-  const { add, toggle } = useContext(CartContext)
+  const { add, toggle, available } = useContext(CartContext)
 
   const product = products[productId]
   const [activeSku, setActiveSku] = useState(product.skus[0])
@@ -28,49 +30,51 @@ const ProductPage = ({ productId }) => {
   }
 
   return (
-    <div style={{ margin: "0 auto", maxWidth: 500 }}>
-      <div
-        style={{
-          margin: "3rem auto",
-          maxWidth: 300,
-          cursor: "pointer",
-        }}
-        onClick={onImageClick}
-      >
-        {activeImage && <Img fluid={activeImage} />}
+    <div className={css.container}>
+      <div className={css.image} onClick={onImageClick}>
+        {activeImage && (
+          <Img
+            fluid={activeImage}
+            style={{ height: "100%" }}
+            imgStyle={{ objectFit: "contain" }}
+          />
+        )}
       </div>
 
       <h2>{product.name}</h2>
-      <div>
+
+      <p>
         <em>{product.caption}</em>
+      </p>
+
+      <p className={css.description}>{product.description}</p>
+
+      <div className={css.controls}>
+        {product.skus.length > 1 && (
+          <label>
+            Item Style
+            <select name="sku" id="sku" onChange={onSkuChange}>
+              {product.skus.map((sku, i) => {
+                return (
+                  <option value={i} key={sku.id}>
+                    {sku.attributes.name}
+                  </option>
+                )
+              })}
+            </select>
+          </label>
+        )}
+
+        <button
+          onClick={() => {
+            add(activeSku.id)
+            toggle(true)
+          }}
+          disabled={!available(activeSku.id)}
+        >
+          {available(activeSku.id) ? "Add To Cart" : "Sold Out"}
+        </button>
       </div>
-
-      <br />
-      <div style={{ textAlign: "justify" }}>{product.description}</div>
-      <br />
-
-      {product.skus.length > 1 && (
-        <select name="sku" id="sku" onChange={onSkuChange}>
-          {product.skus.map((sku, i) => {
-            return (
-              <option value={i} key={sku.id}>
-                {sku.attributes.name}
-              </option>
-            )
-          })}
-        </select>
-      )}
-
-      <br />
-
-      <button
-        onClick={() => {
-          add(activeSku.id)
-          toggle(true)
-        }}
-      >
-        {product.skus[0].inventory.quantity === 0 ? "Sold Out" : "Add To Cart"}
-      </button>
     </div>
   )
 }
