@@ -47,6 +47,12 @@ const CartProvider = ({ children }) => {
     0
   )
 
+  /** Gets quantity of item with `id` */
+  function get(id) {
+    const cartItem = contents.find(item => item[0] === id)
+    return cartItem ? cartItem[1] : 0
+  }
+
   /** Sets quantity of item with `id` */
   function set(id, quantity) {
     if (!available(id)) return
@@ -77,9 +83,9 @@ const CartProvider = ({ children }) => {
     })
   }
 
-  // TODO Take into account quantity already in cart
   /** Returns true if `quantity` of item with `id` is available for purchase */
   function available(id, quantity = 1) {
+    const cartQuantity = get(id)
     const sku = skus[id]
     if (!sku) {
       console.error(`Sku with id ${id} not found`)
@@ -91,7 +97,7 @@ const CartProvider = ({ children }) => {
     } else if (sku.inventory.type === "bucket") {
       return ["in_stock", "limited"].includes(sku.inventory.type)
     } else if (sku.inventory.type === "finite") {
-      return sku.inventory.quantity >= quantity
+      return sku.inventory.quantity - cartQuantity >= quantity
     } else {
       return false
     }
@@ -106,6 +112,7 @@ const CartProvider = ({ children }) => {
     contents,
     cart,
     add,
+    get,
     set,
     remove,
     available,
