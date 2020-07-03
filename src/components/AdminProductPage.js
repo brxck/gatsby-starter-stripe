@@ -11,7 +11,6 @@ function AdminProductPage({ productId, create }) {
     return <AdminProductForm product={product} create></AdminProductForm>
   } else if (productId && products[productId]) {
     const product = products[productId]
-    console.log(product)
     return (
       <AdminProductForm product={product} create={false}></AdminProductForm>
     )

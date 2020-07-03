@@ -9,15 +9,11 @@ export const AdminProductList = () => {
 
   return (
     <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ padding: "0.5rem 0" }}>
         <Link to="/admin/products/create">
-          <button>Add Product</button>
-        </Link>
-        <Link to="/">
-          <button>View Store</button>
+          <button>+ Add Product</button>
         </Link>
       </div>
-      <br />
       <table>
         <thead>
           <tr>
@@ -34,16 +30,13 @@ export const AdminProductList = () => {
                   <input type="checkbox" checked={active} readOnly />{" "}
                   <Link to={`/admin/products/${id}`}>{name}</Link>
                 </td>
-                {skus.length === 1 && (
-                  <>
-                    <td>${(skus[0].price / 100).toFixed(2)}</td>
-                    <td>
-                      {skus[0].inventory.value ??
-                        skus[0].inventory.quantity ??
-                        "∞"}
-                    </td>
-                  </>
-                )}
+                <td>{skus.length === 1 && (skus[0].price / 100).toFixed(2)}</td>
+                <td>
+                  {skus.length === 1 &&
+                    (skus[0].inventory.value ??
+                      skus[0].inventory.quantity ??
+                      "∞")}
+                </td>
               </tr>
               {skus.length > 1 &&
                 skus.map(({ id, price, inventory, attributes }) => (
@@ -53,7 +46,7 @@ export const AdminProductList = () => {
                         {attributes.name}
                       </span>
                     </td>
-                    <td>${(price / 100).toFixed(2)}</td>
+                    <td>{(price / 100).toFixed(2)}</td>
                     <td>
                       {skus[0].inventory.value ??
                         skus[0].inventory.quantity ??

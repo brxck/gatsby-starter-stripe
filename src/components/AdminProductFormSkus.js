@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import styles from "./AdminProductFormSkus.module.css"
+import css from "./AdminProductFormSkus.module.css"
 
 function AdminProductFormSkus({ skusFieldArray, register, getValues, watch }) {
   const { fields, append, remove } = skusFieldArray
@@ -9,10 +9,10 @@ function AdminProductFormSkus({ skusFieldArray, register, getValues, watch }) {
   return (
     <div>
       {fields.map(({ fieldId }, i) => (
-        <div key={fieldId} className={styles.sku}>
+        <div key={fieldId} className={css.sku}>
           <input type="hidden" name={`skus[${i}].id`} ref={register()} />
 
-          <div className={styles.image}>
+          <div className={css.image}>
             {getValues(`skus[${i}].image`) ? (
               <img
                 src={getValues(`skus[${i}].image`)}
@@ -89,7 +89,6 @@ function AdminProductFormSkus({ skusFieldArray, register, getValues, watch }) {
           </div>
         </div>
       ))}
-      <button onClick={append}>Add SKU</button>
     </div>
   )
 }
