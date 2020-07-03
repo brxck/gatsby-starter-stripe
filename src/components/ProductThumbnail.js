@@ -1,15 +1,15 @@
-import React from "react"
+import React, { useContext } from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import Img from "gatsby-image"
 
+import { CartContext } from "./CartProvider"
 import css from "./ProductThumbnail.module.css"
 
 const ProductThumbnail = ({ product }) => {
-  // TODO Use cart provider availability
-  const availableSkus = product.skus.filter(
-    ({ inventory }) => inventory?.quantity || inventory.type !== "finite"
-  )
+  const { available } = useContext(CartContext)
+
+  const availableSkus = product.skus.filter(({ id }) => available(id))
   const soldOut = availableSkus.length === 0
 
   return (
@@ -26,8 +26,7 @@ const ProductThumbnail = ({ product }) => {
           <div className={css.description}>
             <strong>{product.name}</strong>
             <span>
-              ${product.skus[0].price / 100}
-              {soldOut && " - Sold Out"}
+              {soldOut ? "Sold Out" : `$${product.skus[0].price / 100}`}
             </span>
           </div>
         </div>
