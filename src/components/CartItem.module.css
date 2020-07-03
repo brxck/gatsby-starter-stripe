@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.image {
+  margin-right: 1rem;
+}
+
+.image img {
+  width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+}
+
+.description {
+  flex-basis: 100%;
+}
+
+.quantity {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.remove {
+  position: absolute;
+  height: 1.5rem;
+  width: 1.5rem;
+  right: 0;
+  top: 0;
+}

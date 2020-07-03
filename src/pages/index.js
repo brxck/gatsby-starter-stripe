@@ -1,14 +1,14 @@
 import React from "react"
 
-import Layout from "../components/Layout"
-import SEO from "../components/SEO"
+import StoreLayout from "../components/StoreLayout"
 import Products from "../components/Products"
+import SEO from "../components/SEO"
 
 const IndexPage = () => (
-  <Layout>
+  <StoreLayout>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <Products />
-  </Layout>
+    <Products></Products>
+  </StoreLayout>
 )
 
 export default IndexPage

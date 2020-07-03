@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `campShack`,
+    title: `campy trails`,
     description: `Stripe storefront starter for Gatsby`,
     author: `Brock McElroy <brxck.dev>`,
   },

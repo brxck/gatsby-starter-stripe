@@ -1,0 +1,44 @@
+.header {
+  border-bottom: 1px solid #ddd;
+}
+
+.header nav {
+  align-items: center;
+  margin: 1rem auto;
+  max-width: 900px;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+}
+
+.title > a {
+  color: #666;
+  font-size: 2.2rem;
+  font-weight: 300;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.main {
+  margin: 2rem auto;
+  min-height: 70vh;
+  max-width: 960px;
+}
+
+.footer-icons {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-icons img {
+  filter: contrast(0.5);
+  margin: 1rem;
+}
+
+.footer-icons img:hover {
+  filter: contrast(0.8);
+}

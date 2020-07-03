@@ -1,0 +1,15 @@
+.container {
+  break-inside: avoid;
+}
+
+.thumbnail {
+  flex: 1 1 auto;
+  margin: 0 2rem 3rem;
+}
+
+.description {
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}

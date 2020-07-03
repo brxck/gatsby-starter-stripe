@@ -1,0 +1,26 @@
+.container {
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.image {
+  margin: 3rem auto;
+  max-width: 500px;
+  height: 400px;
+  cursor: pointer;
+}
+
+.description {
+  text-align: justify;
+}
+
+.controls {
+  display: flex;
+  align-items: flex-end;
+  margin: 1rem 0;
+}
+
+.controls > label {
+  flex: 1 0 0;
+  margin: 0 1rem 0 0;
+}

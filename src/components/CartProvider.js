@@ -77,6 +77,7 @@ const CartProvider = ({ children }) => {
     })
   }
 
+  // TODO Take into account quantity already in cart
   /** Returns true if `quantity` of item with `id` is available for purchase */
   function available(id, quantity = 1) {
     const sku = skus[id]
