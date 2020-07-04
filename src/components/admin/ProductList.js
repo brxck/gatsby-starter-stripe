@@ -9,9 +9,9 @@ export const ProductList = () => {
 
   return (
     <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-      <div style={{ padding: "0.5rem 0" }}>
-        <Link to="/admin/products/create">
-          <button>+ Add Product</button>
+      <div style={{ textAlign: "right", padding: "0.5rem 0" }}>
+        <Link to="/admin/products/create" className="button">
+          + Add Product
         </Link>
       </div>
       <table>

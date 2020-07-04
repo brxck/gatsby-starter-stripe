@@ -1,0 +1,23 @@
+.header {
+  border-bottom: 1px solid #ddd;
+}
+
+.header nav {
+  align-items: center;
+  margin: 0.5rem auto;
+  max-width: 900px;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header nav a {
+  margin: 0 1rem;
+}
+
+.title {
+  color: #666;
+  font-size: 1.5rem;
+  font-weight: 300;
+  white-space: nowrap;
+}
