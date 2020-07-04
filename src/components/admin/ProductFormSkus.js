@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import css from "./ProductFormSkus.module.css"
 
 function ProductFormSkus({ skusFieldArray, register, getValues, watch }) {
-  const { fields, append, remove } = skusFieldArray
+  const { fields, remove } = skusFieldArray
   watch("skus") // Watch sku values to ensure rerender on sku field change
   return (
     <div>
