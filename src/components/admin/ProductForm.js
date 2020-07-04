@@ -3,13 +3,13 @@ import PropTypes from "prop-types"
 import { navigate } from "gatsby"
 import { useForm, useFieldArray } from "react-hook-form"
 
-import { ProductsContext } from "./ProductsProvider"
+import { StripeProductsContext } from "./StripeProductsProvider"
 import ProductFormSkus from "./ProductFormSkus"
 import ProductFormImages from "./ProductFormImages"
 import css from "./ProductForm.module.css"
 
 export const ProductForm = ({ product, create }) => {
-  const { fetchProducts } = useContext(ProductsContext)
+  const { fetchProducts } = useContext(StripeProductsContext)
 
   const pricesToDecimal = skus => {
     return skus.map(sku => {

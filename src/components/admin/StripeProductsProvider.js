@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 
-export const ProductsContext = React.createContext()
+export const StripeProductsContext = React.createContext()
 
 /**
-  Shares product information and availability through context.
-  Products are first loaded from Gatsby's GraphQL store and then updated with
-  current information from Stripe.
-*/
-const ProductsProvider = ({ children }) => {
-  /** Load product data from Gatsby store */
+ * Shares live product & skus data from Stripe through Context.
+ */
+const StripeProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([])
   const [skus, setSkus] = useState([])
 
-  /** On render and update, update products with live data */
   useEffect(() => {
     fetchProducts()
   }, [])
@@ -35,7 +31,7 @@ const ProductsProvider = ({ children }) => {
   }
 
   return (
-    <ProductsContext.Provider
+    <StripeProductsContext.Provider
       value={{
         fetchProducts,
         products,
@@ -47,11 +43,11 @@ const ProductsProvider = ({ children }) => {
       }}
     >
       {children}
-    </ProductsContext.Provider>
+    </StripeProductsContext.Provider>
   )
 }
 
-ProductsProvider.propTypes = {
+StripeProductsProvider.propTypes = {
   children: PropTypes.any.isRequired,
 }
 
@@ -69,4 +65,4 @@ const extractTypes = data => {
   return { products, skus }
 }
 
-export default ProductsProvider
+export default StripeProductsProvider
