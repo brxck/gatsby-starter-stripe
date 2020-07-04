@@ -12,8 +12,8 @@ const CartProvider = ({ children }) => {
   const { skus } = useContext(ProductsContext)
   const [mode, setMode] = useState(false)
 
-  /** Load cart from local storage. Initialize if not present or incorrect. */
   const [contents, setContents] = useState(() => {
+    // Load cart from local storage. Initialize if not present or incorrect.
     let localCart
     try {
       localCart = JSON.parse(localStorage.getItem("cart"))
@@ -24,7 +24,7 @@ const CartProvider = ({ children }) => {
     return localCart
   })
 
-  /** Save cart to local storage after load and on update */
+  // Save cart to local storage after load and on update
   useEffect(() => {
     try {
       localStorage.setItem("cart", JSON.stringify(contents))
@@ -33,7 +33,7 @@ const CartProvider = ({ children }) => {
     }
   }, [contents])
 
-  /** An array representing the cart in the form of [{sku}, quantity] */
+  /** An array representing cart items in the form of [{sku}, quantity] */
   const cart = contents.map(([id, quantity]) => {
     return [skus[id], quantity]
   })
@@ -47,44 +47,78 @@ const CartProvider = ({ children }) => {
     0
   )
 
-  /** Gets quantity of item with `id` */
+  /**
+   * Returns the quantity of a sku in the cart.
+   * @param {string} id The id of the sku
+   * @returns {number}
+   */
   function get(id) {
     if (!contents.length) return 0
     const cartItem = contents.find(item => item[0] === id)
     return cartItem ? cartItem[1] : 0
   }
 
-  /** Sets quantity of item with `id` */
+  /**
+   * Sets the quantity of a sku in the cart, if available.
+   * @param {string} id The id of the sku
+   * @param {number} quantity The requested quantity
+   *
+   * @returns {number} The cart quantity after the operation; `-1` if requested amount unavailable
+   */
   function set(id, quantity) {
-    if (!available(id)) return
-
+    if (!available(id, quantity)) return -1
     const index = contents.findIndex(item => item[0] === id)
-    setContents(state => {
-      const newState = [...state]
+    setContents(([...state]) => {
       if (index !== -1) {
-        newState[index] = [id, quantity]
+        state[index] = [id, quantity]
       } else {
-        newState.push([id, quantity])
+        state.push([id, quantity])
       }
-      return newState
+      return state
     })
+    return quantity
   }
 
-  /** Increments item with `id` by `quantity`, which defaults to 0 */
+  /**
+   * Increments the quantity of sku in the cart.
+   * @param {string} id The id of the sku
+   * @param {number} [quantity=1] The quantity to add
+   * @returns {number} The cart quantity after the operation; `-1` if requested amount unavailable
+   */
   function add(id, quantity = 1) {
-    const currentItem = contents.find(item => item[0] === id)
-    const currentQuantity = currentItem ? currentItem[1] : 0
-    set(id, quantity + currentQuantity)
+    const currentQuantity = get(id)
+    return set(id, quantity + currentQuantity)
   }
 
-  /** Removes item with `id` */
+  /**
+   * Decrements the quantity of sku in the cart.
+   * @param {string} id The id of the sku
+   * @param {number} [quantity=1] The quantity to subtract
+   * @returns {number} The cart quantity after the operation
+   */
+  function subtract(id, quantity = 1) {
+    const currentQuantity = get(id)
+    const newQuantity = Math.max(0, quantity - currentQuantity)
+    return set(id, newQuantity)
+  }
+
+  /**
+   * Remove a sku from the cart.
+   * @param {string} id The id of the sku
+   * @returns {void}
+   */
   function remove(id) {
     setContents(state => {
       return state.filter(item => item[0] !== id)
     })
   }
 
-  /** Returns true if `quantity` of item with `id` is available for purchase */
+  /**
+   * Checks whether an item is available for purchase.
+   * @param {string} id The id of the sku
+   * @param {number} [quantity=1] The requested quantity
+   * @returns {boolean} Whether a purchase of the quantity would be possible
+   */
   function available(id, quantity = 1) {
     const cartQuantity = get(id)
     const sku = skus[id]
@@ -104,15 +138,19 @@ const CartProvider = ({ children }) => {
     }
   }
 
-  /** Toggles cart display, or sets to the boolean `force` if provided */
-  function toggle(force) {
-    setMode(prev => force || !prev)
+  /**
+   * Toggles cart display, or sets to `mode` if provided.
+   * @param {boolean} [mode] Force cart into mode. `true` for open; `false` for closed.
+   */
+  function toggle(mode) {
+    setMode(prev => mode || !prev)
   }
 
   const ctx = {
     contents,
     cart,
     add,
+    subtract,
     get,
     set,
     remove,
