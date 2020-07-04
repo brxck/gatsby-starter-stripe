@@ -1,9 +1,5 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
-
-const redirectUrl =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:8888/"
-    : "https://gatsby-starter-stripe.netlify.app/"
+const redirectUrl = process.env.REDIRECT_URL
 
 /**
  * Creates and returns a Stripe Checkout session.
