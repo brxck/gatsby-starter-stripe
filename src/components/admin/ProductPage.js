@@ -13,7 +13,18 @@ function ProductPage({ productId, create }) {
     const product = products[productId]
     return <ProductForm product={product} create={false}></ProductForm>
   } else {
-    return <div>Loading...</div>
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <div>Loading...</div>
+      </div>
+    )
   }
 }
 
