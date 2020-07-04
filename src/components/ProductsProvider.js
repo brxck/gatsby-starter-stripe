@@ -17,17 +17,17 @@ ProductsProvider.propTypes = {
 }
 
 /**
-  Shares product information and availability through context.
-  Products are first loaded from Gatsby's GraphQL store and then updated with
-  current information from Stripe.
-*/
+ * Shares product & sku data through Context.
+ * Products are first loaded from Gatsby's GraphQL store and then updated with
+ * current information from Stripe.
+ */
 const Provider = ({ data, children }) => {
-  /** Load product data from Gatsby store */
+  // Load product data from Gatsby store
   const [initialProducts, initialSkus] = processGatsbyData(data)
   const [products, setProducts] = useState(initialProducts)
   const [skus, setSkus] = useState(initialSkus)
 
-  /** On render and update, update products with live data */
+  // On render and update, update products with live data
   useEffect(() => {
     updateProducts()
   }, [])
@@ -86,7 +86,7 @@ const processGatsbyData = data => {
   return [products, skus]
 }
 
-/** Normalize structure of live data sourced from Stripe */
+/** Normalize & merge in structure of live data sourced from Stripe */
 const mergeStripeData = (stripeData, products) => {
   const stripeProducts = {}
   const stripeSkus = {}

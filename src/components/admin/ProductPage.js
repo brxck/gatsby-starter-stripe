@@ -1,11 +1,11 @@
 import React, { useContext } from "react"
 import PropTypes from "prop-types"
-import { ProductsContext } from "./ProductsProvider"
+import { StripeProductsContext } from "./StripeProductsProvider"
 
 import ProductForm from "./ProductForm"
 
 function ProductPage({ productId, create }) {
-  const { products } = useContext(ProductsContext)
+  const { products } = useContext(StripeProductsContext)
   if (create) {
     const product = { skus: [{ inventory: { type: "infinite" }, price: "" }] }
     return <ProductForm product={product} create></ProductForm>

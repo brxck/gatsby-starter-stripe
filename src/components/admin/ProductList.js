@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
 import { Link } from "gatsby"
 
-import { ProductsContext } from "./ProductsProvider"
+import { StripeProductsContext } from "./StripeProductsProvider"
 
 export const ProductList = () => {
-  const { listProducts } = useContext(ProductsContext)
+  const { listProducts } = useContext(StripeProductsContext)
   const products = listProducts()
 
   return (

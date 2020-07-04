@@ -3,13 +3,13 @@ import PropTypes from "prop-types"
 
 import "../hiq.css"
 import Header from "../Header"
-import ProductsProvider from "./ProductsProvider"
+import StripeProductsProvider from "./StripeProductsProvider"
 
 const Layout = ({ children }) => (
-  <ProductsProvider>
+  <StripeProductsProvider>
     <Header></Header>
     <main>{children}</main>
-  </ProductsProvider>
+  </StripeProductsProvider>
 )
 
 Layout.propTypes = {
