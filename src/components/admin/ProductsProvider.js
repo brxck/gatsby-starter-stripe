@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 
-export const AdminProductsContext = React.createContext()
+export const ProductsContext = React.createContext()
 
 /**
   Shares product information and availability through context.
   Products are first loaded from Gatsby's GraphQL store and then updated with
   current information from Stripe.
 */
-const AdminProductsProvider = ({ children }) => {
+const ProductsProvider = ({ children }) => {
   /** Load product data from Gatsby store */
   const [products, setProducts] = useState([])
   const [skus, setSkus] = useState([])
@@ -35,7 +35,7 @@ const AdminProductsProvider = ({ children }) => {
   }
 
   return (
-    <AdminProductsContext.Provider
+    <ProductsContext.Provider
       value={{
         fetchProducts,
         products,
@@ -47,11 +47,11 @@ const AdminProductsProvider = ({ children }) => {
       }}
     >
       {children}
-    </AdminProductsContext.Provider>
+    </ProductsContext.Provider>
   )
 }
 
-AdminProductsProvider.propTypes = {
+ProductsProvider.propTypes = {
   children: PropTypes.any.isRequired,
 }
 
@@ -69,4 +69,4 @@ const extractTypes = data => {
   return { products, skus }
 }
 
-export default AdminProductsProvider
+export default ProductsProvider

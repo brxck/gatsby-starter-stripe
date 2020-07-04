@@ -2,12 +2,12 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
-import "./hiq.css"
-import AdminProductsProvider from "./AdminProductsProvider"
-import css from "./AdminLayout.module.css"
+import "../hiq.css"
+import ProductsProvider from "./ProductsProvider"
+import css from "./Layout.module.css"
 
 const Layout = ({ children }) => (
-  <AdminProductsProvider>
+  <ProductsProvider>
     <header className={css.header}>
       <nav className={css.nav}>
         <Link to="/admin">Admin</Link>
@@ -15,7 +15,7 @@ const Layout = ({ children }) => (
       </nav>
     </header>
     <main>{children}</main>
-  </AdminProductsProvider>
+  </ProductsProvider>
 )
 
 Layout.propTypes = {

@@ -1,9 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import css from "./AdminProductFormSkus.module.css"
+import css from "./ProductFormSkus.module.css"
 
-function AdminProductFormSkus({ skusFieldArray, register, getValues, watch }) {
+function ProductFormSkus({ skusFieldArray, register, getValues, watch }) {
   const { fields, append, remove } = skusFieldArray
   watch("skus") // Watch sku values to ensure rerender on sku field change
   return (
@@ -93,11 +93,11 @@ function AdminProductFormSkus({ skusFieldArray, register, getValues, watch }) {
   )
 }
 
-AdminProductFormSkus.propTypes = {
+ProductFormSkus.propTypes = {
   skusFieldArray: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   getValues: PropTypes.func.isRequired,
   watch: PropTypes.func.isRequired,
 }
 
-export default AdminProductFormSkus
+export default ProductFormSkus

@@ -2,28 +2,28 @@ import React from "react"
 import { Router } from "@reach/router"
 
 import SEO from "../../components/SEO"
-import AdminLayout from "../../components/AdminLayout"
-import AdminProductPage from "../../components/AdminProductPage"
-import AdminProductList from "../../components/AdminProductList"
+import Layout from "../../components/admin/Layout"
+import ProductPage from "../../components/admin/ProductPage"
+import ProductList from "../../components/admin/ProductList"
 import IdentityProvider, {
   Authenticate,
 } from "../../components/IdentityProvider"
 
-const AdminIndex = () => {
+const Index = () => {
   return (
     <IdentityProvider>
       <Authenticate>
-        <AdminLayout>
+        <Layout>
           <SEO title="Admin"></SEO>
           <Router basepath="/admin">
-            <AdminProductPage path="/products/create" create />
-            <AdminProductPage path="/products/:productId" />
-            <AdminProductList path="/" />
+            <ProductPage path="/products/create" create />
+            <ProductPage path="/products/:productId" />
+            <ProductList path="/" />
           </Router>
-        </AdminLayout>
+        </Layout>
       </Authenticate>
     </IdentityProvider>
   )
 }
 
-export default AdminIndex
+export default Index
