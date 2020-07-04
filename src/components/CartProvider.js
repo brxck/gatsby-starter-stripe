@@ -49,6 +49,7 @@ const CartProvider = ({ children }) => {
 
   /** Gets quantity of item with `id` */
   function get(id) {
+    if (!contents.length) return 0
     const cartItem = contents.find(item => item[0] === id)
     return cartItem ? cartItem[1] : 0
   }
@@ -90,7 +91,7 @@ const CartProvider = ({ children }) => {
     if (!sku) {
       console.error(`Sku with id ${id} not found`)
       return false
-    } else if (!sku.active) {
+    } else if (sku.active === false) {
       return false
     } else if (sku.inventory.type === "infinite") {
       return true
