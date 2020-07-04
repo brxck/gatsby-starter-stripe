@@ -75,7 +75,7 @@ export const ProductForm = ({ product, create }) => {
     <>
       <div className={css.controls}>
         <div className="">
-          <button onClick={onDelete}>Delete Product</button>
+          {product.id && <button onClick={onDelete}>Delete Product</button>}
           <button onClick={handleSubmit(onSubmit)}>Save Product</button>
         </div>
       </div>
