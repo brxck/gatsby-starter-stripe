@@ -22,20 +22,21 @@
   display: flex;
   margin: 0 auto;
   max-width: 1000px;
+  flex-direction: column;
+  padding: 0 1rem;
 }
 
 .product {
-  width: 50%;
   overflow-y: auto;
   padding-right: 1rem;
-  border-right: 1px solid #ddd;
+  flex: 1 1;
 }
 
 .skus {
   grid-area: skus;
   overflow-y: auto;
   padding-left: 1rem;
-  width: 50%;
+  flex: 1 1;
 }
 
 .header {
@@ -47,4 +48,13 @@
 
 .header h3 {
   margin: 0;
+}
+
+@media only screen and (min-device-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+  .product {
+    border-right: 1px solid #ddd;
+  }
 }

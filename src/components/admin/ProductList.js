@@ -9,7 +9,7 @@ export const ProductList = () => {
 
   return (
     <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-      <div style={{ textAlign: "right", padding: "0.5rem 0" }}>
+      <div style={{ textAlign: "right", padding: "0.5rem 1rem" }}>
         <Link to="/admin/products/create" className="button">
           + Add Product
         </Link>
