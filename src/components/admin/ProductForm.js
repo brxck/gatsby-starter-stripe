@@ -3,13 +3,13 @@ import PropTypes from "prop-types"
 import { navigate } from "gatsby"
 import { useForm, useFieldArray } from "react-hook-form"
 
-import { AdminProductsContext } from "./AdminProductsProvider"
-import AdminProductFormSkus from "./AdminProductFormSkus"
-import AdminProductFormImages from "./AdminProductFormImages"
-import css from "./AdminProductForm.module.css"
+import { ProductsContext } from "./ProductsProvider"
+import ProductFormSkus from "./ProductFormSkus"
+import ProductFormImages from "./ProductFormImages"
+import css from "./ProductForm.module.css"
 
-export const AdminProductForm = ({ product, create }) => {
-  const { fetchProducts } = useContext(AdminProductsContext)
+export const ProductForm = ({ product, create }) => {
+  const { fetchProducts } = useContext(ProductsContext)
 
   const pricesToDecimal = skus => {
     return skus.map(sku => {
@@ -119,12 +119,12 @@ export const AdminProductForm = ({ product, create }) => {
             <h3>Images</h3>
             <button onClick={imagesFieldArray.append}>Add Image</button>
           </div>
-          <AdminProductFormImages
+          <ProductFormImages
             imagesFieldArray={imagesFieldArray}
             register={register}
             getValues={getValues}
             watch={watch}
-          ></AdminProductFormImages>
+          ></ProductFormImages>
         </div>
 
         <div className={css.skus}>
@@ -132,21 +132,21 @@ export const AdminProductForm = ({ product, create }) => {
             <h3>SKUs</h3>
             <button onClick={skusFieldArray.append}>Add SKU</button>
           </div>
-          <AdminProductFormSkus
+          <ProductFormSkus
             skusFieldArray={skusFieldArray}
             register={register}
             getValues={getValues}
             watch={watch}
-          ></AdminProductFormSkus>
+          ></ProductFormSkus>
         </div>
       </div>
     </>
   )
 }
 
-AdminProductForm.propTypes = {
+ProductForm.propTypes = {
   product: PropTypes.object.isRequired,
   create: PropTypes.bool.isRequired,
 }
 
-export default AdminProductForm
+export default ProductForm

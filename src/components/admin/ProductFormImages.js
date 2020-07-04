@@ -1,9 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import css from "./AdminProductFormImages.module.css"
+import css from "./ProductFormImages.module.css"
 
-function AdminProductFormImages(props) {
+function ProductFormImages(props) {
   const { imagesFieldArray, register, getValues, watch } = props
   const { fields, remove } = imagesFieldArray
   // Watch to ensure rerender
@@ -30,11 +30,11 @@ function AdminProductFormImages(props) {
   )
 }
 
-AdminProductFormImages.propTypes = {
+ProductFormImages.propTypes = {
   imagesFieldArray: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   getValues: PropTypes.func.isRequired,
   watch: PropTypes.func.isRequired,
 }
 
-export default AdminProductFormImages
+export default ProductFormImages

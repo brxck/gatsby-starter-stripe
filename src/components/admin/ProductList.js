@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
 import { Link } from "gatsby"
 
-import { AdminProductsContext } from "./AdminProductsProvider"
+import { ProductsContext } from "./ProductsProvider"
 
-export const AdminProductList = () => {
-  const { listProducts } = useContext(AdminProductsContext)
+export const ProductList = () => {
+  const { listProducts } = useContext(ProductsContext)
   const products = listProducts()
 
   return (
@@ -62,4 +62,4 @@ export const AdminProductList = () => {
   )
 }
 
-export default AdminProductList
+export default ProductList
