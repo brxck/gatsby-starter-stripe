@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { CartContext } from "./CartProvider"
 import { loadStripe } from "@stripe/stripe-js"
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY)
+const stripePromise = loadStripe(process.env.GATSBY_STRIPE_PUBLISHABLE_KEY)
 
 const Checkout = () => {
   const { cart, total } = useContext(CartContext)
