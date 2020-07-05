@@ -20,9 +20,13 @@ A starter to create and manage a storefront with [Gatsby](https://www.gatsbyjs.o
 
 2. **Setup Stripe**
 
-   This starter has an admin interface to manage your inventory, but the Stripe integration does not handle an empty account well. Before starting your site, you should create at least one product with one sku in Stripe.
+   If you already have Products and Prices in Stripe, you are ready to move on the next step!
 
-   > :warning: `Cannot query field` errors usually mean that a queried field is empty in all of your products/skus. Either define the field in your Stripe data, or remove it from the the GraphQL queries of allStripeSku.
+   Otherwise, you will need to create some Products so that Gatsby has some data to work with.
+
+   To get you started quickly, this starter comes with test data in the form of [Stripe fixtures](https://stripe.com/docs/cli/fixtures). To install the fixtures, first [install and configure the Stripe CLI](https://stripe.com/docs/stripe-cli#install). Next, run `stripe fixtures ./stripe-fixtures.json` from the project folder.
+
+   > :warning: A `Cannot query field` error usually means that they queried field is empty in all of your products/prices. If a field is empty Gatsby cannot add it to the GraphQl schema. Either define the field in your Stripe data, or remove it from the query in question.
 
 3. **Configure API keys**
 
