@@ -1,3 +1,14 @@
+.add-image {
+  margin: 0 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.add-image input {
+  flex: 1 1;
+  margin: 0 0.5rem 0 1rem;
+}
+
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -5,31 +16,26 @@
 }
 
 .image {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 225px;
-  max-width: 225px;
-  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  position: relative;
+  max-height: 200px;
+  max-width: 200px;
+  margin: 0.5rem;
 }
 
 .image > img {
+  height: 100%;
   object-fit: contain;
+  object-position: center center;
+  padding: 0.25rem;
+  margin: 0 auto;
 }
 
-.input {
-  display: flex;
-  font-size: 0.7rem;
-  width: 200px;
-}
-
-.input input {
-  height: 1.5rem;
-}
-
-.input button {
-  height: 1.5rem;
-  padding: 5px;
-  width: 20px;
+.remove {
+  height: 25px;
+  width: 25px;
+  padding: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import PropTypes from "prop-types"
 import { navigate } from "gatsby"
 import { useForm, useFieldArray } from "react-hook-form"
@@ -10,6 +10,7 @@ import css from "./ProductForm.module.css"
 
 export const ProductForm = ({ product, create }) => {
   const { fetchProducts } = useContext(StripeProductsContext)
+  const [productImages, setProductImages] = useState(product.images)
 
   const pricesToDecimal = skus => {
     return skus.map(sku => {
@@ -38,7 +39,7 @@ export const ProductForm = ({ product, create }) => {
 
   const onSubmit = async data => {
     const body = JSON.stringify({
-      product: data.product,
+      product: { ...data.product, images: productImages },
       skus: pricesToInteger(data.skus),
       productId: product.id,
     })
@@ -62,12 +63,6 @@ export const ProductForm = ({ product, create }) => {
   const skusFieldArray = useFieldArray({
     control,
     name: "skus",
-    keyName: "fieldId",
-  })
-
-  const imagesFieldArray = useFieldArray({
-    control,
-    name: "product.images",
     keyName: "fieldId",
   })
 
@@ -115,15 +110,13 @@ export const ProductForm = ({ product, create }) => {
               rows="5"
             />
           </label>
+
           <div className={css.header}>
             <h3>Images</h3>
-            <button onClick={imagesFieldArray.append}>Add Image</button>
           </div>
           <ProductFormImages
-            imagesFieldArray={imagesFieldArray}
-            register={register}
-            getValues={getValues}
-            watch={watch}
+            productImages={productImages}
+            setProductImages={setProductImages}
           ></ProductFormImages>
         </div>
 
