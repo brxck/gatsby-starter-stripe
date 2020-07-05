@@ -32,10 +32,23 @@ IdentityProvider.propTypes = {
 
 export function Authenticate(props) {
   const { user, login } = useContext(IdentityContext)
-  if (!user) {
+  if (!user && !process.env.VUE_APP_DEMO === "true") {
     return (
-      <div id="login" style={{ width: "100vw", height: "100vh" }}>
-        <button onClick={login}>Login</button>
+      <div
+        id="login"
+        style={{
+          width: "100vw",
+          height: "80vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <p>
+          <button onClick={login}>Login</button>
+        </p>
+        <em>Authenticate to continue.</em>
       </div>
     )
   } else {

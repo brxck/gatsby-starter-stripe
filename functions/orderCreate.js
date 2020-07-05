@@ -1,9 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const redirectUrl = process.env.REDIRECT_URL
 
-/**
- * Creates and returns a Stripe Checkout session.
- */
 module.exports.handler = async (event, context, callback) => {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
