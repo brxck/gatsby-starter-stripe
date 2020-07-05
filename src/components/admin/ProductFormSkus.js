@@ -24,14 +24,16 @@ function ProductFormSkus({ skusFieldArray, register, getValues, watch }) {
           </div>
 
           <div>
-            <label>
-              Name
-              <input
-                ref={register({ required: true, max: 5000 })}
-                name={`skus[${i}].attributes.name`}
-                type="text"
-              />
-            </label>
+            {fields.length > 1 && (
+              <label>
+                Name
+                <input
+                  ref={register({ required: true, max: 5000 })}
+                  name={`skus[${i}].attributes.name`}
+                  type="text"
+                />
+              </label>
+            )}
             <label>
               Inventory
               <select
