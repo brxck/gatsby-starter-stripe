@@ -1,40 +1,52 @@
-import React from "react"
+import React, { useRef } from "react"
 import PropTypes from "prop-types"
 
 import css from "./ProductFormImages.module.css"
 
-function ProductFormImages(props) {
-  const { imagesFieldArray, register, getValues, watch } = props
-  const { fields, remove } = imagesFieldArray
-  // Watch to ensure rerender
-  watch("product.images")
+function ProductFormImages({ productImages, setProductImages }) {
+  const add = src => setProductImages([...productImages, src])
+  const remove = src => setProductImages(productImages.filter(x => x !== src))
+
+  const input = useRef()
+
   return (
-    <div className={css.container}>
-      {fields.map(({ fieldId }, i) => (
-        <div key={fieldId} className={css.image}>
-          <img
-            src={getValues(`product.images[${i}]`)}
-            alt={"Could not load image"}
+    <>
+      <div>
+        <label className={css.addImage}>
+          URL{" "}
+          <input
+            type="text"
+            className={css.imageInput}
+            placeholder="https://..."
+            ref={input}
           />
-          <div className={css.input}>
-            <input
-              ref={register({ required: true, max: 5000 })}
-              name={`product.images[${i}]`}
-              type="text"
-            />
-            <button onClick={() => console.log(i) || remove(i)}>&times;</button>
+          <button
+            onClick={() => {
+              add(input.current.value)
+              input.current.value = ""
+            }}
+          >
+            Add Image
+          </button>
+        </label>
+      </div>
+      <div className={css.container}>
+        {productImages.map(src => (
+          <div className={css.image} key={src}>
+            <button onClick={() => remove(src)} className={css.remove}>
+              &times;
+            </button>
+            <img src={src} alt={"Could not load image"} />
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   )
 }
 
 ProductFormImages.propTypes = {
-  imagesFieldArray: PropTypes.object.isRequired,
-  register: PropTypes.func.isRequired,
-  getValues: PropTypes.func.isRequired,
-  watch: PropTypes.func.isRequired,
+  productImages: PropTypes.object.isRequired,
+  setProductImages: PropTypes.func.isRequired,
 }
 
 export default ProductFormImages
