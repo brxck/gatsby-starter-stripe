@@ -7,7 +7,7 @@ import StripeProductsProvider from "./StripeProductsProvider"
 
 const Layout = ({ children }) => (
   <StripeProductsProvider>
-    <Header></Header>
+    <Header cart={false}></Header>
     <main>{children}</main>
   </StripeProductsProvider>
 )
