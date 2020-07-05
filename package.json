@@ -31,7 +31,8 @@
   "license": "MIT",
   "scripts": {
     "start": "gatsby develop",
-    "build": "gatsby build"
+    "build": "gatsby build",
+    "fixtures": "stripe fixtures ./stripe-fixtures.json"
   },
   "repository": {
     "type": "git",
