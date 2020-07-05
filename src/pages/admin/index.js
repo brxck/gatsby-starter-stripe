@@ -12,16 +12,16 @@ import IdentityProvider, {
 const Index = () => {
   return (
     <IdentityProvider>
-      <Authenticate>
-        <Layout>
+      <Layout>
+        <Authenticate>
           <SEO title="Admin"></SEO>
           <Router basepath="/admin">
             <ProductPage path="/products/create" create />
             <ProductPage path="/products/:productId" />
             <ProductList path="/" />
           </Router>
-        </Layout>
-      </Authenticate>
+        </Authenticate>
+      </Layout>
     </IdentityProvider>
   )
 }
