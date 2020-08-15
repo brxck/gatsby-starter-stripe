@@ -8,7 +8,7 @@ export const ProductsContext = React.createContext()
  * Wrapper to give Provider access to Sku nodes from Gatsby's GraphQL store.
  */
 const ProductsProvider = ({ children }) => {
-  const data = useStaticQuery(skusQuery)
+  const data = useStaticQuery(pricesQuery)
   return <Provider data={data}>{children}</Provider>
 }
 
@@ -34,7 +34,7 @@ const Provider = ({ data, children }) => {
 
   /** Query live data from Stripe and update products */
   const updateProducts = async () => {
-    const { data, error } = await fetch("/.netlify/functions/skuList")
+    const { data, error } = await fetch("/.netlify/functions/priceList")
       .then(response => response.json())
       .catch(error => console.error(error))
 
@@ -74,7 +74,7 @@ const processGatsbyData = data => {
   const products = {}
   const skus = {}
   // Sku nodes are grouped by product
-  data.allStripeSku.group.forEach(group => {
+  data.allStripePrice.group.forEach(group => {
     const sku = group.edges[0].node
     const product = { slug: sku.fields.slug, ...sku.product }
     product.skus = group.edges.map(({ node }) => {
@@ -104,26 +104,18 @@ const mergeStripeData = (stripeData, products) => {
   return [stripeProducts, stripeSkus]
 }
 
-export const skuFragment = graphql`
-  fragment Sku on StripeSku {
+export const priceFragment = graphql`
+  fragment Price on StripePrice {
     id
-    price
+    unit_amount
     fields {
       slug
-    }
-    inventory {
-      type
-      quantity
-    }
-    attributes {
-      name
     }
     product {
       id
       name
       description
       active
-      caption
       created
       updated
       images
@@ -135,24 +127,17 @@ export const skuFragment = graphql`
         }
       }
     }
-    localFiles {
-      childImageSharp {
-        fluid(maxWidth: $maxWidth, quality: $quality) {
-          ...GatsbyImageSharpFluid_withWebp_tracedSVG
-        }
-      }
-    }
   }
 `
 
-const skusQuery = graphql`
-  query skusQuery($maxWidth: Int = 500, $quality: Int = 92) {
-    allStripeSku {
+const pricesQuery = graphql`
+  query pricesQuery($maxWidth: Int = 500, $quality: Int = 92) {
+    allStripePrice {
       group(field: product___id) {
         fieldValue
         edges {
           node {
-            ...Sku
+            ...Price
           }
         }
       }

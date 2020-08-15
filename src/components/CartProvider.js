@@ -43,7 +43,7 @@ const CartProvider = ({ children }) => {
 
   /** The total cost of the items in the cart */
   const total = contents.reduce(
-    (sum, [id, quantity]) => sum + skus[id].price * quantity,
+    (sum, [id, quantity]) => sum + skus[id].unit_amount * quantity,
     0
   )
 
@@ -120,22 +120,7 @@ const CartProvider = ({ children }) => {
    * @returns {boolean} Whether a purchase of the quantity would be possible
    */
   function available(id, quantity = 1) {
-    const cartQuantity = get(id)
-    const sku = skus[id]
-    if (!sku) {
-      console.error(`Sku with id ${id} not found`)
-      return false
-    } else if (sku.active === false) {
-      return false
-    } else if (sku.inventory.type === "infinite") {
-      return true
-    } else if (sku.inventory.type === "bucket") {
-      return ["in_stock", "limited"].includes(sku.inventory.type)
-    } else if (sku.inventory.type === "finite") {
-      return sku.inventory.quantity - cartQuantity >= quantity
-    } else {
-      return false
-    }
+    return true
   }
 
   /**
