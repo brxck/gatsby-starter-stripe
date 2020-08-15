@@ -9,8 +9,8 @@ import css from "./ProductThumbnail.module.css"
 const ProductThumbnail = ({ product }) => {
   const { available } = useContext(CartContext)
 
-  const availableSkus = product.skus.filter(({ id }) => available(id))
-  const soldOut = availableSkus.length === 0
+  const availablePrices = product.prices.filter(({ id }) => available(id))
+  const soldOut = availablePrices.length === 0
 
   return (
     <div key={product.id} className={css.container}>
@@ -26,7 +26,7 @@ const ProductThumbnail = ({ product }) => {
           <div className={css.description}>
             <strong>{product.name}</strong>
             <span>
-              {soldOut ? "Sold Out" : `$${product.skus[0].unit_amount / 100}`}
+              {soldOut ? "Sold Out" : `$${product.prices[0].unit_amount / 100}`}
             </span>
           </div>
         </div>
