@@ -5,7 +5,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
   // Add slug for page generation.
-  if (node.internal.type === "StripeSku") {
+  if (node.internal.type === "StripePrice") {
     const value = slug(node.product.name, slug.defaults.modes["rfc3986"])
     createNodeField({
       node,
@@ -20,7 +20,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   return graphql(`
     {
-      allStripeSku {
+      allStripePrice {
         edges {
           node {
             fields {
@@ -42,7 +42,7 @@ exports.createPages = async ({ graphql, actions }) => {
     // Create product pages
     const products = {}
 
-    result.data.allStripeSku.edges.forEach(({ node }) => {
+    result.data.allStripePrice.edges.forEach(({ node }) => {
       products[node.product.id] = node.fields.slug
     })
 

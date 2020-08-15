@@ -29,9 +29,9 @@ const CartItem = ({ sku, quantity }) => {
         </Link>
         <div className={css.quantity}>
           <span>
-            ${sku.price / 100} &times; {quantity}
+            ${sku.unit_amount / 100} &times; {quantity}
           </span>
-          <strong>${(sku.price / 100) * quantity}</strong>
+          <strong>${(sku.unit_amount / 100) * quantity}</strong>
         </div>
       </div>
     </div>

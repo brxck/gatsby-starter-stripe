@@ -76,3 +76,5 @@ NOTES.md
 
 # Local Netlify folder
 .netlify
+
+plugins/gatsby-source-stripe/

@@ -26,7 +26,7 @@ const ProductThumbnail = ({ product }) => {
           <div className={css.description}>
             <strong>{product.name}</strong>
             <span>
-              {soldOut ? "Sold Out" : `$${product.skus[0].price / 100}`}
+              {soldOut ? "Sold Out" : `$${product.skus[0].unit_amount / 100}`}
             </span>
           </div>
         </div>

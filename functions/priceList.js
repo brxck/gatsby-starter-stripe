@@ -1,10 +1,10 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 /**
- * Returns list of skus with product fields expanded.
+ * Returns list of prices with product fields expanded.
  */
 module.exports.handler = async (event, context, callback) => {
-  const skus = await stripe.skus.list({
+  const prices = await stripe.prices.list({
     limit: 100, // max allowed
     expand: ["data.product"],
   })
@@ -13,7 +13,7 @@ module.exports.handler = async (event, context, callback) => {
     headers: {
       "Access-Control-Allow-Origin": "*",
     },
-    body: JSON.stringify(skus),
+    body: JSON.stringify(prices),
   }
   callback(null, response)
 }
