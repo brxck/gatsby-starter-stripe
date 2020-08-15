@@ -9,7 +9,7 @@ export const CartContext = React.createContext()
  * The cart and related methods are shared through context.
  */
 const CartProvider = ({ children }) => {
-  const { skus } = useContext(ProductsContext)
+  const { prices } = useContext(ProductsContext)
   const [mode, setMode] = useState(false)
 
   const [contents, setContents] = useState(() => {
@@ -33,9 +33,9 @@ const CartProvider = ({ children }) => {
     }
   }, [contents])
 
-  /** An array representing cart items in the form of [{sku}, quantity] */
+  /** An array representing cart items in the form of [{price}, quantity] */
   const cart = contents.map(([id, quantity]) => {
-    return [skus[id], quantity]
+    return [prices[id], quantity]
   })
 
   /** The number of items in the cart */
@@ -43,13 +43,13 @@ const CartProvider = ({ children }) => {
 
   /** The total cost of the items in the cart */
   const total = contents.reduce(
-    (sum, [id, quantity]) => sum + skus[id].unit_amount * quantity,
+    (sum, [id, quantity]) => sum + prices[id].unit_amount * quantity,
     0
   )
 
   /**
-   * Returns the quantity of a sku in the cart.
-   * @param {string} id The id of the sku
+   * Returns the quantity of a price in the cart.
+   * @param {string} id The id of the price
    * @returns {number}
    */
   function get(id) {
@@ -59,8 +59,8 @@ const CartProvider = ({ children }) => {
   }
 
   /**
-   * Sets the quantity of a sku in the cart, if available.
-   * @param {string} id The id of the sku
+   * Sets the quantity of a price in the cart, if available.
+   * @param {string} id The id of the price
    * @param {number} quantity The requested quantity
    *
    * @returns {number} The cart quantity after the operation; `-1` if requested amount unavailable
@@ -80,8 +80,8 @@ const CartProvider = ({ children }) => {
   }
 
   /**
-   * Increments the quantity of sku in the cart.
-   * @param {string} id The id of the sku
+   * Increments the quantity of price in the cart.
+   * @param {string} id The id of the price
    * @param {number} [quantity=1] The quantity to add
    * @returns {number} The cart quantity after the operation; `-1` if requested amount unavailable
    */
@@ -91,8 +91,8 @@ const CartProvider = ({ children }) => {
   }
 
   /**
-   * Decrements the quantity of sku in the cart.
-   * @param {string} id The id of the sku
+   * Decrements the quantity of price in the cart.
+   * @param {string} id The id of the price
    * @param {number} [quantity=1] The quantity to subtract
    * @returns {number} The cart quantity after the operation
    */
@@ -103,8 +103,8 @@ const CartProvider = ({ children }) => {
   }
 
   /**
-   * Remove a sku from the cart.
-   * @param {string} id The id of the sku
+   * Remove a price from the cart.
+   * @param {string} id The id of the price
    * @returns {void}
    */
   function remove(id) {
@@ -115,7 +115,7 @@ const CartProvider = ({ children }) => {
 
   /**
    * Checks whether an item is available for purchase.
-   * @param {string} id The id of the sku
+   * @param {string} id The id of the price
    * @param {number} [quantity=1] The requested quantity
    * @returns {boolean} Whether a purchase of the quantity would be possible
    */

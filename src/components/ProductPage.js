@@ -11,18 +11,18 @@ const ProductPage = ({ productId }) => {
   const { add, toggle, available } = useContext(CartContext)
 
   const product = products[productId]
-  const [activeSku, setActiveSku] = useState(product.skus[0])
+  const [activePrice, setActivePrice] = useState(product.prices[0])
   const [imageIndex, setImageIndex] = useState(0)
 
   const images = [...product?.localFiles]
-  if (activeSku?.localFiles?.[0]) {
-    images.unshift(activeSku.localFiles[0])
+  if (activePrice?.localFiles?.[0]) {
+    images.unshift(activePrice.localFiles[0])
   }
   const activeImage = images[imageIndex].childImageSharp.fluid
 
-  const onSkuChange = e => {
+  const onPriceChange = e => {
     setImageIndex(0)
-    setActiveSku(product.skus[e.target.value])
+    setActivePrice(product.prices[e.target.value])
   }
 
   const onImageClick = () => {
@@ -50,14 +50,14 @@ const ProductPage = ({ productId }) => {
       <p className={css.description}>{product.description}</p>
 
       <div className={css.controls}>
-        {product.skus.length > 1 && (
+        {product.prices.length > 1 && (
           <label>
             Item Style
-            <select name="sku" id="sku" onChange={onSkuChange}>
-              {product.skus.map((sku, i) => {
+            <select name="price" id="price" onChange={onPriceChange}>
+              {product.prices.map((price, i) => {
                 return (
-                  <option value={i} key={sku.id}>
-                    {sku.attributes.name}
+                  <option value={i} key={price.id}>
+                    {price.attributes.name}
                   </option>
                 )
               })}
@@ -67,12 +67,12 @@ const ProductPage = ({ productId }) => {
 
         <button
           onClick={() => {
-            add(activeSku.id)
+            add(activePrice.id)
             toggle(true)
           }}
-          disabled={!available(activeSku.id)}
+          disabled={!available(activePrice.id)}
         >
-          {available(activeSku.id) ? "Add To Cart" : "Sold Out"}
+          {available(activePrice.id) ? "Add To Cart" : "Sold Out"}
         </button>
       </div>
     </div>

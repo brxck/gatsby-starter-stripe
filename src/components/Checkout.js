@@ -8,8 +8,8 @@ const Checkout = () => {
   const { cart, total } = useContext(CartContext)
 
   const onClick = () => {
-    const lineItems = cart.map(([sku, quantity]) => ({
-      price: sku.id,
+    const lineItems = cart.map(([price, quantity]) => ({
+      price: price.id,
       quantity,
     }))
 
