@@ -1,9 +1,9 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
-/** Map skus to their ids, or their index if id not present. */
-function mapSkus(skus) {
-  return skus.reduce((acc, data, i) => {
-    const key = data.id || String(i) // Use index of skus which do not exist yet
+/** Map prices to their ids, or their index if id not present. */
+function mapPrices(prices) {
+  return prices.reduce((acc, data, i) => {
+    const key = data.id || String(i) // Use index of prices which do not exist yet
     acc[key] = data
     return acc
   }, {})
@@ -18,30 +18,39 @@ module.exports.handler = async (event, context, callback) => {
   }
 
   const requestBody = JSON.parse(event.body)
-  const requestSkus = mapSkus(requestBody.skus)
+  const requestPrices = mapPrices(requestBody.prices)
   const productId = requestBody.productId
 
   const product = await stripe.products.update(productId, requestBody.product)
 
-  let stripeSkus = await stripe.skus.list({ product: productId, limit: 100 })
-  stripeSkus = mapSkus(stripeSkus.data)
+  let stripePrices = await stripe.prices.list({
+    product: productId,
+    limit: 100,
+  })
+  stripePrices = mapPrices(stripePrices.data)
 
-  const requestIds = Object.keys(requestSkus)
-  const stripeIds = Object.keys(stripeSkus)
+  const requestIds = Object.keys(requestPrices)
+  const stripeIds = Object.keys(stripePrices)
 
-  const skusToCreate = difference(requestIds, stripeIds)
-  const createdSkus = skusToCreate.map(async id => {
-    return stripe.skus.create({ ...requestSkus[id], currency: "usd" })
+  const pricesToCreate = difference(requestIds, stripeIds)
+  const createdPrices = pricesToCreate.map(async id => {
+    const { id: _id, ...priceData } = requestPrices[id]
+    return stripe.prices.create({
+      ...priceData,
+      currency: "usd",
+      product: productId,
+    })
   })
 
-  const skusToUpdate = intersection(stripeIds, requestIds)
-  const updatedSkus = skusToUpdate.map(async id => {
-    delete requestSkus[id].id // Stripe does not allow including id
-    return stripe.skus.update(id, requestSkus[id])
+  const pricesToUpdate = intersection(stripeIds, requestIds)
+  console.log(pricesToUpdate)
+  const updatedPrices = pricesToUpdate.map(async id => {
+    const { active, metadata, nickname } = requestPrices[id]
+    return stripe.prices.update(id, { active, metadata, nickname })
   })
 
-  const skusToDelete = difference(stripeIds, requestIds)
-  skusToDelete.forEach(id => stripe.skus.del(id))
+  const pricesToDelete = difference(stripeIds, requestIds)
+  pricesToDelete.forEach(id => stripe.prices.del(id))
 
   const response = {
     statusCode: 200,
@@ -50,7 +59,7 @@ module.exports.handler = async (event, context, callback) => {
     },
     body: JSON.stringify({
       product,
-      skus: await Promise.all([...createdSkus, ...updatedSkus]),
+      prices: await Promise.all([...createdPrices, ...updatedPrices]),
     }),
   }
   callback(null, response)

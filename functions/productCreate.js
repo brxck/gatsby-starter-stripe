@@ -12,9 +12,9 @@ module.exports.handler = async (event, context, callback) => {
     type: "good",
   })
 
-  const skus = requestBody.skus.map(async skuData => {
-    return stripe.skus.create({
-      ...skuData,
+  const prices = requestBody.prices.map(async priceData => {
+    return stripe.prices.create({
+      ...priceData,
       product: product.id,
       currency: "usd",
     })
@@ -25,7 +25,7 @@ module.exports.handler = async (event, context, callback) => {
     headers: {
       "Access-Control-Allow-Origin": "*",
     },
-    body: JSON.stringify({ product, skus: Promise.all(skus) }),
+    body: JSON.stringify({ product, prices: Promise.all(prices) }),
   }
   callback(null, response)
 }

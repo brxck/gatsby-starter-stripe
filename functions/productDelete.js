@@ -6,9 +6,9 @@ module.exports.handler = async (event, context, callback) => {
   }
 
   const requestBody = JSON.parse(event.body)
-  // All skus must be deleted before product
-  const skus = await stripe.skus.list({ product: requestBody.productId })
-  await Promise.all(skus.data.map(({ id }) => stripe.skus.del(id)))
+  // All prices must be deleted before product
+  const prices = await stripe.prices.list({ product: requestBody.productId })
+  await Promise.all(prices.data.map(({ id }) => stripe.prices.del(id)))
   await stripe.products.del(requestBody.productId)
 
   const response = {
