@@ -11,18 +11,17 @@ const ProductPage = ({ productId }) => {
   const { add, toggle, available } = useContext(CartContext)
 
   const product = products[productId]
-  const [activePrice, setActivePrice] = useState(product.prices[0])
+  const prices = [...product.prices].sort(
+    (a, b) => a.unit_amount - b.unit_amount
+  )
+  const [activePrice, setActivePrice] = useState(prices[0])
   const [imageIndex, setImageIndex] = useState(0)
 
   const images = [...product?.localFiles]
-  if (activePrice?.localFiles?.[0]) {
-    images.unshift(activePrice.localFiles[0])
-  }
   const activeImage = images[imageIndex].childImageSharp.fluid
 
   const onPriceChange = e => {
-    setImageIndex(0)
-    setActivePrice(product.prices[e.target.value])
+    setActivePrice(prices[e.target.value])
   }
 
   const onImageClick = () => {
@@ -44,7 +43,9 @@ const ProductPage = ({ productId }) => {
       <h2>{product.name}</h2>
 
       <p>
-        <em>{product.caption}</em>
+        <em>
+          {prices.length > 1 && "From "}${prices[0].unit_amount / 100}
+        </em>
       </p>
 
       <p className={css.description}>{product.description}</p>
@@ -57,7 +58,7 @@ const ProductPage = ({ productId }) => {
               {product.prices.map((price, i) => {
                 return (
                   <option value={i} key={price.id}>
-                    {price.attributes.name}
+                    {price.nickname} &ndash; ${price.unit_amount / 100}
                   </option>
                 )
               })}

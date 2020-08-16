@@ -27,8 +27,8 @@ const CartItem = ({ price, quantity }) => {
         <Link to={`/buy/${price.product.slug}`}>
           <div>
             <strong>{price.product.name}</strong>
-            {price.name && <span> &mdash; {price.name}</span>}
           </div>
+          <div>{price.nickname}</div>
         </Link>
         <div className={css.quantity}>
           <span>

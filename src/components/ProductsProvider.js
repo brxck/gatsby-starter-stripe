@@ -88,20 +88,24 @@ const processGatsbyData = data => {
 
 /** Normalize & merge in structure of live data sourced from Stripe */
 const mergeStripeData = (stripeData, products) => {
-  const stripeProducts = {}
-  const stripePrices = {}
+  const mergedProducts = {}
+  const mergedPrices = {}
   stripeData.forEach(stripePrice => {
     const { id } = stripePrice.product
     const gatsbyPrice = products[id].prices.find(x => x.id === stripePrice.id)
     const updatedPrice = Object.assign(stripePrice, gatsbyPrice)
-    if (!stripeProducts[id]) {
+    if (!mergedProducts[id]) {
       stripePrice.product.slug = products[id].slug
-      stripeProducts[id] = { ...stripePrice.product, prices: [] }
+      mergedProducts[id] = {
+        ...products[id],
+        ...stripePrice.product,
+        prices: [],
+      }
     }
-    stripeProducts[id].prices.push(updatedPrice)
-    stripePrices[updatedPrice.id] = updatedPrice
+    mergedProducts[id].prices.push(updatedPrice)
+    mergedPrices[updatedPrice.id] = updatedPrice
   })
-  return [stripeProducts, stripePrices]
+  return [mergedProducts, mergedPrices]
 }
 
 export const priceFragment = graphql`

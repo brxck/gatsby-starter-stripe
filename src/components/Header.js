@@ -21,7 +21,7 @@ function Header(props) {
         <Link to="/" className={css.title}>
           {data.site.siteMetadata.title}
         </Link>
-        <div>
+        <div className={css.links}>
           <Link to="/admin">Admin</Link>
           {props.cart && <Cart />}
         </div>
