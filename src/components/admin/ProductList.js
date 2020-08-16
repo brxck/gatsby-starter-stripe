@@ -36,14 +36,22 @@ export const ProductList = () => {
                 </td>
               </tr>
               {prices.length > 1 &&
-                prices.map(({ id, unit_amount: unitAmount, nickname }) => (
-                  <tr key={id}>
-                    <td>
-                      <span style={{ marginLeft: "2rem" }}>{nickname}</span>
-                    </td>
-                    <td>{(unitAmount / 100).toFixed(2)}</td>
-                  </tr>
-                ))}
+                prices.map(
+                  ({ id, unit_amount: unitAmount, nickname, active }) => (
+                    <tr key={id}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={active}
+                          readOnly
+                          style={{ marginLeft: "2rem" }}
+                        />{" "}
+                        <span>{nickname}</span>
+                      </td>
+                      <td>{(unitAmount / 100).toFixed(2)}</td>
+                    </tr>
+                  )
+                )}
             </React.Fragment>
           ))}
         </tbody>
