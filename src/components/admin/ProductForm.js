@@ -4,7 +4,7 @@ import { navigate } from "gatsby"
 import { useForm, useFieldArray } from "react-hook-form"
 
 import { StripeProductsContext } from "./StripeProductsProvider"
-import ProductFormSkus from "./ProductFormSkus"
+import ProductFormPrices from "./ProductFormPrices"
 import ProductFormImages from "./ProductFormImages"
 import css from "./ProductForm.module.css"
 
@@ -12,17 +12,17 @@ export const ProductForm = ({ product, create }) => {
   const { fetchProducts } = useContext(StripeProductsContext)
   const [productImages, setProductImages] = useState(product.images)
 
-  const pricesToDecimal = skus => {
-    return skus.map(sku => {
-      sku.price = (sku.price / 100).toFixed(2)
-      return sku
+  const pricesToDecimal = prices => {
+    return prices.map(price => {
+      price.unit_amount = (price.unit_amount / 100).toFixed(2)
+      return price
     })
   }
 
-  const pricesToInteger = skus => {
-    return skus.map(sku => {
-      sku.price = parseFloat(sku.price) * 100
-      return sku
+  const pricesToInteger = prices => {
+    return prices.map(price => {
+      price.unit_amount = parseFloat(price.unit_amount) * 100
+      return price
     })
   }
 
@@ -49,7 +49,7 @@ export const ProductForm = ({ product, create }) => {
   const onSubmit = async data => {
     const body = JSON.stringify({
       product: { ...data.product, images: productImages },
-      skus: pricesToInteger(data.skus),
+      prices: pricesToInteger(data.prices),
       productId: product.id,
     })
     const path = create ? "productCreate" : "productUpdate"
@@ -65,13 +65,13 @@ export const ProductForm = ({ product, create }) => {
   const { register, handleSubmit, control, watch, getValues } = useForm({
     defaultValues: {
       product,
-      skus: pricesToDecimal(product.skus),
+      prices: pricesToDecimal(product.prices),
     },
   })
 
-  const skusFieldArray = useFieldArray({
+  const pricesFieldArray = useFieldArray({
     control,
-    name: "skus",
+    name: "prices",
     keyName: "fieldId",
   })
 
@@ -103,14 +103,6 @@ export const ProductForm = ({ product, create }) => {
           </label>
 
           <label>
-            Caption
-            <input
-              ref={register({ max: 5000 })}
-              name="product.caption"
-              type="text"
-            />
-          </label>
-          <label>
             Description
             <textarea
               ref={register({ max: 5000 })}
@@ -121,25 +113,25 @@ export const ProductForm = ({ product, create }) => {
           </label>
 
           <div className={css.header}>
+            <h3>Prices</h3>
+            <button onClick={pricesFieldArray.append}>Add Price</button>
+          </div>
+          <ProductFormPrices
+            pricesFieldArray={pricesFieldArray}
+            register={register}
+            getValues={getValues}
+            watch={watch}
+          ></ProductFormPrices>
+        </div>
+
+        <div className={css.images}>
+          <div className={css.header}>
             <h3>Images</h3>
           </div>
           <ProductFormImages
             productImages={productImages}
             setProductImages={setProductImages}
           ></ProductFormImages>
-        </div>
-
-        <div className={css.skus}>
-          <div className={css.header}>
-            <h3>SKUs</h3>
-            <button onClick={skusFieldArray.append}>Add SKU</button>
-          </div>
-          <ProductFormSkus
-            skusFieldArray={skusFieldArray}
-            register={register}
-            getValues={getValues}
-            watch={watch}
-          ></ProductFormSkus>
         </div>
       </div>
     </>

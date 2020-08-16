@@ -45,7 +45,7 @@ function ProductFormImages({ productImages, setProductImages }) {
 }
 
 ProductFormImages.propTypes = {
-  productImages: PropTypes.object.isRequired,
+  productImages: PropTypes.array.isRequired,
   setProductImages: PropTypes.func.isRequired,
 }
 
