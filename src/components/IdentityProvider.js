@@ -32,7 +32,8 @@ IdentityProvider.propTypes = {
 
 export function Authenticate(props) {
   const { user, login } = useContext(IdentityContext)
-  if (!user && !process.env.VUE_APP_DEMO === "true") {
+  // eslint-disable-next-line eqeqeq
+  if (!user && process.env.GATSBY_DEMO != "true") {
     return (
       <div
         id="login"
