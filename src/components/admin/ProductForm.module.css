@@ -22,6 +22,7 @@
   display: flex;
   margin: 0 auto;
   max-width: 1000px;
+  min-height: 85vh;
   flex-direction: column;
   padding: 0 1rem;
 }
@@ -32,8 +33,8 @@
   flex: 1 1;
 }
 
-.skus {
-  grid-area: skus;
+.images {
+  grid-area: images;
   overflow-y: auto;
   padding-left: 1rem;
   flex: 1 1;

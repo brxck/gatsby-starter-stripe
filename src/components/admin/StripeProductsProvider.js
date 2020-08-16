@@ -4,11 +4,11 @@ import PropTypes from "prop-types"
 export const StripeProductsContext = React.createContext()
 
 /**
- * Shares live product & skus data from Stripe through Context.
+ * Shares live product & prices data from Stripe through Context.
  */
 const StripeProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([])
-  const [skus, setSkus] = useState([])
+  const [prices, setPrices] = useState([])
 
   useEffect(() => {
     fetchProducts()
@@ -16,7 +16,7 @@ const StripeProductsProvider = ({ children }) => {
 
   /** Query live data from Stripe and update products */
   const fetchProducts = async () => {
-    const { data, error } = await fetch("/.netlify/functions/skuList")
+    const { data, error } = await fetch("/.netlify/functions/priceList")
       .then(response => response.json())
       .catch(error => console.error(error))
 
@@ -27,7 +27,7 @@ const StripeProductsProvider = ({ children }) => {
 
     const types = extractTypes(data)
     setProducts(types.products)
-    setSkus(types.skus)
+    setPrices(types.prices)
   }
 
   return (
@@ -35,7 +35,7 @@ const StripeProductsProvider = ({ children }) => {
       value={{
         fetchProducts,
         products,
-        skus,
+        prices,
         listProducts: sortFn => {
           const fn = sortFn || ((a, b) => b.created - a.created)
           return Object.values(products).sort(fn)
@@ -53,16 +53,16 @@ StripeProductsProvider.propTypes = {
 
 const extractTypes = data => {
   const products = {}
-  const skus = {}
-  data.forEach(sku => {
-    const { id } = sku.product
+  const prices = {}
+  data.forEach(price => {
+    const { id } = price.product
     if (!products[id]) {
-      products[id] = { ...sku.product, skus: [] }
+      products[id] = { ...price.product, prices: [] }
     }
-    products[id].skus.push(sku)
-    skus[sku.id] = sku
+    products[id].prices.push(price)
+    prices[price.id] = price
   })
-  return { products, skus }
+  return { products, prices }
 }
 
 export default StripeProductsProvider
