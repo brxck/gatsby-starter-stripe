@@ -2,7 +2,7 @@
   border-bottom: 1px solid #ddd;
 }
 
-.header nav {
+.header > nav {
   align-items: center;
   margin: 0.5rem auto;
   max-width: 900px;
@@ -11,7 +11,7 @@
   justify-content: space-between;
 }
 
-.header nav a {
+.links > a {
   margin-right: 1rem;
 }
 
