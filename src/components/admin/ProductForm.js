@@ -114,7 +114,9 @@ export const ProductForm = ({ product, create }) => {
 
           <div className={css.header}>
             <h3>Prices</h3>
-            <button onClick={pricesFieldArray.append}>Add Price</button>
+            <button onClick={() => pricesFieldArray.append({ active: true })}>
+              Add Price
+            </button>
           </div>
           <ProductFormPrices
             pricesFieldArray={pricesFieldArray}
