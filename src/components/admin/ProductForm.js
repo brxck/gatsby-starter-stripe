@@ -26,9 +26,18 @@ export const ProductForm = ({ product, create }) => {
     })
   }
 
+  const authFetch = (url, options) => {
+    const user = JSON.parse(localStorage.getItem("gotrue.user"))
+    const headers = { Authorization: `Bearer ${user.token.access_token}` }
+    return fetch(url, {
+      ...options,
+      headers,
+    })
+  }
+
   const onDelete = async e => {
     e.preventDefault()
-    await fetch(`/.netlify/functions/productDelete`, {
+    await authFetch(`/.netlify/functions/productDelete`, {
       method: "DELETE",
       body: JSON.stringify({ productId: product.id }),
     })
@@ -44,7 +53,7 @@ export const ProductForm = ({ product, create }) => {
       productId: product.id,
     })
     const path = create ? "productCreate" : "productUpdate"
-    await fetch(`/.netlify/functions/${path}`, {
+    await authFetch(`/.netlify/functions/${path}`, {
       method: "POST",
       body,
     })
