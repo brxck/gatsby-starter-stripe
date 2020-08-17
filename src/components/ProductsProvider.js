@@ -112,6 +112,7 @@ export const priceFragment = graphql`
   fragment Price on StripePrice {
     id
     unit_amount
+    nickname
     fields {
       slug
     }
