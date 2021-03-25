@@ -21,7 +21,7 @@ const CartProvider = ({ children }) => {
       console.error(err.message)
     }
     if (!localCart || !Array.isArray(localCart)) return []
-    return localCart
+    return localCart.filter(({ id }) => !prices[id])
   })
 
   // Save cart to local storage after load and on update
@@ -34,9 +34,9 @@ const CartProvider = ({ children }) => {
   }, [contents])
 
   /** An array representing cart items in the form of [{price}, quantity] */
-  const cart = contents.map(([id, quantity]) => {
-    return [prices[id], quantity]
-  })
+  const cart = contents
+    .map(([id, qty]) => [prices[id], qty])
+    .filter(([price, qty]) => price)
 
   /** The number of items in the cart */
   const count = contents.reduce((sum, [_, quantity]) => sum + quantity, 0)
