@@ -1,0 +1,232 @@
+{
+  "_meta": {
+    "template_version": 0
+  },
+  "fixtures": [
+    {
+      "name": "barebones_pulaski",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Barebones Pulaski",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/barebones_pulaski5.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/barebones_pulaski4.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/barebones_pulaski3.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/barebones_pulaski2.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/barebones_pulaski1.jpg"
+        ],
+        "description": "Pay homage to intrepid forest ranger Ed Pulaski when you wield the Barebones Pulaski axe, which has a hand-sharpened blade and an ergonomic beech handle that takes the chore out of chopping wood."
+      }
+    },
+    {
+      "name": "barebones_pulaski_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 11500,
+        "currency": "usd",
+        "product": "${barebones_pulaski:id}"
+      }
+    },
+    {
+      "name": "helinox_chair_zero",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Helinox Chair Zero",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/helinox_zero5.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/helinox_zero4.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/helinox_zero3.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/helinox_zero2.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/helinox_zero1.jpg"
+        ],
+        "description": "The Chair Zero is a light, comfortable, four-legged camp chair that packs down to the width of a standard 32 oz. water bottle and weighs a single pound."
+      }
+    },
+    {
+      "name": "helinox_chair_zero_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 12000,
+        "currency": "usd",
+        "product": "${helinox_chair_zero:id}"
+      }
+    },
+    {
+      "name": "smartwool_hiking_socks",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Smartwool Hiking Socks",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/smartwool.jpg"
+        ],
+        "description": "These no-itch merino wool Smartwool hiking socks maintain softness and shape through seasons of wear and washing."
+      }
+    },
+    {
+      "name": "smartwool_hiking_socks_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 2500,
+        "currency": "usd",
+        "product": "${smartwool_hiking_socks:id}"
+      }
+    },
+    {
+      "name": "patagonia_micro_puff",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Patagonia Micro Puff",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/micro_puff3.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/micro_puff2.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/micro_puff1.jpg"
+        ],
+        "description": "When the snow is swirling like cherry blossoms in spring, slip into the Patagonia Micro Puff insulated jacket, which features lightweight PlumaFill insulation that maintains its warmth when wet."
+      }
+    },
+    {
+      "name": "patagonia_micro_puff_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 25000,
+        "currency": "usd",
+        "product": "${patagonia_micro_puff:id}"
+      }
+    },
+    {
+      "name": "topo_designs_mountain_plaid_shirt",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Topo Designs Mountain Plaid Shirt",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/topo_mountain_plaid3.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/topo_mountain_plaid2.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/topo_mountain_plaid1.jpg"
+        ],
+        "description": "The men's Topo Designs Mountain Plaid shirt is a classic do-it-all midweight flannel button-down that is just as at home on the trail as it is in town."
+      }
+    },
+    {
+      "name": "topo_designs_mountain_plaid_shirt_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 9000,
+        "currency": "usd",
+        "product": "${topo_designs_mountain_plaid_shirt:id}"
+      }
+    },
+    {
+      "name": "patagonia_nine_trails_28_l",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Patagonia Nine Trails 28L",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/patagonia_nine_trails4.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/patagonia_nine_trails3.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/patagonia_nine_trails2.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/patagonia_nine_trails1.jpg"
+        ],
+        "description": "If you can open up a trail guide, you can open the Patagonia Nine Trails 28L pack. Its U-shaped main zipper opens wide so you can get to your gear quickly without unstuffing everything inside."
+      }
+    },
+    {
+      "name": "patagonia_nine_trails_28_l_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 16000,
+        "currency": "usd",
+        "product": "${patagonia_nine_trails_28_l:id}"
+      }
+    },
+    {
+      "name": "msr_hubba_hubba_nx_2",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "MSR Hubba Hubba NX 2",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/msr_hubba_hubba5.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/msr_hubba_hubba4.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/msr_hubba_hubba3.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/msr_hubba_hubba2.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/msr_hubba_hubba1.jpg"
+        ],
+        "description": "The updated MSR Hubba Hubba NX 2 Tent is a sturdy, roomy home base for you and a pal—2- or 4-legged—to enjoy the outdoors, whether you're car camping or trekking through the backcountry."
+      }
+    },
+    {
+      "name": "msr_hubba_hubba_nx_2_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 45000,
+        "currency": "usd",
+        "product": "${msr_hubba_hubba_nx_2:id}"
+      }
+    },
+    {
+      "name": "osprey_aether_pro_70",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Osprey Aether Pro 70",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/osprey_aether_pro1.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/osprey_aether_pro3.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/osprey_aether_pro4.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/osprey_aether_pro2.jpg"
+        ],
+        "description": "If you speak the language of Type II fun—alpine climbs with remote basecamps, or ambitious thru-hikes where the only trail is the one you make—the Osprey Aether Pro 70 pack is for you."
+      }
+    },
+    {
+      "name": "osprey_aether_pro_70_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 37500,
+        "currency": "usd",
+        "product": "${osprey_aether_pro_70:id}"
+      }
+    },
+    {
+      "name": "altra_lone_peak_4_mid",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Altra Lone Peak 4 Mid",
+        "images": [
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/altra_lone_peak_4_mid6.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/altra_lone_peak_4_mid5.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/altra_lone_peak_4_mid4.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/altra_lone_peak_4_mid3.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/altra_lone_peak_4_mid2.jpg",
+          "https://raw.githubusercontent.com/brxck/gatsby-starter-stripe/master/images/altra_lone_peak_4_mid1.jpg"
+        ],
+        "description": "With waterproof, breathable eVent® uppers to seal out rain, snow and mud, the men's Altra Lone Peak 4 Mid RSM hiking shoes are built for hiking, backpacking and thru-hiking in cold, wet weather."
+      }
+    },
+    {
+      "name": "altra_lone_peak_4_mid_price",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "unit_amount": 16000,
+        "currency": "usd",
+        "product": "${altra_lone_peak_4_mid:id}"
+      }
+    }
+  ]
+}
