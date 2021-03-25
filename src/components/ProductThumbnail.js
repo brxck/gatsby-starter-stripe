@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image";
 
 import { CartContext } from "./CartProvider"
 import * as css from "./ProductThumbnail.module.css"
@@ -17,11 +17,10 @@ const ProductThumbnail = ({ product }) => {
       <Link to={`/buy/${product.slug}`}>
         <div className={css.thumbnail}>
           {product.localFiles && (
-            <Img
-              fluid={product.localFiles[0].childImageSharp.fluid}
+            <GatsbyImage
+              image={product.localFiles[0].childImageSharp.gatsbyImageData}
               alt={product.name}
-              imgStyle={{ filter: soldOut && "grayscale()" }}
-            />
+              imgStyle={{ filter: soldOut && "grayscale()" }} />
           )}
           <div className={css.description}>
             <strong>{product.name}</strong>
@@ -32,7 +31,7 @@ const ProductThumbnail = ({ product }) => {
         </div>
       </Link>
     </div>
-  )
+  );
 }
 
 ProductThumbnail.propTypes = {
