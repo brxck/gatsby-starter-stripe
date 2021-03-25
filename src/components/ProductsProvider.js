@@ -75,6 +75,7 @@ const processGatsbyData = data => {
   const prices = {}
   // Price nodes are grouped by product
   data.allStripePrice.group.forEach(group => {
+    if (!group.edges[0].node.product.active) return
     const price = group.edges[0].node
     const product = { slug: price.fields.slug, ...price.product }
     product.prices = group.edges.map(({ node }) => {
@@ -91,6 +92,7 @@ const mergeStripeData = (stripeData, products) => {
   const mergedProducts = {}
   const mergedPrices = {}
   stripeData.forEach(stripePrice => {
+    if (!stripePrice.product.active) return
     const { id } = stripePrice.product
     const gatsbyPrice = products[id].prices.find(x => x.id === stripePrice.id)
     const updatedPrice = Object.assign(stripePrice, gatsbyPrice)
