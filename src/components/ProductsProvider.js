@@ -128,9 +128,7 @@ export const priceFragment = graphql`
       images
       localFiles {
         childImageSharp {
-          fluid(maxWidth: $maxWidth, quality: $quality) {
-            ...GatsbyImageSharpFluid_withWebp_tracedSVG
-          }
+          gatsbyImageData(layout: CONSTRAINED, width: $maxWidth)
         }
       }
     }
@@ -138,7 +136,7 @@ export const priceFragment = graphql`
 `
 
 const pricesQuery = graphql`
-  query pricesQuery($maxWidth: Int = 500, $quality: Int = 92) {
+  query pricesQuery($maxWidth: Int = 500) {
     allStripePrice {
       group(field: product___id) {
         fieldValue

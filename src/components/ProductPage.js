@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react"
 import PropTypes from "prop-types"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 
 import { ProductsContext } from "./ProductsProvider"
 import { CartContext } from "./CartProvider"
@@ -18,7 +18,7 @@ const ProductPage = ({ productId }) => {
   const [imageIndex, setImageIndex] = useState(0)
 
   const images = [...product?.localFiles]
-  const activeImage = images[imageIndex].childImageSharp.fluid
+  const activeImage = images[imageIndex].childImageSharp.gatsbyImageData
 
   const onPriceChange = e => {
     setActivePrice(prices[e.target.value])
@@ -32,9 +32,11 @@ const ProductPage = ({ productId }) => {
     <div className={css.container}>
       <div className={css.image} onClick={onImageClick}>
         {activeImage && (
-          <Img
-            fluid={activeImage}
+          <GatsbyImage
+            key={imageIndex}
+            image={activeImage}
             style={{ height: "100%" }}
+            alt={product.name}
             imgStyle={{ objectFit: "contain" }}
           />
         )}
