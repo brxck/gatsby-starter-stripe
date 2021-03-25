@@ -13,8 +13,12 @@ module.exports.handler = async (event, context, callback) => {
   })
 
   const prices = requestBody.prices.map(async priceData => {
-    return stripe.prices.create({
-      ...priceData,
+    const { active, metadata, nickname, unit_amount } = priceData
+    stripe.prices.create({
+      active,
+      metadata,
+      nickname,
+      unit_amount,
       product: product.id,
       currency: "usd",
     })
