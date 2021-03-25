@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import PropTypes from "prop-types"
 
-import css from "./ProductFormImages.module.css"
+import * as css from "./ProductFormImages.module.css"
 
 function ProductFormImages({ productImages, setProductImages }) {
   const add = src => setProductImages([...productImages, src])
@@ -13,13 +13,7 @@ function ProductFormImages({ productImages, setProductImages }) {
     <>
       <div>
         <label className={css.addImage}>
-          URL{" "}
-          <input
-            type="text"
-            className={css.imageInput}
-            placeholder="https://..."
-            ref={input}
-          />
+          URL <input type="text" placeholder="https://..." ref={input} />
           <button
             onClick={() => {
               add(input.current.value)

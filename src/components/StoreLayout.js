@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import Header from "./Header"
 import ProductsProvider from "./ProductsProvider"
 import CartProvider from "./CartProvider"
-import css from "./StoreLayout.module.css"
+import * as css from "./StoreLayout.module.css"
 
 const StoreLayout = ({ children }) => {
   return (

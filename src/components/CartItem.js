@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
 import { CartContext } from "./CartProvider"
-import css from "./CartItem.module.css"
+import * as css from "./CartItem.module.css"
 
 const CartItem = ({ price, quantity }) => {
   const { remove } = useContext(CartContext)

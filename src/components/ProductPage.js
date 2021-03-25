@@ -4,7 +4,7 @@ import Img from "gatsby-image"
 
 import { ProductsContext } from "./ProductsProvider"
 import { CartContext } from "./CartProvider"
-import css from "./ProductPage.module.css"
+import * as css from "./ProductPage.module.css"
 
 const ProductPage = ({ productId }) => {
   const { products } = useContext(ProductsContext)
