@@ -6,7 +6,7 @@ import { useForm, useFieldArray } from "react-hook-form"
 import { StripeProductsContext } from "./StripeProductsProvider"
 import ProductFormPrices from "./ProductFormPrices"
 import ProductFormImages from "./ProductFormImages"
-import css from "./ProductForm.module.css"
+import * as css from "./ProductForm.module.css"
 
 export const ProductForm = ({ product, create }) => {
   const { fetchProducts } = useContext(StripeProductsContext)

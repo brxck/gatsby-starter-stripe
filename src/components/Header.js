@@ -2,7 +2,7 @@ import React from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
 import PropTypes from "prop-types"
 
-import css from "./Header.module.css"
+import * as css from "./Header.module.css"
 import Cart from "./Cart"
 
 function Header(props) {

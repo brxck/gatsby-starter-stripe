@@ -4,7 +4,7 @@ import { Link } from "gatsby"
 import Img from "gatsby-image"
 
 import { CartContext } from "./CartProvider"
-import css from "./ProductThumbnail.module.css"
+import * as css from "./ProductThumbnail.module.css"
 
 const ProductThumbnail = ({ product }) => {
   const { available } = useContext(CartContext)
