@@ -1,10 +1,14 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-function ProductFormPrices({ pricesFieldArray, register, getValues, watch }) {
-  const { fields } = pricesFieldArray
-  const test = watch("prices") // Watch price values to ensure rerender on price field change
-  console.log(test)
+function ProductFormPrices({ prices, setPrices }) {
+  const onChange = i => e => {
+    const updatedPrices = [...prices]
+    const { name, checked, value, type } = e.target
+    updatedPrices[i][name] = type === "checkbox" ? checked : value
+    setPrices(updatedPrices)
+  }
+
   return (
     <table>
       <thead>
@@ -15,34 +19,36 @@ function ProductFormPrices({ pricesFieldArray, register, getValues, watch }) {
         </tr>
       </thead>
       <tbody>
-        {fields.map(({ fieldId }, i) => (
-          <tr key={fieldId}>
-            {/* We want to include id in the submitted data, but it shouldn't be editable.  */}
+        {prices.map((price, i) => (
+          <tr key={price.id || i}>
             <td>
-              <input type="hidden" name={`prices[${i}].id`} ref={register()} />
               <input
-                ref={register({ required: fields.length > 1 })}
-                name={`prices[${i}].nickname`}
+                className="mb-2 form-input"
+                name="nickname"
                 type="text"
+                value={price.nickname}
+                onChange={onChange(i)}
               />
             </td>
             <td style={{ width: "30%" }}>
               <input
-                ref={register({ required: true, min: 0.01 })}
-                name={`prices[${i}].unit_amount`}
+                className="mb-2 form-input"
+                name="unit_amount"
                 type="number"
                 step="0.01"
-                readOnly={
-                  getValues(`prices[${i}].id`) /* Amounts cannot be updated */
-                }
+                disabled={Boolean(price.id) /* Amounts cannot be updated */}
+                value={price.unit_amount}
+                onChange={onChange(i)}
               />
             </td>
             <td style={{ textAlign: "center" }}>
               <input
-                style={{ marginTop: 10 }}
-                ref={register()}
+                className="form-checkbox"
                 type="checkbox"
-                name={`prices[${i}].active`}
+                name="active"
+                checked={price.active}
+                onChange={onChange(i)}
+                style={{ marginTop: 10 }}
               />
             </td>
           </tr>
@@ -53,10 +59,8 @@ function ProductFormPrices({ pricesFieldArray, register, getValues, watch }) {
 }
 
 ProductFormPrices.propTypes = {
-  pricesFieldArray: PropTypes.object.isRequired,
-  register: PropTypes.func.isRequired,
-  getValues: PropTypes.func.isRequired,
-  watch: PropTypes.func.isRequired,
+  prices: PropTypes.array.isRequired,
+  setPrices: PropTypes.func.isRequired,
 }
 
 export default ProductFormPrices

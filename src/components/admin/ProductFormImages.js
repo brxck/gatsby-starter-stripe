@@ -3,9 +3,9 @@ import PropTypes from "prop-types"
 
 import * as css from "./ProductFormImages.module.css"
 
-function ProductFormImages({ productImages, setProductImages }) {
-  const add = src => setProductImages([...productImages, src])
-  const remove = src => setProductImages(productImages.filter(x => x !== src))
+function ProductFormImages({ images, setImages }) {
+  const add = src => setImages([...images, src])
+  const remove = src => setImages(images.filter(x => x !== src))
 
   const input = useRef()
 
@@ -25,7 +25,7 @@ function ProductFormImages({ productImages, setProductImages }) {
         </label>
       </div>
       <div className={css.container}>
-        {productImages.map(src => (
+        {images.map(src => (
           <div className={css.image} key={src}>
             <button onClick={() => remove(src)} className={css.remove}>
               &times;
@@ -39,8 +39,8 @@ function ProductFormImages({ productImages, setProductImages }) {
 }
 
 ProductFormImages.propTypes = {
-  productImages: PropTypes.array.isRequired,
-  setProductImages: PropTypes.func.isRequired,
+  images: PropTypes.array.isRequired,
+  setImages: PropTypes.func.isRequired,
 }
 
 export default ProductFormImages
