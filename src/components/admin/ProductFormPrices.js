@@ -3,7 +3,8 @@ import PropTypes from "prop-types"
 
 function ProductFormPrices({ pricesFieldArray, register, getValues, watch }) {
   const { fields } = pricesFieldArray
-  watch("prices") // Watch price values to ensure rerender on price field change
+  const test = watch("prices") // Watch price values to ensure rerender on price field change
+  console.log(test)
   return (
     <table>
       <thead>
