@@ -6,15 +6,12 @@ module.exports.handler = async (event, context, callback) => {
   }
 
   const requestBody = JSON.parse(event.body)
-  // All prices must be deleted before product
-  const prices = await stripe.prices.list({ product: requestBody.productId })
-  await Promise.all(prices.data.map(({ id }) => stripe.prices.del(id)))
   await stripe.products.del(requestBody.productId)
 
   const response = {
     statusCode: 204,
     headers: {
-      "Access-Control-Allow-Origin": "b*",
+      "Access-Control-Allow-Origin": "*",
     },
     body: "",
   }
