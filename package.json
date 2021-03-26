@@ -2,7 +2,7 @@
   "name": "gatsby-starter-stripe",
   "private": true,
   "description": "A minimal starter to create a storefront with Stripe & Gatsby.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Brock McElroy (https://brxck.dev)",
   "dependencies": {
     "@stripe/stripe-js": "^1.13.2",
