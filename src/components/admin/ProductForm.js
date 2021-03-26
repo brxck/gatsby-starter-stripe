@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import { navigate } from "gatsby"
-import { useForm, useFieldArray } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { StripeProductsContext } from "./StripeProductsProvider"
 import ProductFormPrices from "./ProductFormPrices"
@@ -9,14 +9,15 @@ import ProductFormImages from "./ProductFormImages"
 import * as css from "./ProductForm.module.css"
 
 export const ProductForm = ({ product, create }) => {
-  const { fetchProducts } = useContext(StripeProductsContext)
-  const [productImages, setProductImages] = useState(product.images)
-
   const pricesToDecimal = prices => {
     return prices.map(price => {
       price.unit_amount = (price.unit_amount / 100).toFixed(2)
       return price
     })
+  }
+
+  const addPrice = () => {
+    setPrices([...prices, { active: true, unit_amount: 0, name: "" }])
   }
 
   const pricesToInteger = prices => {
@@ -48,7 +49,7 @@ export const ProductForm = ({ product, create }) => {
 
   const onSubmit = async data => {
     const body = JSON.stringify({
-      product: { ...data.product, images: productImages },
+      product: { ...data.product, images: images },
       prices: pricesToInteger(data.prices),
       productId: product.id,
     })
@@ -62,18 +63,18 @@ export const ProductForm = ({ product, create }) => {
     navigate("/admin")
   }
 
-  const { register, handleSubmit, control, watch, getValues } = useForm({
-    defaultValues: {
-      product,
-      prices: pricesToDecimal(product.prices),
-    },
+  const { fetchProducts } = useContext(StripeProductsContext)
+  const [images, setImages] = useState(product.images)
+  const [prices, setPrices] = useState(pricesToDecimal(product.prices))
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: { product },
   })
 
-  const pricesFieldArray = useFieldArray({
-    control,
-    name: "prices",
-    keyName: "fieldId",
-  })
+  useEffect(() => {
+    reset({ product })
+    setImages(product.images)
+    setPrices(pricesToDecimal(product.prices))
+  }, [product, reset])
 
   return (
     <>
@@ -114,15 +115,11 @@ export const ProductForm = ({ product, create }) => {
 
           <div className={css.header}>
             <h3>Prices</h3>
-            <button onClick={() => pricesFieldArray.append({ active: true })}>
-              Add Price
-            </button>
+            <button onClick={addPrice}>Add Price</button>
           </div>
           <ProductFormPrices
-            pricesFieldArray={pricesFieldArray}
-            register={register}
-            getValues={getValues}
-            watch={watch}
+            prices={prices}
+            setPrices={setPrices}
           ></ProductFormPrices>
         </div>
 
@@ -131,8 +128,8 @@ export const ProductForm = ({ product, create }) => {
             <h3>Images</h3>
           </div>
           <ProductFormImages
-            productImages={productImages}
-            setProductImages={setProductImages}
+            images={images}
+            setImages={setImages}
           ></ProductFormImages>
         </div>
       </div>
