@@ -57,7 +57,7 @@ const ProductPage = ({ productId }) => {
           <label>
             Item Style
             <select name="price" id="price" onChange={onPriceChange}>
-              {product.prices.map((price, i) => {
+              {prices.map((price, i) => {
                 return (
                   <option value={i} key={price.id}>
                     {price.nickname} &ndash; ${price.unit_amount / 100}
